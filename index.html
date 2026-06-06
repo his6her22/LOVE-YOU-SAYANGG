@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For My Beautiful Girl 🌸</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Lato', sans-serif;
+      background: linear-gradient(160deg, #fff5f8 0%, #fff0f5 40%, #f5f0ff 100%);
+      min-height: 100vh;
+      padding: 0 0 4rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* floating petals */
+    .petal {
+      position: fixed;
+      pointer-events: none;
+      animation: floatDown linear infinite;
+      opacity: 0.55;
+      z-index: 0;
+    }
+    @keyframes floatDown {
+      0%   { transform: translateY(-60px) rotate(0deg);   opacity: 0; }
+      10%  { opacity: 0.55; }
+      90%  { opacity: 0.4; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* hero */
+    .hero {
+      text-align: center;
+      padding: 3.5rem 1.5rem 2rem;
+      position: relative;
+      z-index: 1;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: #ffd6e7;
+      color: #b5446e;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 18px;
+      border-radius: 50px;
+      margin-bottom: 1.2rem;
+      font-weight: 700;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 6vw, 3.8rem);
+      color: #c2185b;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+    .hero h1 em { color: #9c27b0; font-style: italic; }
+    .nicknames {
+      display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+      margin: 1rem 0 1.5rem;
+    }
+    .nick-pill {
+      background: white;
+      border: 1.5px solid #f48fb1;
+      color: #c2185b;
+      padding: 6px 18px;
+      border-radius: 50px;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      box-shadow: 0 2px 8px rgba(194,24,91,0.1);
+    }
+    .hero-sub {
+      color: #ad6e8a;
+      font-size: 1.05rem;
+      font-weight: 300;
+      max-width: 420px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* tabs */
+    .tabs {
+      display: flex; gap: 6px; justify-content: center; flex-wrap: wrap;
+      padding: 1.5rem 1rem 1rem;
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255, 245, 248, 0.92);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(244, 143, 177, 0.2);
+    }
+    .tab-btn {
+      background: white;
+      border: 1.5px solid #f48fb1;
+      color: #c2185b;
+      padding: 8px 18px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Lato', sans-serif;
+    }
+    .tab-btn:hover, .tab-btn.active {
+      background: #c2185b;
+      color: white;
+      border-color: #c2185b;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(194, 24, 91, 0.25);
+    }
+
+    /* sections */
+    .section { display: none; padding: 2.5rem 1.5rem; max-width: 720px; margin: 0 auto; position: relative; z-index: 1; }
+    .section.active { display: block; }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      color: #c2185b;
+      text-align: center;
+      margin-bottom: 1.8rem;
+    }
+    .section-title span { font-style: italic; color: #9c27b0; }
+
+    /* love letter */
+    .letter-card {
+      background: white;
+      border: 1px solid #fce4ec;
+      border-radius: 20px;
+      padding: 2.2rem 2.5rem;
+      box-shadow: 0 4px 24px rgba(194, 24, 91, 0.08);
+      position: relative;
+      overflow: hidden;
+    }
+    .letter-card::before {
+      content: '❝';
+      position: absolute; top: 12px; left: 20px;
+      font-size: 4rem; color: #fce4ec;
+      font-family: 'Playfair Display', serif;
+      line-height: 1;
+    }
+    .letter-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.08rem;
+      color: #6d3b5b;
+      line-height: 1.9;
+      padding-top: 1rem;
+    }
+    .letter-sign {
+      margin-top: 1.5rem;
+      text-align: right;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: #c2185b;
+      font-size: 1.1rem;
+    }
+
+    /* features */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+      gap: 14px;
+    }
+    .feature-card {
+      background: white;
+      border: 1.5px solid #f8bbd0;
+      border-radius: 20px;
+      padding: 1.4rem 1rem;
+      text-align: center;
+      box-shadow: 0 2px 12px rgba(194, 24, 91, 0.07);
+      transition: all 0.22s;
+    }
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(194, 24, 91, 0.14);
+      border-color: #c2185b;
+    }
+    .feature-icon { font-size: 2.4rem; margin-bottom: 10px; display: block; }
+    .feature-label { font-weight: 700; color: #880e4f; font-size: 14px; margin-bottom: 6px; }
+    .feature-desc { color: #ad6e8a; font-size: 13px; line-height: 1.6; font-family: 'Playfair Display', serif; font-style: italic; }
+
+    /* reasons */
+    .reasons-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+    }
+    .reason-btn {
+      background: white;
+      border: 1.5px solid #f48fb1;
+      border-radius: 16px;
+      padding: 1.1rem 1rem;
+      cursor: pointer;
+      font-family: 'Lato', sans-serif;
+      font-size: 14px;
+      color: #c2185b;
+      font-weight: 700;
+      text-align: center;
+      transition: all 0.22s;
+      box-shadow: 0 2px 8px rgba(244, 143, 177, 0.12);
+    }
+    .reason-btn .icon { font-size: 1.8rem; display: block; margin-bottom: 6px; }
+    .reason-btn:hover { background: #fce4ec; transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 20px rgba(194,24,91,0.15); }
+    .reason-btn.popped { background: #c2185b; color: white; border-color: #c2185b; animation: pop 0.35s ease; }
+    @keyframes pop { 0%{transform:scale(1)} 50%{transform:scale(1.12)} 100%{transform:scale(1)} }
+    .reason-reveal {
+      margin-top: 1.2rem;
+      background: #fce4ec;
+      border-radius: 14px;
+      padding: 1rem 1.2rem;
+      color: #880e4f;
+      font-size: 15px;
+      line-height: 1.7;
+      min-height: 60px;
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* jokes */
+    .joke-card {
+      background: white;
+      border: 1px solid #e1bee7;
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 1.2rem;
+      box-shadow: 0 2px 12px rgba(156, 39, 176, 0.07);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .joke-card:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(156,39,176,0.12); }
+    .joke-q { font-weight: 700; color: #7b1fa2; font-size: 1rem; margin-bottom: 8px; }
+    .joke-a {
+      color: #c2185b;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1rem;
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s;
+    }
+    .joke-card.open .joke-a { max-height: 100px; padding-top: 8px; }
+    .joke-hint { font-size: 12px; color: #ba68c8; margin-top: 6px; }
+
+    /* quiz */
+    .quiz-progress { display: flex; gap: 6px; justify-content: center; margin-bottom: 1.5rem; }
+    .q-dot { width: 10px; height: 10px; border-radius: 50%; background: #fce4ec; border: 2px solid #f48fb1; transition: all 0.3s; }
+    .q-dot.done { background: #c2185b; border-color: #c2185b; }
+    .q-dot.current { background: #f48fb1; border-color: #c2185b; transform: scale(1.3); }
+    .quiz-card { background: white; border: 1px solid #fce4ec; border-radius: 20px; padding: 2rem; box-shadow: 0 4px 20px rgba(194,24,91,0.08); }
+    .quiz-q { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: #880e4f; margin-bottom: 1.4rem; line-height: 1.5; }
+    .quiz-options { display: flex; flex-direction: column; gap: 10px; }
+    .quiz-opt {
+      background: #fff5f8; border: 1.5px solid #f48fb1; border-radius: 12px;
+      padding: 12px 16px; cursor: pointer;
+      font-family: 'Lato', sans-serif; font-size: 14px; color: #880e4f; font-weight: 600;
+      text-align: left; transition: all 0.2s;
+    }
+    .quiz-opt:hover { background: #fce4ec; transform: translateX(4px); }
+    .quiz-opt.correct { background: #e8f5e9; border-color: #66bb6a; color: #2e7d32; }
+    .quiz-opt.wrong   { background: #fce4ec; border-color: #f48fb1; color: #c62828; }
+    .quiz-feedback { margin-top: 1rem; font-family: 'Playfair Display', serif; font-style: italic; font-size: 1rem; color: #7b1fa2; min-height: 28px; text-align: center; }
+    .quiz-next {
+      margin-top: 1.2rem; background: #c2185b; color: white; border: none;
+      border-radius: 50px; padding: 10px 28px; font-size: 14px; font-weight: 700;
+      cursor: pointer; font-family: 'Lato', sans-serif; display: none; transition: transform 0.2s;
+    }
+    .quiz-next:hover { transform: scale(1.04); }
+    .quiz-result { text-align: center; display: none; }
+    .quiz-result .big-score { font-size: 3.5rem; font-family: 'Playfair Display', serif; color: #c2185b; margin: 1rem 0 0.5rem; }
+    .quiz-result p { color: #880e4f; font-size: 1rem; line-height: 1.7; }
+    .quiz-restart {
+      margin-top: 1.4rem; background: white; color: #c2185b;
+      border: 2px solid #c2185b; border-radius: 50px; padding: 10px 28px;
+      font-size: 14px; font-weight: 700; cursor: pointer; font-family: 'Lato', sans-serif; transition: all 0.2s;
+    }
+    .quiz-restart:hover { background: #c2185b; color: white; }
+
+    /* song / youtube */
+    .yt-wrap { display: flex; flex-direction: column; align-items: center; gap: 1.6rem; }
+    .yt-caption {
+      background: white; border: 1px solid #fce4ec; border-radius: 20px;
+      padding: 1.4rem 1.8rem; text-align: center;
+      box-shadow: 0 4px 20px rgba(194,24,91,0.07);
+      max-width: 560px; width: 100%;
+    }
+    .yt-caption p { font-family: 'Playfair Display', serif; font-style: italic; color: #880e4f; font-size: 1rem; line-height: 1.8; }
+    .yt-frame-wrap {
+      width: 100%; max-width: 560px;
+      border-radius: 20px; overflow: hidden;
+      box-shadow: 0 6px 28px rgba(194,24,91,0.13);
+      aspect-ratio: 16/9; position: relative;
+    }
+    .yt-frame-wrap iframe { width: 100%; height: 100%; border: none; display: block; }
+
+    /* gallery */
+    .gallery-note {
+      background: white; border: 1.5px dashed #f48fb1;
+      border-radius: 20px; padding: 2.5rem; text-align: center; color: #ad6e8a;
+    }
+    .gallery-note .big-icon { font-size: 3rem; margin-bottom: 0.8rem; }
+    .gallery-note p { font-size: 15px; line-height: 1.7; }
+    .gallery-note strong { color: #c2185b; }
+    .gif-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 1.2rem; }
+    .gif-placeholder {
+      background: linear-gradient(135deg, #fce4ec, #f3e5f5);
+      border-radius: 14px; width: 140px; height: 100px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem; color: #f48fb1;
+    }
+
+    /* heart rain button */
+    .fun-zone { text-align: center; padding: 1rem 0; }
+    .heart-btn {
+      background: linear-gradient(135deg, #f06292, #ba68c8);
+      color: white; border: none; border-radius: 50px;
+      padding: 14px 32px; font-size: 15px; font-weight: 700;
+      cursor: pointer; font-family: 'Lato', sans-serif;
+      box-shadow: 0 4px 16px rgba(240,98,146,0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin: 0.5rem;
+    }
+    .heart-btn:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 8px 24px rgba(240,98,146,0.45); }
+    .floating-hearts { position: fixed; pointer-events: none; top: 0; left: 0; width: 100%; height: 100%; z-index: 999; }
+    .fh { position: absolute; animation: floatHeart 2.2s ease-out forwards; pointer-events: none; }
+    @keyframes floatHeart {
+      0%   { opacity: 1; transform: translateY(0) scale(0.8); }
+      100% { opacity: 0; transform: translateY(-220px) scale(1.4); }
+    }
+
+    @media (max-width: 480px) {
+      .letter-card { padding: 1.5rem 1.2rem; }
+      .section { padding: 2rem 1rem; }
+      .tabs { padding: 1rem 0.5rem; gap: 4px; }
+      .tab-btn { padding: 7px 12px; font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="petals"></div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">made just for you 💌</div>
+    <h1>For my <em>beautiful</em> girl</h1>
+    <div class="nicknames">
+      <span class="nick-pill">Sayang</span>
+      <span class="nick-pill">Habibti</span>
+      <span class="nick-pill">Mochi</span>
+    </div>
+    <p class="hero-sub">A little corner of the internet that exists for one reason only — to remind you how loved you truly are. 🌸</p>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showSection('letter',this)">💌 Love Letter</button>
+    <button class="tab-btn" onclick="showSection('features',this)">✨ What I Love About You</button>
+    <button class="tab-btn" onclick="showSection('reasons',this)">🌸 Reasons I Love You</button>
+    <button class="tab-btn" onclick="showSection('jokes',this)">😂 Jokes For You</button>
+    <button class="tab-btn" onclick="showSection('quiz',this)">💡 Quiz Time!</button>
+    <button class="tab-btn" onclick="showSection('song',this)">🎵 Our Song</button>
+    <button class="tab-btn" onclick="showSection('gallery',this)">🖼️ Our Memories</button>
+  </div>
+
+  <!-- LOVE LETTER -->
+  <div class="section active" id="sec-letter">
+    <h2 class="section-title">A Letter From <span>My Heart</span></h2>
+    <div class="letter-card">
+      <p class="letter-text">
+        My Sayang, my Habibti, my little Mochi —<br><br>
+        There are so many words in so many languages, and still none of them feel big enough to hold what I feel for you. You walked into my world and made everything softer, warmer, brighter — the way sunlight feels on your face on a quiet morning.<br><br>
+        I find myself getting lost in your eyes every single time — those gorgeous, deep, completely unfair eyes that somehow make everything else fade away. And your smile? The moment it appears it's already spreading to everyone around you. I swear it has its own gravity.<br><br>
+        And don't even get me started on your nose — the cutest nose in the entire world, with those little nostrils that make the most adorable cat ears. I noticed it and I will never stop thinking it's the most delightfully perfect thing. You are, genuinely, one of a kind.<br><br>
+        You are the first person I want to tell things to. The last face I think about before I sleep. I don't just love you — I <em>admire</em> you. Your kindness, your laugh, the way your mind works. Thank you for being exactly who you are. Every single day, I count myself lucky.
+      </p>
+      <p class="letter-sign">— forever yours 🌹</p>
+    </div>
+    <div class="fun-zone" style="margin-top:1.8rem;">
+      <button class="heart-btn" onclick="rainHearts()">Send her hearts 💖</button>
+    </div>
+    <div class="floating-hearts" id="fhContainer"></div>
+  </div>
+
+  <!-- FEATURES -->
+  <div class="section" id="sec-features">
+    <h2 class="section-title">The Little Things That <span>Undo Me</span></h2>
+    <p style="text-align:center;color:#ad6e8a;margin-bottom:1.6rem;font-size:14px;">Every single part of you, catalogued with love 💕</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <span class="feature-icon">👁️</span>
+        <div class="feature-label">Those Eyes</div>
+        <div class="feature-desc">Gorgeous, deep, completely unfair. I get lost in them every single time and I genuinely don't mind one bit.</div>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">😊</span>
+        <div class="feature-label">That Smile</div>
+        <div class="feature-desc">Pretty and impossibly contagious. The moment it appears, the whole room lights up — including me.</div>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">🐱</span>
+        <div class="feature-label">That Nose</div>
+        <div class="feature-desc">The cutest nose in the world. And those nostrils? They make little cat ears. I know. It's the most adorable thing I've ever seen.</div>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">🌸</span>
+        <div class="feature-label">Those Tiny Ears</div>
+        <div class="feature-desc">Tiny, perfectly small, and ever so cute. Like they were made to be whispered sweet nothings into.</div>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">😂</span>
+        <div class="feature-label">Your Laugh</div>
+        <div class="feature-desc">The most contagious sound in existence. Once it starts, it's over for everyone in the vicinity.</div>
+      </div>
+      <div class="feature-card">
+        <span class="feature-icon">💫</span>
+        <div class="feature-label">Just… You</div>
+        <div class="feature-desc">The full picture. Every little detail adds up to someone completely, wonderfully irreplaceable.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REASONS -->
+  <div class="section" id="sec-reasons">
+    <h2 class="section-title">Why I Love <span>You</span></h2>
+    <p style="text-align:center;color:#ad6e8a;margin-bottom:1.4rem;font-size:14px;">Tap any button to reveal a reason 💕</p>
+    <div class="reasons-grid" id="reasonsGrid"></div>
+    <div class="reason-reveal" id="reasonReveal">Tap a button above to find out ✨</div>
+  </div>
+
+  <!-- JOKES -->
+  <div class="section" id="sec-jokes">
+    <h2 class="section-title">The <span>Best</span> Jokes (Only)</h2>
+    <p style="text-align:center;color:#ad6e8a;margin-bottom:1.4rem;font-size:14px;">Tap a card to reveal the punchline 😄</p>
+    <div id="jokesContainer"></div>
+  </div>
+
+  <!-- QUIZ -->
+  <div class="section" id="sec-quiz">
+    <h2 class="section-title">How Well Do <span>You Know Me?</span></h2>
+    <div class="quiz-progress" id="quizProgress"></div>
+    <div class="quiz-card" id="quizCard">
+      <div class="quiz-q" id="quizQuestion"></div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <button class="quiz-next" id="quizNext" onclick="nextQuestion()">Next question →</button>
+    </div>
+    <div class="quiz-result" id="quizResult">
+      <div class="big-score" id="quizScore"></div>
+      <p id="quizResultText"></p>
+      <button class="quiz-restart" onclick="restartQuiz()">Play again 🔄</button>
+    </div>
+  </div>
+
+  <!-- SONG -->
+  <div class="section" id="sec-song">
+    <h2 class="section-title">This Song Is <span>So Us</span></h2>
+    <div class="yt-wrap">
+      <div class="yt-caption">
+        <p>Every time I hear this, I think of you.<br>Of your eyes, your smile, and how lucky I am that you're mine. 🌸</p>
+      </div>
+      <div class="yt-frame-wrap">
+        <iframe
+          src="https://www.youtube.com/embed/y1cBhJLNNXU?si=hp3VEJvfC92Yan6-"
+          title="Our Song"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- GALLERY -->
+  <div class="section" id="sec-gallery">
+    <h2 class="section-title">Our <span>Beautiful Memories</span></h2>
+    <div class="gallery-note">
+      <div class="big-icon">📸</div>
+      <p>This is where <strong>your photos and GIFs</strong> will live — all the beautiful moments, the silly selfies, the adventures big and small.<br><br>
+      To add photos, replace the placeholder divs below with <code>&lt;img src="your-photo.jpg"&gt;</code> tags. 🌸</p>
+      <div class="gif-row">
+        <div class="gif-placeholder">🌸</div>
+        <div class="gif-placeholder">💑</div>
+        <div class="gif-placeholder">✨</div>
+        <div class="gif-placeholder">🌹</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // floating petals
+    const petalEmojis = ['🌸','🌷','🌹','🌺','💐'];
+    const petalContainer = document.getElementById('petals');
+    for (let i = 0; i < 18; i++) {
+      const p = document.createElement('div');
+      p.className = 'petal';
+      p.textContent = petalEmojis[Math.floor(Math.random() * petalEmojis.length)];
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.animationDuration = (7 + Math.random() * 8) + 's';
+      p.style.animationDelay = (Math.random() * 10) + 's';
+      p.style.fontSize = (14 + Math.random() * 14) + 'px';
+      petalContainer.appendChild(p);
+    }
+
+    // tab navigation
+    function showSection(id, btn) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('sec-' + id).classList.add('active');
+      btn.classList.add('active');
+      if (id === 'quiz') initQuiz();
+    }
+
+    // heart rain
+    function rainHearts() {
+      const container = document.getElementById('fhContainer');
+      const hearts = ['💖','💕','💗','💓','💞','❤️','🩷'];
+      for (let i = 0; i < 28; i++) {
+        setTimeout(() => {
+          const h = document.createElement('div');
+          h.className = 'fh';
+          h.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+          h.style.left = Math.random() * 95 + 'vw';
+          h.style.top = (55 + Math.random() * 30) + 'vh';
+          h.style.fontSize = (18 + Math.random() * 22) + 'px';
+          h.style.animationDelay = (Math.random() * 0.6) + 's';
+          container.appendChild(h);
+          setTimeout(() => h.remove(), 2800);
+        }, i * 60);
+      }
+    }
+
+    // reasons
+    const reasons = [
+      { icon: '👁️', label: 'Your eyes',      text: 'Those gorgeous eyes. I get completely, hopelessly lost in them and I never, ever want to find my way back.' },
+      { icon: '😊', label: 'Your smile',     text: 'That pretty, contagious smile that lights up every room and every heart it touches — especially mine.' },
+      { icon: '🐱', label: 'Your nose',      text: 'The cutest nose in the world — with those little nostrils that make the most adorable cat ears. I am obsessed.' },
+      { icon: '🌸', label: 'Tiny ears',      text: 'Those tiny, perfectly cute little ears. Ever so small, ever so precious, ever so you.' },
+      { icon: '😂', label: 'Your laugh',     text: 'Because your laugh is the most contagious, beautiful sound — it makes the whole room better.' },
+      { icon: '🤗', label: 'Your warmth',    text: 'Because you make everyone around you feel seen, safe and genuinely cared for.' },
+      { icon: '🧠', label: 'Your mind',      text: 'Because the way you think — curious, sharp, full of wonder — is endlessly fascinating to me.' },
+      { icon: '💪', label: 'Your strength',  text: 'Because you handle hard things with more grace than you even realise.' },
+      { icon: '💫', label: 'Just you',       text: "Because you are simply, entirely, one of a kind — and I'm so glad you're mine." },
+    ];
+    const grid = document.getElementById('reasonsGrid');
+    const reveal = document.getElementById('reasonReveal');
+    reasons.forEach(r => {
+      const btn = document.createElement('button');
+      btn.className = 'reason-btn';
+      btn.innerHTML = `<span class="icon">${r.icon}</span>${r.label}`;
+      btn.onclick = function () {
+        document.querySelectorAll('.reason-btn').forEach(b => b.classList.remove('popped'));
+        btn.classList.add('popped');
+        reveal.textContent = r.text;
+      };
+      grid.appendChild(btn);
+    });
+
+    // jokes
+    const jokes = [
+      { q: "Why did I fall for you?",              a: "Because gravity had nothing to do with it — your smile did all the work. 💕" },
+      { q: "Are you a parking ticket?",             a: "Because you've got 'fine' written all over you. 😏" },
+      { q: "Do you have a map?",                    a: "I keep getting lost in your eyes. 🗺️👀" },
+      { q: "Are you a magician?",                   a: "Because every time I look at you, everyone else disappears. ✨" },
+      { q: "Why don't scientists trust atoms?",     a: "Because they make up everything... just like my excuses to spend more time with you." },
+      { q: "Your nose is so cute it should be illegal.", a: "Especially those little cat-ear nostrils. Exhibit A of nature showing off. 🐱" },
+    ];
+    const jc = document.getElementById('jokesContainer');
+    jokes.forEach(j => {
+      const card = document.createElement('div');
+      card.className = 'joke-card';
+      card.innerHTML = `<div class="joke-q">${j.q}</div><div class="joke-a">${j.a}</div><div class="joke-hint">Tap to reveal 👆</div>`;
+      card.onclick = function () {
+        card.classList.toggle('open');
+        card.querySelector('.joke-hint').style.display = card.classList.contains('open') ? 'none' : 'block';
+      };
+      jc.appendChild(card);
+    });
+
+    // quiz
+    const quizData = [
+      { q: "What's my favourite way to spend a lazy Sunday?", opts: ["Going for a run","Being cosy with you","Cleaning the house","Shopping alone"], correct: 1, feedback: "Of course — lazy Sundays are only perfect with you by my side 💕" },
+      { q: "If I could eat one meal forever, what would it be?", opts: ["Sushi","Pizza","Ramen","A big Sunday roast"], correct: 2, feedback: "A warm bowl of ramen = happiness in a bowl 🍜" },
+      { q: "What makes me laugh most?", opts: ["Dad jokes","Slapstick films","Your reaction to my bad jokes","Nature documentaries"], correct: 2, feedback: "Honestly, your face when I tell a terrible pun? Priceless. 😂" },
+      { q: "What do I find most beautiful about you?", opts: ["Your smile","Your eyes","Your tiny ears and cat-nose","All of the above, obviously"], correct: 3, feedback: "It could NEVER be just one thing — all of you is beautiful 🌸" },
+      { q: "What's my love language?", opts: ["Gift giving","Acts of service","Quality time","Words of affirmation"], correct: 2, feedback: "Being present with you, doing little things together — that's everything to me ✨" },
+    ];
+    let qIndex = 0, score = 0, answered = false;
+
+    function initQuiz() {
+      qIndex = 0; score = 0;
+      document.getElementById('quizResult').style.display = 'none';
+      document.getElementById('quizCard').style.display = 'block';
+      renderQuestion(); renderDots();
+    }
+    function renderDots() {
+      const prog = document.getElementById('quizProgress');
+      prog.innerHTML = '';
+      quizData.forEach((_, i) => {
+        const d = document.createElement('div');
+        d.className = 'q-dot' + (i < qIndex ? ' done' : i === qIndex ? ' current' : '');
+        prog.appendChild(d);
+      });
+    }
+    function renderQuestion() {
+      answered = false;
+      const q = quizData[qIndex];
+      document.getElementById('quizQuestion').textContent = q.q;
+      document.getElementById('quizFeedback').textContent = '';
+      document.getElementById('quizNext').style.display = 'none';
+      const opts = document.getElementById('quizOptions');
+      opts.innerHTML = '';
+      q.opts.forEach((o, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'quiz-opt';
+        btn.textContent = o;
+        btn.onclick = function () {
+          if (answered) return; answered = true;
+          if (i === q.correct) { btn.classList.add('correct'); score++; }
+          else { btn.classList.add('wrong'); opts.children[q.correct].classList.add('correct'); }
+          document.getElementById('quizFeedback').textContent = q.feedback;
+          document.getElementById('quizNext').style.display = 'inline-block';
+        };
+        opts.appendChild(btn);
+      });
+    }
+    function nextQuestion() {
+      qIndex++;
+      if (qIndex >= quizData.length) { showResult(); return; }
+      renderQuestion(); renderDots();
+    }
+    function showResult() {
+      document.getElementById('quizCard').style.display = 'none';
+      const res = document.getElementById('quizResult');
+      res.style.display = 'block';
+      document.getElementById('quizScore').textContent = score + '/' + quizData.length;
+      const msgs = [
+        "Not bad! But maybe spend a bit more time listening 😄",
+        "Getting there! You clearly pay attention 💕",
+        "Solid! You know me pretty well 🌸",
+        "Wow, you really know me! I feel so seen 💖",
+        "PERFECT SCORE! You know me better than I know myself 🥹✨"
+      ];
+      document.getElementById('quizResultText').textContent = msgs[Math.min(score, msgs.length - 1)];
+      document.getElementById('quizProgress').innerHTML = '';
+      quizData.forEach(() => {
+        const d = document.createElement('div');
+        d.className = 'q-dot done';
+        document.getElementById('quizProgress').appendChild(d);
+      });
+    }
+    function restartQuiz() { initQuiz(); }
+    initQuiz();
+  </script>
+</body>
+</html>
