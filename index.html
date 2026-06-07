@@ -333,11 +333,182 @@
       100% { opacity: 0; transform: translateY(-220px) scale(1.4); }
     }
 
+    /* timeline */
+    .timeline {
+      position: relative;
+      padding: 0.5rem 0;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, #f48fb1, #ce93d8);
+      transform: translateX(-50%);
+    }
+    .tl-item {
+      display: flex;
+      justify-content: flex-end;
+      padding-right: calc(50% + 28px);
+      margin-bottom: 2.2rem;
+      position: relative;
+    }
+    .tl-item:nth-child(even) {
+      justify-content: flex-start;
+      padding-right: 0;
+      padding-left: calc(50% + 28px);
+    }
+    .tl-dot {
+      position: absolute;
+      left: 50%;
+      top: 18px;
+      transform: translateX(-50%);
+      width: 18px; height: 18px;
+      background: white;
+      border: 3px solid #c2185b;
+      border-radius: 50%;
+      z-index: 2;
+      box-shadow: 0 0 0 4px rgba(194,24,91,0.1);
+    }
+    .tl-card {
+      background: white;
+      border: 1.5px solid #fce4ec;
+      border-radius: 16px;
+      padding: 1rem 1.2rem;
+      max-width: 260px;
+      box-shadow: 0 3px 14px rgba(194,24,91,0.08);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .tl-card:hover { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(194,24,91,0.14); }
+    .tl-date {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #ba68c8;
+      margin-bottom: 4px;
+    }
+    .tl-emoji { font-size: 1.6rem; display: block; margin-bottom: 4px; }
+    .tl-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      color: #880e4f;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+    .tl-desc {
+      font-size: 13px;
+      color: #ad6e8a;
+      margin-top: 4px;
+      font-style: italic;
+      font-family: 'Playfair Display', serif;
+      line-height: 1.5;
+    }
+    @media (max-width: 560px) {
+      .timeline::before { left: 18px; }
+      .tl-item, .tl-item:nth-child(even) {
+        justify-content: flex-start;
+        padding-left: 48px;
+        padding-right: 0;
+      }
+      .tl-dot { left: 18px; }
+      .tl-card { max-width: 100%; }
+    }
+
+    /* countdown */
+    .countdown-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.6rem;
+    }
+    .countdown-header {
+      text-align: center;
+    }
+    .countdown-header .meet-date {
+      display: inline-block;
+      background: linear-gradient(135deg, #fce4ec, #f3e5f5);
+      border: 1.5px solid #f48fb1;
+      border-radius: 50px;
+      padding: 8px 22px;
+      font-size: 14px;
+      font-weight: 700;
+      color: #c2185b;
+      letter-spacing: 0.5px;
+      margin-top: 0.6rem;
+    }
+    .countdown-header p {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: #ad6e8a;
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+    .countdown-boxes {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .cd-box {
+      background: white;
+      border: 1.5px solid #f8bbd0;
+      border-radius: 20px;
+      padding: 1.4rem 1rem;
+      min-width: 90px;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(194,24,91,0.08);
+      transition: transform 0.2s;
+    }
+    .cd-box:hover { transform: translateY(-3px); }
+    .cd-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      font-weight: 600;
+      color: #c2185b;
+      line-height: 1;
+      display: block;
+    }
+    .cd-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #ba68c8;
+      margin-top: 6px;
+      display: block;
+    }
+    .countdown-msg {
+      background: white;
+      border: 1px solid #fce4ec;
+      border-radius: 20px;
+      padding: 1.4rem 2rem;
+      text-align: center;
+      max-width: 480px;
+      box-shadow: 0 4px 16px rgba(194,24,91,0.07);
+    }
+    .countdown-msg p {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: #880e4f;
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+    .countdown-arrived {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      color: #c2185b;
+      text-align: center;
+    }
+
     @media (max-width: 480px) {
       .letter-card { padding: 1.5rem 1.2rem; }
       .section { padding: 2rem 1rem; }
       .tabs { padding: 1rem 0.5rem; gap: 4px; }
       .tab-btn { padding: 7px 12px; font-size: 12px; }
+      .cd-box { min-width: 70px; padding: 1rem 0.7rem; }
+      .cd-number { font-size: 2.2rem; }
     }
   </style>
 </head>
@@ -366,6 +537,8 @@
     <button class="tab-btn" onclick="showSection('quiz',this)">💡 Quiz Time!</button>
     <button class="tab-btn" onclick="showSection('song',this)">🎵 Our Song</button>
     <button class="tab-btn" onclick="showSection('gallery',this)">🖼️ Our Memories</button>
+    <button class="tab-btn" onclick="showSection('dates',this)">📅 Our Story</button>
+    <button class="tab-btn" onclick="showSection('countdown',this)">✈️ Counting Down</button>
   </div>
 
   <!-- LOVE LETTER -->
@@ -504,6 +677,75 @@
         <img src="Images/19.jpg" alt="" style="width: 100%;height: 100%;">
         <img src="Images/20.jpg" alt="" style="width: 100%;height: 100%;">
         <img src="Images/21.jpg" alt="" style="width: 100%;height: 100%;">
+      </div>
+    </div>
+  </div>
+
+  <!-- KEY DATES -->
+  <div class="section" id="sec-dates">
+    <h2 class="section-title">Chapters of <span>Our Story</span></h2>
+    <p style="text-align:center;color:#ad6e8a;margin-bottom:2rem;font-size:14px;">Every great love story has its moments. Here are ours. 💕</p>
+    <div class="timeline">
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <span class="tl-emoji">💬</span>
+          <div class="tl-date">2 August 2023</div>
+          <div class="tl-label">The First Message</div>
+          <div class="tl-desc">The day it all began — a simple text that changed everything.</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <span class="tl-emoji">💍</span>
+          <div class="tl-date">24 August 2024</div>
+          <div class="tl-label">Proposed for Marriage</div>
+          <div class="tl-desc">The day I asked, and you said yes. My heart has never been the same since.</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <span class="tl-emoji">🎁</span>
+          <div class="tl-date">26 May 2025</div>
+          <div class="tl-label">Mochi's First Gift</div>
+          <div class="tl-desc">The first thing I sent across the miles — a little piece of my heart wrapped up just for you.</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <span class="tl-emoji">✈️</span>
+          <div class="tl-date">18 October 2026</div>
+          <div class="tl-label">The Day We Finally Meet</div>
+          <div class="tl-desc">The chapter we've been waiting for. The one that makes all the distance worth it.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- COUNTDOWN -->
+  <div class="section" id="sec-countdown">
+    <h2 class="section-title">Until I Hold <span>You</span></h2>
+    <div class="countdown-wrap">
+      <div class="countdown-header">
+        <p>Every single day brings me one step closer to you, Sayang.<br>I'm counting every one of them. 🌸</p>
+        <span class="meet-date">📅 18 October 2026</span>
+      </div>
+      <div class="countdown-boxes">
+        <div class="cd-box"><span class="cd-number" id="cd-days">--</span><span class="cd-label">Days</span></div>
+        <div class="cd-box"><span class="cd-number" id="cd-hours">--</span><span class="cd-label">Hours</span></div>
+        <div class="cd-box"><span class="cd-number" id="cd-mins">--</span><span class="cd-label">Minutes</span></div>
+        <div class="cd-box"><span class="cd-number" id="cd-secs">--</span><span class="cd-label">Seconds</span></div>
+      </div>
+      <div class="countdown-msg">
+        <p id="cd-message">Every second that ticks by is a second closer to the moment I finally get to see your face, hear your laugh, and hold you close. I cannot wait, Habibti. 💖</p>
       </div>
     </div>
   </div>
@@ -672,6 +914,35 @@
     }
     function restartQuiz() { initQuiz(); }
     initQuiz();
+
+    // countdown timer
+    function updateCountdown() {
+      const target = new Date('2026-10-18T00:00:00');
+      const now = new Date();
+      const diff = target - now;
+
+      if (diff <= 0) {
+        document.getElementById('cd-days').textContent = '0';
+        document.getElementById('cd-hours').textContent = '0';
+        document.getElementById('cd-mins').textContent = '0';
+        document.getElementById('cd-secs').textContent = '0';
+        document.getElementById('cd-message').textContent = '🎉 The day is finally here! Today is the day I get to hold you. I love you so much, Sayang. 💖';
+        return;
+      }
+
+      const days  = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const mins  = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const secs  = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById('cd-days').textContent  = days;
+      document.getElementById('cd-hours').textContent = String(hours).padStart(2,'0');
+      document.getElementById('cd-mins').textContent  = String(mins).padStart(2,'0');
+      document.getElementById('cd-secs').textContent  = String(secs).padStart(2,'0');
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
   </script>
 </body>
 </html>
