@@ -690,6 +690,26 @@
       <div class="tl-item">
         <div class="tl-dot"></div>
         <div class="tl-card">
+          <span class="tl-emoji">🎂</span>
+          <div class="tl-date">6 March 1999</div>
+          <div class="tl-label">My Birthday</div>
+          <div class="tl-desc">The day I arrived in this world — blissfully unaware that one day, you'd be in it too.</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
+          <span class="tl-emoji">🌸</span>
+          <div class="tl-date">22 May 2002</div>
+          <div class="tl-label">Her Birthday — Mochi's Day</div>
+          <div class="tl-desc">The day the world got a whole lot more beautiful. Happy you were born, Sayang. 💕</div>
+        </div>
+      </div>
+
+      <div class="tl-item">
+        <div class="tl-dot"></div>
+        <div class="tl-card">
           <span class="tl-emoji">💬</span>
           <div class="tl-date">2 August 2023</div>
           <div class="tl-label">The First Message</div>
@@ -746,6 +766,29 @@
       </div>
       <div class="countdown-msg">
         <p id="cd-message">Every second that ticks by is a second closer to the moment I finally get to see your face, hear your laugh, and hold you close. I cannot wait, Habibti. 💖</p>
+      </div>
+
+      <div style="width:100%;max-width:480px;">
+        <h3 style="font-family:'Playfair Display',serif;color:#9c27b0;text-align:center;margin-bottom:1.2rem;font-size:1.2rem;font-style:italic;">Next Birthdays 🎂</h3>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+
+          <div style="background:white;border:1.5px solid #e1bee7;border-radius:16px;padding:1.1rem 1.4rem;box-shadow:0 3px 12px rgba(156,39,176,0.07);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+            <div>
+              <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#ba68c8;">6 March · Mine 🎂</div>
+              <div style="font-family:'Playfair Display',serif;color:#880e4f;font-size:1rem;margin-top:2px;">My Birthday</div>
+            </div>
+            <div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:#c2185b;font-weight:600;" id="bday-me">--</div>
+          </div>
+
+          <div style="background:white;border:1.5px solid #fce4ec;border-radius:16px;padding:1.1rem 1.4rem;box-shadow:0 3px 12px rgba(194,24,91,0.07);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+            <div>
+              <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#f48fb1;">22 May · Hers 🌸</div>
+              <div style="font-family:'Playfair Display',serif;color:#880e4f;font-size:1rem;margin-top:2px;">Mochi's Birthday</div>
+            </div>
+            <div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:#c2185b;font-weight:600;" id="bday-her">--</div>
+          </div>
+
+        </div>
       </div>
     </div>
   </div>
@@ -943,6 +986,18 @@
 
     updateCountdown();
     setInterval(updateCountdown, 1000);
+
+    // birthday countdowns
+    function daysUntilBirthday(month, day) {
+      const now = new Date();
+      const thisYear = now.getFullYear();
+      let next = new Date(thisYear, month - 1, day);
+      if (next <= now) next = new Date(thisYear + 1, month - 1, day);
+      const diff = Math.ceil((next - now) / (1000 * 60 * 60 * 24));
+      return diff === 0 ? '🎉 Today!' : diff + (diff === 1 ? ' day away' : ' days away');
+    }
+    document.getElementById('bday-me').textContent  = daysUntilBirthday(3, 6);
+    document.getElementById('bday-her').textContent = daysUntilBirthday(5, 22);
   </script>
 </body>
 </html>
