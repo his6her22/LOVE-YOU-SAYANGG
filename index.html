@@ -298,7 +298,7 @@
     }
     .yt-frame-wrap iframe { width: 100%; height: 100%; border: none; display: block; }
 
-    /* gallery */
+    /* gallery — old placeholders kept, new collage below */
     .gallery-note {
       background: white; border: 1.5px dashed #f48fb1;
       border-radius: 20px; padding: 2.5rem; text-align: center; color: #ad6e8a;
@@ -312,6 +312,178 @@
       border-radius: 14px; width: 140px; height: 100px;
       display: flex; align-items: center; justify-content: center;
       font-size: 2rem; color: #f48fb1;
+    }
+
+    /* collage gallery */
+    .collage-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .collage-header p {
+      color: #ad6e8a;
+      font-size: 14px;
+      font-style: italic;
+      font-family: 'Playfair Display', serif;
+    }
+    .collage-grid {
+      columns: 3;
+      column-gap: 12px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    @media (max-width: 600px) { .collage-grid { columns: 2; } }
+    @media (max-width: 380px) { .collage-grid { columns: 1; } }
+
+    .collage-item {
+      break-inside: avoid;
+      margin-bottom: 12px;
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: 0 3px 14px rgba(194,24,91,0.10);
+      /* random slight rotations for collage feel */
+    }
+    .collage-item:nth-child(3n+1) { transform: rotate(-1.2deg); }
+    .collage-item:nth-child(3n+2) { transform: rotate(0.8deg); }
+    .collage-item:nth-child(3n+3) { transform: rotate(-0.5deg); }
+
+    .collage-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94),
+                  filter 0.45s ease;
+      filter: brightness(0.97) saturate(1.05);
+    }
+
+    /* overlay */
+    .collage-item .c-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, rgba(194,24,91,0.55), rgba(156,39,176,0.45));
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .collage-item .c-overlay .c-heart {
+      font-size: 2.2rem;
+      transform: scale(0.5);
+      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .collage-item .c-overlay .c-label {
+      color: white;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 13px;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.3s ease 0.1s, transform 0.3s ease 0.1s;
+    }
+
+    /* hover state */
+    .collage-item:hover {
+      transform: rotate(0deg) scale(1.04) translateY(-4px) !important;
+      box-shadow: 0 12px 32px rgba(194,24,91,0.22);
+      z-index: 5;
+    }
+    .collage-item:hover img {
+      transform: scale(1.08);
+      filter: brightness(1.05) saturate(1.2);
+    }
+    .collage-item:hover .c-overlay { opacity: 1; }
+    .collage-item:hover .c-overlay .c-heart { transform: scale(1); }
+    .collage-item:hover .c-overlay .c-label { opacity: 1; transform: translateY(0); }
+
+    /* click / active pulse */
+    .collage-item:active { transform: scale(0.97) !important; }
+    .collage-item.clicked {
+      animation: photoPop 0.5s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    @keyframes photoPop {
+      0%   { transform: scale(1) rotate(0deg); }
+      40%  { transform: scale(1.1) rotate(1deg); }
+      70%  { transform: scale(0.97) rotate(-0.5deg); }
+      100% { transform: scale(1) rotate(0deg); }
+    }
+
+    /* lightbox */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(30,10,20,0.88);
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      backdrop-filter: blur(6px);
+    }
+    .lightbox.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .lightbox img {
+      max-width: 90vw;
+      max-height: 85vh;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      transform: scale(0.85);
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+      object-fit: contain;
+    }
+    .lightbox.open img { transform: scale(1); }
+    .lightbox-close {
+      position: absolute;
+      top: 20px; right: 24px;
+      color: white;
+      font-size: 2rem;
+      cursor: pointer;
+      line-height: 1;
+      background: rgba(255,255,255,0.15);
+      border: none;
+      border-radius: 50%;
+      width: 44px; height: 44px;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+      font-family: 'Lato', sans-serif;
+    }
+    .lightbox-close:hover { background: rgba(255,255,255,0.28); }
+    .lightbox-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: white;
+      font-size: 1.8rem;
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+      font-family: 'Lato', sans-serif;
+    }
+    .lightbox-nav:hover { background: rgba(255,255,255,0.28); }
+    .lightbox-prev { left: 16px; }
+    .lightbox-next { right: 16px; }
+    .lightbox-counter {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.7);
+      font-size: 13px;
+      font-family: 'Lato', sans-serif;
+      background: rgba(0,0,0,0.3);
+      padding: 4px 14px;
+      border-radius: 50px;
     }
 
     /* heart rain button */
@@ -651,34 +823,104 @@
   <!-- GALLERY -->
   <div class="section" id="sec-gallery">
     <h2 class="section-title">Our <span>Beautiful Memories</span></h2>
-    <div class="gallery-note">
-      <div class="big-icon">📸</div>
-      <p>This is where <strong>your photos and GIFs</strong> will live — all the beautiful moments, the silly selfies, the adventures big and small.<br><br>
-      <!-- To add photos, replace the placeholder divs below with <code>&lt;img src="your-photo.jpg"&gt;</code> tags. 🌸</p> -->
-      <div class="gif-row">
-        <img src="Images/1.jpg" alt="" style="width: 100%;height: 100%;">
-        <img src="Images/2.jpg" alt="" style="width: 100%;height: 100%;">
-        <img src="Images/3.jpg" alt="" style="width: 100%;height: 100%;">
-        <img src="Images/4.jpg" alt="" style="width: 100%;height: 100%;">
-        <img src="Images/5.jpg" alt="" style="width: 100%;height: 100%;">
-        <img src="Images/6.jpg" alt="" style="width: 100%;height: 100%;">
-        <img src="Images/7.jpg" alt="" style="width: 100%;height: 100%;">
-        <img src="Images/8.jpg" alt="" style="width: 100%;height: 100%;">
-        <img src="Images/9.jpg" alt="" style="width: 100%;height: 100%;">
-        <img src="Images/10.jpg" alt="" style="width: 100%;height: 100%;">
-        <img src="Images/11.jpg" alt="" style="width: 100%;height: 100%;">
-        <img src="Images/12.jpg" alt="" style="width: 100%;height: 100%;">
-        <img src="Images/13.jpg" alt="" style="width: 100%;height: 100%;">
-        <img src="Images/14.jpg" alt="" style="width: 100%;height: 100%;">
-        <img src="Images/15.jpg" alt="" style="width: 100%;height: 100%;">
-        <img src="Images/16.jpg" alt="" style="width: 100%;height: 100%;">
-        <img src="Images/17.jpg" alt="" style="width: 100%;height: 100%;">
-        <img src="Images/18.jpg" alt="" style="width: 100%;height: 100%;">
-        <img src="Images/19.jpg" alt="" style="width: 100%;height: 100%;">
-        <img src="Images/20.jpg" alt="" style="width: 100%;height: 100%;">
-        <img src="Images/21.jpg" alt="" style="width: 100%;height: 100%;">
+    <div class="collage-header">
+      <p>Hover over a photo to feel the love — click to see it full size 💕</p>
+    </div>
+    <div class="collage-grid" id="collageGrid">
+      <div class="collage-item" onclick="openLightbox(0)">
+        <img src="Images/1.jpg" alt="Memory 1">
+        <div class="c-overlay"><span class="c-heart">💖</span><span class="c-label">Our Memory</span></div>
+      </div>
+      <div class="collage-item" onclick="openLightbox(1)">
+        <img src="Images/2.jpg" alt="Memory 2">
+        <div class="c-overlay"><span class="c-heart">💕</span><span class="c-label">Our Memory</span></div>
+      </div>
+      <div class="collage-item" onclick="openLightbox(2)">
+        <img src="Images/3.jpg" alt="Memory 3">
+        <div class="c-overlay"><span class="c-heart">🌸</span><span class="c-label">Our Memory</span></div>
+      </div>
+      <div class="collage-item" onclick="openLightbox(3)">
+        <img src="Images/4.jpg" alt="Memory 4">
+        <div class="c-overlay"><span class="c-heart">💗</span><span class="c-label">Our Memory</span></div>
+      </div>
+      <div class="collage-item" onclick="openLightbox(4)">
+        <img src="Images/5.jpg" alt="Memory 5">
+        <div class="c-overlay"><span class="c-heart">💞</span><span class="c-label">Our Memory</span></div>
+      </div>
+      <div class="collage-item" onclick="openLightbox(5)">
+        <img src="Images/6.jpg" alt="Memory 6">
+        <div class="c-overlay"><span class="c-heart">💖</span><span class="c-label">Our Memory</span></div>
+      </div>
+      <div class="collage-item" onclick="openLightbox(6)">
+        <img src="Images/7.jpg" alt="Memory 7">
+        <div class="c-overlay"><span class="c-heart">🌷</span><span class="c-label">Our Memory</span></div>
+      </div>
+      <div class="collage-item" onclick="openLightbox(7)">
+        <img src="Images/8.jpg" alt="Memory 8">
+        <div class="c-overlay"><span class="c-heart">💓</span><span class="c-label">Our Memory</span></div>
+      </div>
+      <div class="collage-item" onclick="openLightbox(8)">
+        <img src="Images/9.jpg" alt="Memory 9">
+        <div class="c-overlay"><span class="c-heart">💕</span><span class="c-label">Our Memory</span></div>
+      </div>
+      <div class="collage-item" onclick="openLightbox(9)">
+        <img src="Images/10.jpg" alt="Memory 10">
+        <div class="c-overlay"><span class="c-heart">🌸</span><span class="c-label">Our Memory</span></div>
+      </div>
+      <div class="collage-item" onclick="openLightbox(10)">
+        <img src="Images/11.jpg" alt="Memory 11">
+        <div class="c-overlay"><span class="c-heart">💖</span><span class="c-label">Our Memory</span></div>
+      </div>
+      <div class="collage-item" onclick="openLightbox(11)">
+        <img src="Images/12.jpg" alt="Memory 12">
+        <div class="c-overlay"><span class="c-heart">💗</span><span class="c-label">Our Memory</span></div>
+      </div>
+      <div class="collage-item" onclick="openLightbox(12)">
+        <img src="Images/13.jpg" alt="Memory 13">
+        <div class="c-overlay"><span class="c-heart">💞</span><span class="c-label">Our Memory</span></div>
+      </div>
+      <div class="collage-item" onclick="openLightbox(13)">
+        <img src="Images/14.jpg" alt="Memory 14">
+        <div class="c-overlay"><span class="c-heart">🌹</span><span class="c-label">Our Memory</span></div>
+      </div>
+      <div class="collage-item" onclick="openLightbox(14)">
+        <img src="Images/15.jpg" alt="Memory 15">
+        <div class="c-overlay"><span class="c-heart">💕</span><span class="c-label">Our Memory</span></div>
+      </div>
+      <div class="collage-item" onclick="openLightbox(15)">
+        <img src="Images/16.jpg" alt="Memory 16">
+        <div class="c-overlay"><span class="c-heart">💖</span><span class="c-label">Our Memory</span></div>
+      </div>
+      <div class="collage-item" onclick="openLightbox(16)">
+        <img src="Images/17.jpg" alt="Memory 17">
+        <div class="c-overlay"><span class="c-heart">🌸</span><span class="c-label">Our Memory</span></div>
+      </div>
+      <div class="collage-item" onclick="openLightbox(17)">
+        <img src="Images/18.jpg" alt="Memory 18">
+        <div class="c-overlay"><span class="c-heart">💓</span><span class="c-label">Our Memory</span></div>
+      </div>
+      <div class="collage-item" onclick="openLightbox(18)">
+        <img src="Images/19.jpg" alt="Memory 19">
+        <div class="c-overlay"><span class="c-heart">💗</span><span class="c-label">Our Memory</span></div>
+      </div>
+      <div class="collage-item" onclick="openLightbox(19)">
+        <img src="Images/20.jpg" alt="Memory 20">
+        <div class="c-overlay"><span class="c-heart">💞</span><span class="c-label">Our Memory</span></div>
+      </div>
+      <div class="collage-item" onclick="openLightbox(20)">
+        <img src="Images/21.jpg" alt="Memory 21">
+        <div class="c-overlay"><span class="c-heart">💖</span><span class="c-label">Our Memory</span></div>
       </div>
     </div>
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" onclick="closeLightboxOnBg(event)">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <button class="lightbox-nav lightbox-prev" onclick="lightboxNav(-1)">‹</button>
+    <img id="lightboxImg" src="" alt="Memory">
+    <button class="lightbox-nav lightbox-next" onclick="lightboxNav(1)">›</button>
+    <div class="lightbox-counter" id="lightboxCounter"></div>
   </div>
 
   <!-- KEY DATES -->
@@ -998,6 +1240,57 @@
     }
     document.getElementById('bday-me').textContent  = daysUntilBirthday(3, 6);
     document.getElementById('bday-her').textContent = daysUntilBirthday(5, 22);
+
+    // collage click animation
+    document.querySelectorAll('.collage-item').forEach(item => {
+      item.addEventListener('click', function() {
+        this.classList.remove('clicked');
+        void this.offsetWidth; // reflow to restart animation
+        this.classList.add('clicked');
+        setTimeout(() => this.classList.remove('clicked'), 500);
+      });
+    });
+
+    // lightbox
+    const lightboxImages = Array.from({length: 21}, (_, i) => `Images/${i+1}.jpg`);
+    let currentLightboxIndex = 0;
+
+    function openLightbox(index) {
+      currentLightboxIndex = index;
+      const lb = document.getElementById('lightbox');
+      document.getElementById('lightboxImg').src = lightboxImages[index];
+      document.getElementById('lightboxCounter').textContent = (index + 1) + ' / ' + lightboxImages.length;
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+    function closeLightboxOnBg(e) {
+      if (e.target === document.getElementById('lightbox')) closeLightbox();
+    }
+    function lightboxNav(dir) {
+      currentLightboxIndex = (currentLightboxIndex + dir + lightboxImages.length) % lightboxImages.length;
+      const img = document.getElementById('lightboxImg');
+      img.style.opacity = '0';
+      img.style.transform = 'scale(0.92)';
+      setTimeout(() => {
+        img.src = lightboxImages[currentLightboxIndex];
+        document.getElementById('lightboxCounter').textContent = (currentLightboxIndex + 1) + ' / ' + lightboxImages.length;
+        img.style.transition = 'opacity 0.25s ease, transform 0.35s cubic-bezier(0.34,1.56,0.64,1)';
+        img.style.opacity = '1';
+        img.style.transform = 'scale(1)';
+      }, 180);
+    }
+    // keyboard nav
+    document.addEventListener('keydown', function(e) {
+      const lb = document.getElementById('lightbox');
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'ArrowRight') lightboxNav(1);
+      if (e.key === 'ArrowLeft')  lightboxNav(-1);
+      if (e.key === 'Escape')     closeLightbox();
+    });
   </script>
 </body>
 </html>
