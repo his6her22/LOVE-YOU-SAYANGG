@@ -87,14 +87,18 @@
 
     /* tabs */
     .tabs {
-      display: flex; gap: 6px; justify-content: center; flex-wrap: wrap;
-      padding: 1.5rem 1rem 1rem;
+      display: flex; gap: 6px; justify-content: flex-start; flex-wrap: nowrap;
+      padding: 1rem 1rem;
       position: sticky; top: 0; z-index: 100;
       background: rgba(255, 245, 248, 0.92);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       border-bottom: 1px solid rgba(244, 143, 177, 0.2);
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
     }
+    .tabs::-webkit-scrollbar { display: none; }
     .tab-btn {
       background: white;
       border: 1.5px solid #f48fb1;
@@ -103,6 +107,7 @@
       border-radius: 50px;
       font-size: 13px;
       font-weight: 700;
+      flex-shrink: 0;
       cursor: pointer;
       transition: all 0.2s;
       font-family: 'Lato', sans-serif;
@@ -1560,6 +1565,8 @@
     window.selectWho       = selectWho;
     window.shareMyLocation = shareMyLocation;
   </script>
+
+  <script>
     const petalEmojis = ['🌸','🌷','🌹','🌺','💐'];
     const petalContainer = document.getElementById('petals');
     for (let i = 0; i < 18; i++) {
