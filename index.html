@@ -87,18 +87,14 @@
 
     /* tabs */
     .tabs {
-      display: flex; gap: 6px; justify-content: flex-start; flex-wrap: nowrap;
+      display: flex; gap: 6px; justify-content: center; flex-wrap: wrap;
       padding: 1rem 1rem;
       position: sticky; top: 0; z-index: 100;
       background: rgba(255, 245, 248, 0.92);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       border-bottom: 1px solid rgba(244, 143, 177, 0.2);
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
     }
-    .tabs::-webkit-scrollbar { display: none; }
     .tab-btn {
       background: white;
       border: 1.5px solid #f48fb1;
@@ -107,7 +103,6 @@
       border-radius: 50px;
       font-size: 13px;
       font-weight: 700;
-      flex-shrink: 0;
       cursor: pointer;
       transition: all 0.2s;
       font-family: 'Lato', sans-serif;
@@ -123,6 +118,7 @@
     /* sections */
     .section { display: none; padding: 2.5rem 1.5rem; max-width: 720px; margin: 0 auto; position: relative; z-index: 1; }
     .section.active { display: block; }
+    #sec-location { max-width: 960px; }
     .section-title {
       font-family: 'Playfair Display', serif;
       font-size: 1.8rem;
@@ -904,7 +900,7 @@
       box-shadow: 0 4px 20px rgba(194,24,91,0.10);
       border: 1.5px solid #fce4ec;
       position: relative;
-      height: 380px;
+      height: 460px;
       background: #f5f0ff;
     }
     .loc-map-wrap iframe { width: 100%; height: 100%; border: none; display: block; }
@@ -1368,8 +1364,10 @@
 
       <div class="loc-map-wrap" id="locMapWrap">
         <iframe id="locMapFrame"
-          src="https://www.openstreetmap.org/export/embed.html?bbox=-180,-90,180,90&layer=mapnik"
-          allowfullscreen></iframe>
+          src="https://www.google.com/maps/embed/v1/view?key=AIzaSyBuC5W1ntAWSQKadokEjXhWtCn1OpF3ITE&center=20,0&zoom=2"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
       <p class="loc-note">Map updates automatically when either of us shares our location 🗺️💕</p>
     </div>
@@ -1452,33 +1450,22 @@
     function buildMap() {
       const u = window._locData.umar;
       const m = window._locData.mochi;
-      let bbox, center, zoom = 5;
 
-      if (u && u.lat && m && m.lat) {
-        const minLat = Math.min(u.lat, m.lat) - 1;
-        const maxLat = Math.max(u.lat, m.lat) + 1;
-        const minLng = Math.min(u.lng, m.lng) - 1;
-        const maxLng = Math.max(u.lng, m.lng) + 1;
-        bbox = `${minLng},${minLat},${maxLng},${maxLat}`;
-        const cLat = (u.lat + m.lat) / 2;
-        const cLng = (u.lng + m.lng) / 2;
-        center = `${cLat},${cLng}`;
-      } else if (u && u.lat) {
-        center = `${u.lat},${u.lng}`; zoom = 10;
-        bbox = `${u.lng-2},${u.lat-2},${u.lng+2},${u.lat+2}`;
-      } else if (m && m.lat) {
-        center = `${m.lat},${m.lng}`; zoom = 10;
-        bbox = `${m.lng-2},${m.lat-2},${m.lng+2},${m.lat+2}`;
-      } else {
-        return; // no data yet
+      if (!u?.lat && !m?.lat) return; // nothing to show yet
+
+      let src = '';
+
+      if (u?.lat && m?.lat) {
+        // both present — show route between them with labels
+        const origin      = `${u.lat},${u.lng}`;
+        const destination = `${m.lat},${m.lng}`;
+        src = `https://www.google.com/maps/embed/v1/directions?key=AIzaSyBuC5W1ntAWSQKadokEjXhWtCn1OpF3ITE&origin=${origin}&destination=${destination}&mode=walking&zoom=3`;
+      } else if (u?.lat) {
+        src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBuC5W1ntAWSQKadokEjXhWtCn1OpF3ITE&q=${u.lat},${u.lng}&zoom=12`;
+      } else if (m?.lat) {
+        src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBuC5W1ntAWSQKadokEjXhWtCn1OpF3ITE&q=${m.lat},${m.lng}&zoom=12`;
       }
 
-      // build markers string
-      let markers = '';
-      if (u && u.lat) markers += `&marker=${u.lat},${u.lng}`;
-      if (m && m.lat) markers += `&marker=${m.lat},${m.lng}`;
-
-      const src = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik${markers}`;
       document.getElementById('locMapFrame').src = src;
     }
 
