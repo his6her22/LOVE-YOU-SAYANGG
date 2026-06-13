@@ -1377,19 +1377,17 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
-    import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-database.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-analytics.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyBuC5W1ntAWSQKadokEjXhWtCn1OpF3ITE",
-      authDomain: "our-location-1a22e.firebaseapp.com",
-      databaseURL: "https://our-location-1a22e-default-rtdb.asia-southeast1.firebasedatabase.app",
-      projectId: "our-location-1a22e",
-      storageBucket: "our-location-1a22e.firebasestorage.app",
-      messagingSenderId: "897022984607",
-      appId: "1:897022984607:web:31d3cb42fe64c5edb7bdaa",
-      measurementId: "G-QPWK2WQC1C"
-    };
-
+  const firebaseConfig = {
+    apiKey: "AIzaSyAmshlqMZfWTTuKl1AbETpYqbo1LqYkWf8",
+    authDomain: "our-location-b1882.firebaseapp.com",
+    projectId: "our-location-b1882",
+    storageBucket: "our-location-b1882.firebasestorage.app",
+    messagingSenderId: "273050622119",
+    appId: "1:273050622119:web:c41c51e8b1e54de14a2382",
+    measurementId: "G-KVTX570M4E"
+  };
     const app = initializeApp(firebaseConfig);
     const db  = getDatabase(app);
 
