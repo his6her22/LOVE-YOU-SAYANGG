@@ -7,6 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&family=Caveat:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -1363,11 +1365,7 @@
       </div>
 
       <div class="loc-map-wrap" id="locMapWrap">
-        <iframe id="locMapFrame"
-          src="https://www.google.com/maps/embed/v1/view?key=AIzaSyBuC5W1ntAWSQKadokEjXhWtCn1OpF3ITE&center=20,0&zoom=2"
-          allowfullscreen
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div id="leafletMap" style="width:100%;height:100%;border-radius:20px;"></div>
       </div>
       <p class="loc-note">Map updates automatically when either of us shares our location 🗺️💕</p>
     </div>
@@ -1375,17 +1373,19 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-analytics.js";
+    import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-database.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyAmshlqMZfWTTuKl1AbETpYqbo1LqYkWf8",
-    authDomain: "our-location-b1882.firebaseapp.com",
-    projectId: "our-location-b1882",
-    storageBucket: "our-location-b1882.firebasestorage.app",
-    messagingSenderId: "273050622119",
-    appId: "1:273050622119:web:c41c51e8b1e54de14a2382",
-    measurementId: "G-KVTX570M4E"
-  };
+    const firebaseConfig = {
+      apiKey: "AIzaSyAmshlqMZfWTTuKl1AbETpYqbo1LqYkWf8",
+      authDomain: "our-location-b1882.firebaseapp.com",
+      databaseURL: "https://our-location-b1882-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "our-location-b1882",
+      storageBucket: "our-location-b1882.firebasestorage.app",
+      messagingSenderId: "273050622119",
+      appId: "1:273050622119:web:c41c51e8b1e54de14a2382",
+      measurementId: "G-KVTX570M4E"
+    };
+
     const app = initializeApp(firebaseConfig);
     const db  = getDatabase(app);
 
@@ -1451,22 +1451,87 @@
       const u = window._locData.umar;
       const m = window._locData.mochi;
 
-      if (!u?.lat && !m?.lat) return; // nothing to show yet
+      if (!u?.lat && !m?.lat) return;
 
-      let src = '';
-
-      if (u?.lat && m?.lat) {
-        // both present — show route between them with labels
-        const origin      = `${u.lat},${u.lng}`;
-        const destination = `${m.lat},${m.lng}`;
-        src = `https://www.google.com/maps/embed/v1/directions?key=AIzaSyBuC5W1ntAWSQKadokEjXhWtCn1OpF3ITE&origin=${origin}&destination=${destination}&mode=walking&zoom=3`;
-      } else if (u?.lat) {
-        src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBuC5W1ntAWSQKadokEjXhWtCn1OpF3ITE&q=${u.lat},${u.lng}&zoom=12`;
-      } else if (m?.lat) {
-        src = `https://www.google.com/maps/embed/v1/place?key=AIzaSyBuC5W1ntAWSQKadokEjXhWtCn1OpF3ITE&q=${m.lat},${m.lng}&zoom=12`;
+      // init map once
+      if (!window._leafletMap) {
+        window._leafletMap = L.map('leafletMap', { zoomControl: true }).setView([20, 0], 2);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '© OpenStreetMap contributors',
+          maxZoom: 18
+        }).addTo(window._leafletMap);
+        window._leafletMarkers = {};
       }
 
-      document.getElementById('locMapFrame').src = src;
+      const map = window._leafletMap;
+
+      // custom pin icons
+      function makeIcon(emoji, name) {
+        return L.divIcon({
+          html: `<div style="
+            background: white;
+            border: 2.5px solid #c2185b;
+            border-radius: 50% 50% 50% 0;
+            width: 40px; height: 40px;
+            transform: rotate(-45deg);
+            box-shadow: 0 3px 12px rgba(194,24,91,0.3);
+            display:flex;align-items:center;justify-content:center;">
+            <span style="transform:rotate(45deg);font-size:18px;">${emoji}</span>
+          </div>
+          <div style="
+            text-align:center;
+            font-family:'Lato',sans-serif;
+            font-weight:700;
+            font-size:11px;
+            color:#c2185b;
+            margin-top:2px;
+            white-space:nowrap;
+            text-shadow: 0 1px 3px white;">
+            ${name}
+          </div>`,
+          className: '',
+          iconSize: [50, 55],
+          iconAnchor: [25, 55],
+          popupAnchor: [0, -55]
+        });
+      }
+
+      const umarIcon  = makeIcon('👨', 'Umar');
+      const mochiIcon = makeIcon('👩', 'Mochi 🌸');
+
+      // place / update markers
+      if (u?.lat) {
+        if (window._leafletMarkers.umar) {
+          window._leafletMarkers.umar.setLatLng([u.lat, u.lng]);
+        } else {
+          window._leafletMarkers.umar = L.marker([u.lat, u.lng], { icon: umarIcon })
+            .addTo(map)
+            .bindPopup(`<b>Umar</b><br>${u.city || ''}, ${u.country || ''}`);
+        }
+      }
+
+      if (m?.lat) {
+        if (window._leafletMarkers.mochi) {
+          window._leafletMarkers.mochi.setLatLng([m.lat, m.lng]);
+        } else {
+          window._leafletMarkers.mochi = L.marker([m.lat, m.lng], { icon: mochiIcon })
+            .addTo(map)
+            .bindPopup(`<b>Mochi 🌸</b><br>${m.city || ''}, ${m.country || ''}`);
+        }
+      }
+
+      // fit map to show both pins
+      const points = [];
+      if (u?.lat) points.push([u.lat, u.lng]);
+      if (m?.lat) points.push([m.lat, m.lng]);
+      if (points.length === 1) {
+        map.setView(points[0], 12);
+      } else if (points.length === 2) {
+        map.fitBounds(L.latLngBounds(points), { padding: [50, 50] });
+      }
+
+      // force redraw since map may have been hidden in a tab
+      setTimeout(() => map.invalidateSize(), 200);
     }
 
     // start listening once unlocked
@@ -1508,42 +1573,60 @@
       btn.innerHTML = '<span>⏳</span> Getting location...';
 
       if (!navigator.geolocation) {
-        btn.innerHTML = '❌ Geolocation not supported';
+        btn.disabled = false;
+        btn.innerHTML = '<span>❌</span> Geolocation not supported on this browser';
         return;
       }
 
+      // safety timeout — re-enable button after 15s no matter what
+      const safetyTimer = setTimeout(() => {
+        btn.disabled = false;
+        btn.innerHTML = '<span>❌</span> Timed out — please try again';
+      }, 15000);
+
       navigator.geolocation.getCurrentPosition(async pos => {
+        clearTimeout(safetyTimer);
         const lat = pos.coords.latitude;
         const lng = pos.coords.longitude;
 
-        // reverse geocode with OpenStreetMap Nominatim (free, no key needed)
+        btn.innerHTML = '<span>⏳</span> Saving location...';
+
+        // reverse geocode — free, no API key
         let city = '', country = '';
         try {
-          const res  = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`);
+          const res  = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&accept-language=en`);
           const json = await res.json();
-          city    = json.address?.city || json.address?.town || json.address?.village || '';
+          city    = json.address?.city || json.address?.town || json.address?.village || json.address?.county || '';
           country = json.address?.country || '';
-        } catch(e) {}
+        } catch(e) { /* silent fail — coords still saved */ }
 
-        const data = { lat, lng, city, country, timestamp: new Date().toISOString() };
+        const data = { lat, lng, city, country, timestamp: new Date().toISOString(), token: 'MOCHI_UMAR_2206' };
 
         // write to Firebase
-        const db  = window._fbDb;
-        const ref = window._fbRef;
-        const set = window._fbSet;
-        set(ref(db, 'locations/' + selectedWho), data).then(() => {
+        try {
+          const db  = window._fbDb;
+          const ref = window._fbRef;
+          const set = window._fbSet;
+          await set(ref(db, 'locations/' + selectedWho), data);
           btn.disabled = false;
-          btn.innerHTML = `<span>✅</span> Location Updated! Tap to refresh`;
-        }).catch(err => {
-          btn.disabled = false;
-          btn.innerHTML = `<span>❌</span> Error — try again`;
+          btn.innerHTML = `<span>✅</span> Location shared! Tap to update`;
+        } catch(err) {
           console.error(err);
-        });
+          btn.disabled = false;
+          btn.innerHTML = `<span>❌</span> Firebase error — try again`;
+        }
 
       }, err => {
+        clearTimeout(safetyTimer);
         btn.disabled = false;
-        btn.innerHTML = '<span>❌</span> Permission denied — allow location access';
-      }, { enableHighAccuracy: true, timeout: 10000 });
+        if (err.code === 1) {
+          btn.innerHTML = '<span>🔒</span> Permission denied — allow location in browser settings';
+        } else if (err.code === 2) {
+          btn.innerHTML = '<span>❌</span> Location unavailable — try again';
+        } else {
+          btn.innerHTML = '<span>❌</span> Timed out — try again';
+        }
+      }, { enableHighAccuracy: true, timeout: 12000, maximumAge: 0 });
     }
 
     window.tryUnlock       = tryUnlock;
@@ -1572,6 +1655,9 @@
       document.getElementById('sec-' + id).classList.add('active');
       btn.classList.add('active');
       if (id === 'quiz') initQuiz();
+      if (id === 'location' && window._leafletMap) {
+        setTimeout(() => window._leafletMap.invalidateSize(), 250);
+      }
     }
 
     // heart rain
