@@ -1374,21 +1374,26 @@
 
     // start listening for location updates
     function listenLocations() {
-      ['umar','mochi'].forEach(who => {
-        const locRef = ref(db, 'locations/' + who);
-        onValue(locRef, snap => {
-          const data = snap.val();
-          updateCard(who, data);
-          updateMap();
-        });
+      // persistent real-time listeners for both users
+      // fires immediately with current data, then again on every change
+      onValue(ref(db, 'locations/umar'), snap => {
+        window._locData.umar = snap.val();
+        updateCard('umar', window._locData.umar);
+        updateDistUI();
+      });
+
+      onValue(ref(db, 'locations/mochi'), snap => {
+        window._locData.mochi = snap.val();
+        updateCard('mochi', window._locData.mochi);
+        updateDistUI();
       });
     }
 
     function updateCard(who, data) {
-      const dot    = document.getElementById('dot'   + capitalise(who));
-      const status = document.getElementById('status'+ capitalise(who));
-      const coords = document.getElementById('coords'+ capitalise(who));
-      const time   = document.getElementById('time'  + capitalise(who));
+      const dot    = document.getElementById('dot'    + capitalise(who));
+      const status = document.getElementById('status' + capitalise(who));
+      const coords = document.getElementById('coords' + capitalise(who));
+      const time   = document.getElementById('time'   + capitalise(who));
 
       if (!data || !data.lat) {
         dot.classList.remove('online');
@@ -1400,10 +1405,8 @@
 
       dot.classList.add('online');
       status.textContent = 'Online 🟢';
-      coords.textContent = `📍 ${data.city || 'Unknown city'}, ${data.country || ''}\n🌐 ${data.lat.toFixed(4)}, ${data.lng.toFixed(4)}`;
-
-      const updated = new Date(data.timestamp);
-      time.textContent = 'Updated: ' + updated.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+      coords.textContent = `📍 ${data.city || 'Unknown city'}, ${data.country || ''}`;
+      time.textContent   = 'Updated: ' + new Date(data.timestamp).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
     }
 
     function capitalise(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
@@ -1428,9 +1431,9 @@
 
         document.getElementById('distKm').textContent = distStr;
 
-        let msg = 'Every km between us is just another reason to count down the days \u{1F495}';
-        if (dist < 100) msg = 'You are so close! Almost there, Sayang \u{1F496}';
-        if (dist < 10)  msg = 'You are basically next door! \u{1F97A}\u{1F495}';
+        let msg = 'Every km between us is just another reason to count down the days 💕';
+        if (dist < 100) msg = 'You are so close! Almost there, Sayang 💖';
+        if (dist < 10)  msg = 'You are basically next door! 🥹💕';
         document.getElementById('distMsg').textContent = msg;
         document.getElementById('distUI').classList.add('visible');
       } else {
@@ -1438,27 +1441,15 @@
       }
 
       if (u?.lat) {
-        document.getElementById('dpCityUmar').textContent    = u.city    || '\u2014';
+        document.getElementById('dpCityUmar').textContent    = u.city    || '—';
         document.getElementById('dpCountryUmar').textContent = u.country || '';
         document.getElementById('dpTimeUmar').textContent    = 'Updated ' + new Date(u.timestamp).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
       }
       if (m?.lat) {
-        document.getElementById('dpCityMochi').textContent    = m.city    || '\u2014';
+        document.getElementById('dpCityMochi').textContent    = m.city    || '—';
         document.getElementById('dpCountryMochi').textContent = m.country || '';
         document.getElementById('dpTimeMochi').textContent    = 'Updated ' + new Date(m.timestamp).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
       }
-    }
-
-    function updateMap() {
-      const uRef = ref(db, 'locations/umar');
-      const mRef = ref(db, 'locations/mochi');
-      onValue(uRef, uSnap => {
-        window._locData.umar = uSnap.val();
-        onValue(mRef, mSnap => {
-          window._locData.mochi = mSnap.val();
-          updateDistUI();
-        }, { onlyOnce: true });
-      }, { onlyOnce: true });
     }
 
     window._startLocListening = listenLocations;
