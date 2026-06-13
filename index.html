@@ -788,6 +788,153 @@
       .hw-letter-card { padding: 2rem 1.4rem; }
       .hw-text { font-size: 1.25rem; }
     }
+    /* location feature */
+    .loc-lock {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.2rem;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+    .loc-lock-icon { font-size: 3.5rem; }
+    .loc-lock h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      color: #c2185b;
+    }
+    .loc-lock p { color: #ad6e8a; font-size: 14px; }
+    .loc-pin-input {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .loc-pin-input input {
+      border: 1.5px solid #f48fb1;
+      border-radius: 12px;
+      padding: 10px 16px;
+      font-size: 1.2rem;
+      letter-spacing: 8px;
+      width: 140px;
+      text-align: center;
+      font-family: 'Lato', sans-serif;
+      color: #880e4f;
+      outline: none;
+      background: white;
+    }
+    .loc-pin-input input:focus { border-color: #c2185b; box-shadow: 0 0 0 3px rgba(194,24,91,0.1); }
+    .loc-unlock-btn {
+      background: #c2185b; color: white; border: none;
+      border-radius: 50px; padding: 10px 24px;
+      font-size: 14px; font-weight: 700;
+      cursor: pointer; font-family: 'Lato', sans-serif;
+      transition: all 0.2s;
+    }
+    .loc-unlock-btn:hover { background: #880e4f; transform: translateY(-1px); }
+    .loc-error { color: #e53935; font-size: 13px; display: none; }
+
+    .loc-main { display: none; flex-direction: column; gap: 1.4rem; }
+    .loc-main.visible { display: flex; }
+
+    .loc-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    @media (max-width: 480px) { .loc-cards { grid-template-columns: 1fr; } }
+
+    .loc-card {
+      background: white;
+      border: 1.5px solid #f8bbd0;
+      border-radius: 20px;
+      padding: 1.3rem 1.2rem;
+      text-align: center;
+      box-shadow: 0 3px 14px rgba(194,24,91,0.08);
+      transition: all 0.2s;
+    }
+    .loc-card:hover { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(194,24,91,0.14); }
+    .loc-card .loc-avatar { font-size: 2.5rem; margin-bottom: 6px; }
+    .loc-card .loc-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #880e4f;
+      margin-bottom: 4px;
+    }
+    .loc-card .loc-status {
+      font-size: 12px;
+      color: #ba68c8;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    .loc-card .loc-coords {
+      font-size: 12px;
+      color: #ad6e8a;
+      line-height: 1.6;
+      font-family: 'Lato', sans-serif;
+    }
+    .loc-card .loc-time {
+      font-size: 11px;
+      color: #ce93d8;
+      margin-top: 6px;
+    }
+    .loc-card .loc-dot {
+      display: inline-block;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #bdbdbd;
+      margin-right: 5px;
+      vertical-align: middle;
+    }
+    .loc-card .loc-dot.online { background: #66bb6a; box-shadow: 0 0 0 3px rgba(102,187,106,0.25); }
+
+    .loc-map-wrap {
+      width: 100%;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(194,24,91,0.10);
+      border: 1.5px solid #fce4ec;
+      position: relative;
+      height: 380px;
+      background: #f5f0ff;
+    }
+    .loc-map-wrap iframe { width: 100%; height: 100%; border: none; display: block; }
+
+    .loc-share-btn {
+      background: linear-gradient(135deg, #f06292, #ba68c8);
+      color: white; border: none; border-radius: 50px;
+      padding: 13px 28px; font-size: 14px; font-weight: 700;
+      cursor: pointer; font-family: 'Lato', sans-serif;
+      box-shadow: 0 4px 16px rgba(240,98,146,0.3);
+      transition: all 0.2s; width: 100%;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .loc-share-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(240,98,146,0.4); }
+    .loc-share-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    .loc-who {
+      display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
+      margin-bottom: 0.5rem;
+    }
+    .loc-who-btn {
+      background: white; border: 1.5px solid #f48fb1;
+      color: #c2185b; border-radius: 50px;
+      padding: 7px 18px; font-size: 13px; font-weight: 700;
+      cursor: pointer; font-family: 'Lato', sans-serif;
+      transition: all 0.2s;
+    }
+    .loc-who-btn:hover, .loc-who-btn.selected {
+      background: #c2185b; color: white; border-color: #c2185b;
+    }
+    .loc-note {
+      text-align: center; color: #ad6e8a;
+      font-size: 13px; font-style: italic;
+      font-family: 'Playfair Display', serif;
+    }
   </style>
 </head>
 <body>
@@ -827,6 +974,7 @@
     <button class="tab-btn" onclick="showSection('gallery',this)">🖼️ Our Memories</button>
     <button class="tab-btn" onclick="showSection('dates',this)">📅 Our Story</button>
     <button class="tab-btn" onclick="showSection('countdown',this)">✈️ Counting Down</button>
+    <button class="tab-btn" onclick="showSection('location',this)">📍 Where Are We</button>
   </div>
 
   <!-- LOVE LETTER -->
@@ -1168,8 +1316,250 @@
     </div>
   </div>
 
+  <!-- LOCATION -->
+  <div class="section" id="sec-location">
+    <h2 class="section-title">Where Are <span>We?</span></h2>
+
+    <!-- lock screen -->
+    <div class="loc-lock" id="locLock">
+      <div class="loc-lock-icon">🔒</div>
+      <h3>Private — Just For Us</h3>
+      <p>Enter the PIN to see our locations 💕</p>
+      <div class="loc-pin-input">
+        <input type="password" id="pinInput" maxlength="4" placeholder="••••" inputmode="numeric"
+          onkeydown="if(event.key==='Enter') tryUnlock()">
+        <button class="loc-unlock-btn" onclick="tryUnlock()">Unlock 🔓</button>
+      </div>
+      <div class="loc-error" id="locError">❌ Wrong PIN, try again</div>
+    </div>
+
+    <!-- main content (shown after unlock) -->
+    <div class="loc-main" id="locMain">
+      <p class="loc-note">Select who you are, then share your location 🌍</p>
+      <div class="loc-who">
+        <button class="loc-who-btn" id="whoUmar" onclick="selectWho('umar')">📍 I'm Umar</button>
+        <button class="loc-who-btn" id="whoMochi" onclick="selectWho('mochi')">📍 I'm Mochi</button>
+      </div>
+      <button class="loc-share-btn" id="locShareBtn" onclick="shareMyLocation()" disabled>
+        <span>📡</span> Share My Location
+      </button>
+
+      <div class="loc-cards">
+        <div class="loc-card" id="cardUmar">
+          <div class="loc-avatar">👨</div>
+          <div class="loc-name">Umar</div>
+          <div class="loc-status"><span class="loc-dot" id="dotUmar"></span><span id="statusUmar">Waiting...</span></div>
+          <div class="loc-coords" id="coordsUmar">Location not shared yet</div>
+          <div class="loc-time" id="timeUmar"></div>
+        </div>
+        <div class="loc-card" id="cardMochi">
+          <div class="loc-avatar">👩</div>
+          <div class="loc-name">Mochi 🌸</div>
+          <div class="loc-status"><span class="loc-dot" id="dotMochi"></span><span id="statusMochi">Waiting...</span></div>
+          <div class="loc-coords" id="coordsMochi">Location not shared yet</div>
+          <div class="loc-time" id="timeMochi"></div>
+        </div>
+      </div>
+
+      <div class="loc-map-wrap" id="locMapWrap">
+        <iframe id="locMapFrame"
+          src="https://www.openstreetmap.org/export/embed.html?bbox=-180,-90,180,90&layer=mapnik"
+          allowfullscreen></iframe>
+      </div>
+      <p class="loc-note">Map updates automatically when either of us shares our location 🗺️💕</p>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+    import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBuC5W1ntAWSQKadokEjXhWtCn1OpF3ITE",
+      authDomain: "our-location-1a22e.firebaseapp.com",
+      databaseURL: "https://our-location-1a22e-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "our-location-1a22e",
+      storageBucket: "our-location-1a22e.firebasestorage.app",
+      messagingSenderId: "897022984607",
+      appId: "1:897022984607:web:31d3cb42fe64c5edb7bdaa",
+      measurementId: "G-QPWK2WQC1C"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db  = getDatabase(app);
+
+    // expose to window so non-module functions can call them
+    window._fbDb  = db;
+    window._fbRef = ref;
+    window._fbSet = set;
+    window._fbOnValue = onValue;
+
+    // start listening for location updates
+    function listenLocations() {
+      ['umar','mochi'].forEach(who => {
+        const locRef = ref(db, 'locations/' + who);
+        onValue(locRef, snap => {
+          const data = snap.val();
+          updateCard(who, data);
+          updateMap();
+        });
+      });
+    }
+
+    function updateCard(who, data) {
+      const dot    = document.getElementById('dot'   + capitalise(who));
+      const status = document.getElementById('status'+ capitalise(who));
+      const coords = document.getElementById('coords'+ capitalise(who));
+      const time   = document.getElementById('time'  + capitalise(who));
+
+      if (!data || !data.lat) {
+        dot.classList.remove('online');
+        status.textContent = 'Not shared yet';
+        coords.textContent = 'Location not shared yet';
+        time.textContent   = '';
+        return;
+      }
+
+      dot.classList.add('online');
+      status.textContent = 'Online 🟢';
+      coords.textContent = `📍 ${data.city || 'Unknown city'}, ${data.country || ''}\n🌐 ${data.lat.toFixed(4)}, ${data.lng.toFixed(4)}`;
+
+      const updated = new Date(data.timestamp);
+      time.textContent = 'Updated: ' + updated.toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+    }
+
+    function capitalise(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+    window._locData = { umar: null, mochi: null };
+
+    function updateMap() {
+      // collect latest from Firebase snapshot cache
+      const uRef = ref(db, 'locations/umar');
+      const mRef = ref(db, 'locations/mochi');
+
+      onValue(uRef, uSnap => {
+        window._locData.umar = uSnap.val();
+        onValue(mRef, mSnap => {
+          window._locData.mochi = mSnap.val();
+          buildMap();
+        }, { onlyOnce: true });
+      }, { onlyOnce: true });
+    }
+
+    function buildMap() {
+      const u = window._locData.umar;
+      const m = window._locData.mochi;
+      let bbox, center, zoom = 5;
+
+      if (u && u.lat && m && m.lat) {
+        const minLat = Math.min(u.lat, m.lat) - 1;
+        const maxLat = Math.max(u.lat, m.lat) + 1;
+        const minLng = Math.min(u.lng, m.lng) - 1;
+        const maxLng = Math.max(u.lng, m.lng) + 1;
+        bbox = `${minLng},${minLat},${maxLng},${maxLat}`;
+        const cLat = (u.lat + m.lat) / 2;
+        const cLng = (u.lng + m.lng) / 2;
+        center = `${cLat},${cLng}`;
+      } else if (u && u.lat) {
+        center = `${u.lat},${u.lng}`; zoom = 10;
+        bbox = `${u.lng-2},${u.lat-2},${u.lng+2},${u.lat+2}`;
+      } else if (m && m.lat) {
+        center = `${m.lat},${m.lng}`; zoom = 10;
+        bbox = `${m.lng-2},${m.lat-2},${m.lng+2},${m.lat+2}`;
+      } else {
+        return; // no data yet
+      }
+
+      // build markers string
+      let markers = '';
+      if (u && u.lat) markers += `&marker=${u.lat},${u.lng}`;
+      if (m && m.lat) markers += `&marker=${m.lat},${m.lng}`;
+
+      const src = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik${markers}`;
+      document.getElementById('locMapFrame').src = src;
+    }
+
+    // start listening once unlocked
+    window._startLocListening = listenLocations;
+  </script>
+
   <script>
-    // floating petals
+    // PIN unlock
+    const CORRECT_PIN = '2206';
+    let selectedWho = null;
+
+    function tryUnlock() {
+      const val = document.getElementById('pinInput').value;
+      if (val === CORRECT_PIN) {
+        document.getElementById('locLock').style.display = 'none';
+        document.getElementById('locMain').classList.add('visible');
+        document.getElementById('locError').style.display = 'none';
+        if (window._startLocListening) window._startLocListening();
+      } else {
+        const err = document.getElementById('locError');
+        err.style.display = 'block';
+        document.getElementById('pinInput').value = '';
+        setTimeout(() => err.style.display = 'none', 3000);
+      }
+    }
+
+    function selectWho(who) {
+      selectedWho = who;
+      document.getElementById('whoUmar').classList.toggle('selected', who === 'umar');
+      document.getElementById('whoMochi').classList.toggle('selected', who === 'mochi');
+      document.getElementById('locShareBtn').disabled = false;
+      document.getElementById('locShareBtn').innerHTML = `<span>📡</span> Share My Location as ${who === 'umar' ? 'Umar' : 'Mochi 🌸'}`;
+    }
+
+    function shareMyLocation() {
+      if (!selectedWho) return;
+      const btn = document.getElementById('locShareBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span>⏳</span> Getting location...';
+
+      if (!navigator.geolocation) {
+        btn.innerHTML = '❌ Geolocation not supported';
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(async pos => {
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+
+        // reverse geocode with OpenStreetMap Nominatim (free, no key needed)
+        let city = '', country = '';
+        try {
+          const res  = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`);
+          const json = await res.json();
+          city    = json.address?.city || json.address?.town || json.address?.village || '';
+          country = json.address?.country || '';
+        } catch(e) {}
+
+        const data = { lat, lng, city, country, timestamp: new Date().toISOString() };
+
+        // write to Firebase
+        const db  = window._fbDb;
+        const ref = window._fbRef;
+        const set = window._fbSet;
+        set(ref(db, 'locations/' + selectedWho), data).then(() => {
+          btn.disabled = false;
+          btn.innerHTML = `<span>✅</span> Location Updated! Tap to refresh`;
+        }).catch(err => {
+          btn.disabled = false;
+          btn.innerHTML = `<span>❌</span> Error — try again`;
+          console.error(err);
+        });
+
+      }, err => {
+        btn.disabled = false;
+        btn.innerHTML = '<span>❌</span> Permission denied — allow location access';
+      }, { enableHighAccuracy: true, timeout: 10000 });
+    }
+
+    window.tryUnlock       = tryUnlock;
+    window.selectWho       = selectWho;
+    window.shareMyLocation = shareMyLocation;
+  </script>
     const petalEmojis = ['🌸','🌷','🌹','🌺','💐'];
     const petalContainer = document.getElementById('petals');
     for (let i = 0; i < 18; i++) {
@@ -1425,7 +1815,7 @@
         'hero-sub':'A little corner of the internet that exists for one reason only — to remind you how loved you truly are. 🌸',
         'tab-letter':'💌 Love Letter','tab-features':'✨ What I Love About You','tab-reasons':'🌸 Reasons I Love You',
         'tab-jokes':'😂 Jokes For You','tab-quiz':'💡 Quiz Time!','tab-song':'🎵 Our Song',
-        'tab-gallery':'🖼️ Our Memories','tab-dates':'📅 Our Story','tab-countdown':'✈️ Counting Down',
+        'tab-gallery':'🖼️ Our Memories','tab-dates':'📅 Our Story','tab-countdown':'✈️ Counting Down','tab-location':'📍 Where Are We',
         'letter-title':'A Letter From <span>My Soul</span>',
         'letter-body':`My Sayang, my Habibti, my little Mochi —<br><br>I don't think words will ever be enough to tell you how much I love you — but I will spend every single day of my life trying.<br><br><em>You are amazing.</em> Not in the way people casually throw that word around — truly, deeply, remarkably amazing. The way you carry yourself, the way you love, the way you face everything life throws at you with a grace that leaves me in awe every single time.<br><br>I fell in love with <em>you</em> — your personality, your soul, your strength. The strength you have is something I admire more than you will ever know. It is one of the most beautiful things about you, and it makes me love you more every single day.<br><br><em>You make my days brighter.</em> A single smile from you and the whole world feels lighter. You are the sun to my moon — without you, I am just darkness. With you, I glow.<br><br>Meeting you, loving you — these are my <em>biggest achievements.</em> But the moment I am most proud of, the moment I will carry in my heart forever, is the moment I asked you to be my wife. That was the best thing I have ever done.<br><br>My biggest dream is simple — <em>to see you happy.</em> That is all I want. Every prayer I make, every dua I raise to Allah, is for you. I make dua that I become someone you are proud of. Someone worthy of you. Someone you are glad to call yours.<br><br><em>May Allah grant us the support of one another — in this dunya and in the akhira.</em> May He keep our hearts tied together, our love protected, and our path lit. Ameen.<br><br>There is no one else in this entire world I would choose. It has always been you. It will always be you.<br><br><span class="hw-big">I LOVE YOU, SAYANG —<br>with all my heart and all my soul. 💖</span>`,
         'letter-sign':'— forever and always, yours 🌙','heart-btn':'Send her hearts 💖',
@@ -1459,7 +1849,7 @@
         'hero-sub':'Sebuah sudut kecil di internet yang hadir hanya untuk satu alasan — mengingatkanmu betapa dicintainya dirimu. 🌸',
         'tab-letter':'💌 Surat Cinta','tab-features':'✨ Yang Aku Cintai Darimu','tab-reasons':'🌸 Alasan Aku Mencintaimu',
         'tab-jokes':'😂 Lelucon Untukmu','tab-quiz':'💡 Kuis!','tab-song':'🎵 Lagu Kita',
-        'tab-gallery':'🖼️ Kenangan Kita','tab-dates':'📅 Kisah Kita','tab-countdown':'✈️ Menghitung Hari',
+        'tab-gallery':'🖼️ Kenangan Kita','tab-dates':'📅 Kisah Kita','tab-countdown':'✈️ Menghitung Hari','tab-location':'📍 Di Mana Kita',
         'letter-title':'Surat Dari <span>Jiwaku</span>',
         'letter-body':`Sayangku, Habibtiku, Mochi kecilku —<br><br>Aku rasa kata-kata tidak akan pernah cukup untuk memberitahumu betapa besar cintaku padamu — tapi aku akan menghabiskan setiap hari hidupku untuk mencoba.<br><br><em>Kamu luar biasa.</em> Bukan dengan cara orang sembarangan mengucapkan kata itu — sungguh, dalam, luar biasa. Cara kamu membawa dirimu, cara kamu mencintai, cara kamu menghadapi segala yang dilemparkan hidup kepadamu dengan keanggunan yang membuatku terpesona setiap saat.<br><br>Aku jatuh cinta dengan <em>kamu</em> — kepribadianmu, jiwamu, kekuatanmu. Kekuatan yang kamu miliki adalah sesuatu yang aku kagumi lebih dari yang akan pernah kamu ketahui. Itu adalah salah satu hal paling indah tentang dirimu, dan itu membuatku semakin mencintaimu setiap hari.<br><br><em>Kamu membuat hariku lebih cerah.</em> Satu senyum darimu dan seluruh dunia terasa lebih ringan. Kamu adalah matahari untuk bulanku — tanpamu, aku hanyalah kegelapan. Bersamamu, aku bersinar.<br><br>Bertemu denganmu, mencintaimu — ini adalah <em>pencapaian terbesarku.</em> Tapi momen yang paling aku banggakan, momen yang akan selalu aku bawa di hatiku, Saat itulah aku memintamu menjadi istriku. Itu adalah hal terbaik yang pernah aku lakukan.<br><br>Impian terbesarku sederhana — <em>melihatmu bahagia.</em> Hanya itu yang aku inginkan. Setiap doa yang aku panjatkan kepada Allah adalah untukmu. Aku berdoa agar aku menjadi seseorang yang kamu banggakan. Seseorang yang layak untukmu. Seseorang yang dengan bangga kamu sebut milikmu.<br><br><em>Semoga Allah memberikan kita dukungan satu sama lain — di dunia dan di akhirat.</em> Semoga Dia menjaga hati kita tetap terikat, cinta kita terlindungi, dan jalan kita terang. Aamiin.<br><br>Tidak ada orang lain di dunia ini yang akan aku pilih. Selalu kamu. Akan selalu kamu.<br><br><span class="hw-big">AKU MENCINTAIMU, SAYANG —<br>dengan seluruh hati dan jiwaku. 💖</span>`,
         'letter-sign':'— selamanya dan selalu, milikmu 🌙','heart-btn':'Kirimkan hati untuknya 💖',
@@ -1563,7 +1953,7 @@
       document.querySelector('.hero h1').innerHTML = t['hero-h1'];
       document.querySelector('.hero-sub').textContent = t['hero-sub'];
       const tabs = document.querySelectorAll('.tab-btn');
-      const tabKeys = ['tab-letter','tab-features','tab-reasons','tab-jokes','tab-quiz','tab-song','tab-gallery','tab-dates','tab-countdown'];
+      const tabKeys = ['tab-letter','tab-features','tab-reasons','tab-jokes','tab-quiz','tab-song','tab-gallery','tab-dates','tab-countdown','tab-location'];
       tabs.forEach((tab,i) => { if(tabKeys[i]) tab.innerHTML = t[tabKeys[i]]; });
       document.querySelector('#sec-letter .section-title').innerHTML = t['letter-title'];
       const letterBody = document.querySelector('.hw-text') || document.querySelector('.letter-text');
