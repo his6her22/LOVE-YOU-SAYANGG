@@ -682,9 +682,47 @@
       .cd-box { min-width: 70px; padding: 1rem 0.7rem; }
       .cd-number { font-size: 2.2rem; }
     }
+    /* language toggle */
+    .lang-toggle {
+      position: fixed;
+      top: 14px;
+      right: 16px;
+      z-index: 9999;
+      background: white;
+      border: 1.5px solid #f48fb1;
+      border-radius: 50px;
+      padding: 7px 14px;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      cursor: pointer;
+      font-family: 'Lato', sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: #c2185b;
+      box-shadow: 0 3px 14px rgba(194,24,91,0.13);
+      transition: all 0.2s;
+      user-select: none;
+    }
+    .lang-toggle:hover {
+      background: #c2185b;
+      color: white;
+      border-color: #c2185b;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(194,24,91,0.22);
+    }
+    .lang-toggle .lang-flag { font-size: 16px; }
+    .lang-toggle .lang-arrows { font-size: 11px; opacity: 0.7; }
   </style>
 </head>
 <body>
+
+  <!-- LANGUAGE TOGGLE -->
+  <button class="lang-toggle" id="langToggle" onclick="toggleLanguage()">
+    <span class="lang-flag" id="langFlag">🇮🇩</span>
+    <span id="langLabel">Bahasa</span>
+    <span class="lang-arrows">⇄</span>
+  </button>
 
   <div id="petals"></div>
 
@@ -698,7 +736,7 @@
       <span class="nick-pill">Mochiii</span>
       <span class="nick-pill">Doll Face</span>
       <span class="nick-pill">Hayati</span>
-      <!-- <span class="nick-pill">Mochi</span> -->
+      <span class="nick-pill">Mochi</span>
     </div>
     <p class="hero-sub">A little corner of the internet that exists for one reason only — to remind you how loved you truly are. 🌸</p>
   </div>
@@ -718,7 +756,7 @@
 
   <!-- LOVE LETTER -->
   <div class="section active" id="sec-letter">
-    <h2 class="section-title">A LETTER FOR <span>THE LOVE OF MY LIFE</span></h2>
+    <h2 class="section-title">A Letter From <span>My Heart</span></h2>
     <div class="letter-card">
       <p class="letter-text">
         My Sayang, my Habibti, my little Mochi —<br><br>
@@ -1019,16 +1057,16 @@
 
           <div style="background:white;border:1.5px solid #e1bee7;border-radius:16px;padding:1.1rem 1.4rem;box-shadow:0 3px 12px rgba(156,39,176,0.07);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
             <div>
-              <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#ba68c8;">6 March · Mine 🎂</div>
-              <div style="font-family:'Playfair Display',serif;color:#880e4f;font-size:1rem;margin-top:2px;">My Birthday</div>
+              <div class="bday-label" style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#ba68c8;">6 March · Mine 🎂</div>
+              <div class="bday-title" style="font-family:'Playfair Display',serif;color:#880e4f;font-size:1rem;margin-top:2px;">My Birthday</div>
             </div>
             <div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:#c2185b;font-weight:600;" id="bday-me">--</div>
           </div>
 
           <div style="background:white;border:1.5px solid #fce4ec;border-radius:16px;padding:1.1rem 1.4rem;box-shadow:0 3px 12px rgba(194,24,91,0.07);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
             <div>
-              <div style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#f48fb1;">22 May · Hers 🌸</div>
-              <div style="font-family:'Playfair Display',serif;color:#880e4f;font-size:1rem;margin-top:2px;">Mochi's Birthday</div>
+              <div class="bday-label" style="font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:#f48fb1;">22 May · Hers 🌸</div>
+              <div class="bday-title" style="font-family:'Playfair Display',serif;color:#880e4f;font-size:1rem;margin-top:2px;">Mochi's Birthday</div>
             </div>
             <div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:#c2185b;font-weight:600;" id="bday-her">--</div>
           </div>
@@ -1286,6 +1324,251 @@
         img.style.transform = 'scale(1)';
       }, 180);
     }
+    // ── TRANSLATION ──────────────────────────────────────────────
+    let currentLang = 'en';
+
+    const translations = {
+      en: {
+        'hero-badge':'made just for you 💌','hero-h1':'For my <em>beautiful</em> girl',
+        'hero-sub':'A little corner of the internet that exists for one reason only — to remind you how loved you truly are. 🌸',
+        'tab-letter':'💌 Love Letter','tab-features':'✨ What I Love About You','tab-reasons':'🌸 Reasons I Love You',
+        'tab-jokes':'😂 Jokes For You','tab-quiz':'💡 Quiz Time!','tab-song':'🎵 Our Song',
+        'tab-gallery':'🖼️ Our Memories','tab-dates':'📅 Our Story','tab-countdown':'✈️ Counting Down',
+        'letter-title':'A Letter From <span>My Heart</span>',
+        'letter-body':`My Sayang, my Habibti, my little Mochi —<br><br>There are so many words in so many languages, and still none of them feel big enough to hold what I feel for you. You walked into my world and made everything softer, warmer, brighter — the way sunlight feels on your face on a quiet morning.<br><br>I find myself getting lost in your eyes every single time — those gorgeous, deep, completely unfair eyes that somehow make everything else fade away. And your smile? The moment it appears it's already spreading to everyone around you. I swear it has its own gravity.<br><br>And don't even get me started on your nose — the cutest nose in the entire world, with those little nostrils that make the most adorable cat ears. I noticed it and I will never stop thinking it's the most delightfully perfect thing. You are, genuinely, one of a kind.<br><br>You are the first person I want to tell things to. The last face I think about before I sleep. I don't just love you — I <em>admire</em> you. Your kindness, your laugh, the way your mind works. Thank you for being exactly who you are. Every single day, I count myself lucky.`,
+        'letter-sign':'— forever yours 🌹','heart-btn':'Send her hearts 💖',
+        'features-title':'The Little Things That <span>Undo Me</span>','features-sub':'Every single part of you, catalogued with love 💕',
+        'feat-eyes-label':'Those Eyes','feat-eyes-desc':'Gorgeous, deep, completely unfair. I get lost in them every single time and I genuinely don\'t mind one bit.',
+        'feat-smile-label':'That Smile','feat-smile-desc':'Pretty and impossibly contagious. The moment it appears, the whole room lights up — including me.',
+        'feat-nose-label':'That Nose','feat-nose-desc':'The cutest nose in the world. And those nostrils? They make little cat ears. I know. It\'s the most adorable thing I\'ve ever seen.',
+        'feat-ears-label':'Those Tiny Ears','feat-ears-desc':'Tiny, perfectly small, and ever so cute. Like they were made to be whispered sweet nothings into.',
+        'feat-laugh-label':'Your Laugh','feat-laugh-desc':'The most contagious sound in existence. Once it starts, it\'s over for everyone in the vicinity.',
+        'feat-you-label':'Just… You','feat-you-desc':'The full picture. Every little detail adds up to someone completely, wonderfully irreplaceable.',
+        'reasons-title':'Why I Love <span>You</span>','reasons-sub':'Tap any button to reveal a reason 💕','reason-reveal-default':'Tap a button above to find out ✨',
+        'jokes-title':'The <span>Best</span> Jokes (Only)','jokes-sub':'Tap a card to reveal the punchline 😄',
+        'quiz-title':'How Well Do <span>You Know Me?</span>','quiz-next-btn':'Next question →','quiz-restart':'Play again 🔄',
+        'song-title':'This Song Is <span>So Us</span>','song-caption':'Every time I hear this, I think of you.<br>Of your eyes, your smile, and how lucky I am that you\'re mine. 🌸',
+        'gallery-title':'Our <span>Beautiful Memories</span>','gallery-sub':'Hover over a photo to feel the love — click to see it full size 💕','c-label':'Our Memory',
+        'dates-title':'Chapters of <span>Our Story</span>','dates-sub':'Every great love story has its moments. Here are ours. 💕',
+        'tl-bday-me-label':'My Birthday','tl-bday-me-desc':'The day I arrived in this world — blissfully unaware that one day, you\'d be in it too.',
+        'tl-bday-her-label':'Her Birthday — Mochi\'s Day','tl-bday-her-desc':'The day the world got a whole lot more beautiful. Happy you were born, Sayang. 💕',
+        'tl-text-label':'The First Message','tl-text-desc':'The day it all began — a simple text that changed everything.',
+        'tl-proposal-label':'Proposed for Marriage','tl-proposal-desc':'The day I asked, and you said yes. My heart has never been the same since.',
+        'tl-gift-label':'Mochi\'s First Gift','tl-gift-desc':'The first thing I sent across the miles — a little piece of my heart wrapped up just for you.',
+        'tl-meet-label':'The Day We Finally Meet','tl-meet-desc':'The chapter we\'ve been waiting for. The one that makes all the distance worth it.',
+        'countdown-title':'Until I Hold <span>You</span>','countdown-p':'Every single day brings me one step closer to you, Sayang.<br>I\'m counting every one of them. 🌸',
+        'cd-label-days':'Days','cd-label-hours':'Hours','cd-label-mins':'Minutes','cd-label-secs':'Seconds',
+        'cd-message':'Every second that ticks by is a second closer to the moment I finally get to see your face, hear your laugh, and hold you close. I cannot wait, Habibti. 💖',
+        'bday-section-title':'Next Birthdays 🎂','bday-me-title':'My Birthday','bday-her-title':"Mochi's Birthday",
+        'bday-me-label':'6 March · Mine 🎂','bday-her-label':'22 May · Hers 🌸',
+      },
+      id: {
+        'hero-badge':'dibuat khusus untukmu 💌','hero-h1':'Untuk gadis <em>cantikku</em>',
+        'hero-sub':'Sebuah sudut kecil di internet yang hadir hanya untuk satu alasan — mengingatkanmu betapa dicintainya dirimu. 🌸',
+        'tab-letter':'💌 Surat Cinta','tab-features':'✨ Yang Aku Cintai Darimu','tab-reasons':'🌸 Alasan Aku Mencintaimu',
+        'tab-jokes':'😂 Lelucon Untukmu','tab-quiz':'💡 Kuis!','tab-song':'🎵 Lagu Kita',
+        'tab-gallery':'🖼️ Kenangan Kita','tab-dates':'📅 Kisah Kita','tab-countdown':'✈️ Menghitung Hari',
+        'letter-title':'Surat Dari <span>Hatiku</span>',
+        'letter-body':`Sayangku, Habibtiku, Mochi kecilku —<br><br>Ada begitu banyak kata dalam begitu banyak bahasa, namun tak satu pun terasa cukup besar untuk menampung apa yang kurasakan untukmu. Kamu masuk ke duniaku dan membuat segalanya terasa lebih lembut, lebih hangat, lebih cerah — seperti sinar matahari yang menyentuh wajahmu di pagi yang tenang.<br><br>Aku selalu tersesat dalam matamu setiap saat — mata yang indah, dalam, dan benar-benar tidak adil itu, yang entah bagaimana membuat segalanya memudar. Dan senyummu? Begitu muncul, ia langsung menyebar ke semua orang di sekitarmu. Aku bersumpah ia punya gravitasinya sendiri.<br><br>Dan jangan buat aku mulai bicara tentang hidungmu — hidung paling lucu di seluruh dunia, dengan lubang hidung kecil yang membentuk telinga kucing yang menggemaskan. Aku memperhatikannya dan tidak akan pernah berhenti menganggapnya sebagai hal paling sempurna. Kamu, sungguh, satu-satunya di dunia ini.<br><br>Kamu adalah orang pertama yang ingin kuceritakan segala sesuatunya. Wajah terakhir yang kupikirkan sebelum tidur. Aku tidak hanya mencintaimu — aku <em>mengagumimu</em>. Kebaikanmu, tawamu, cara pikiranmu bekerja. Terima kasih sudah menjadi dirimu apa adanya. Setiap hari, aku merasa sangat beruntung.`,
+        'letter-sign':'— selamanya milikmu 🌹','heart-btn':'Kirimkan hati untuknya 💖',
+        'features-title':'Hal Kecil Yang <span>Membuatku Jatuh</span>','features-sub':'Setiap bagian darimu, tercatat dengan penuh cinta 💕',
+        'feat-eyes-label':'Mata Itu','feat-eyes-desc':'Indah, dalam, dan benar-benar tidak adil. Aku selalu tersesat di dalamnya dan sungguh tidak keberatan sama sekali.',
+        'feat-smile-label':'Senyum Itu','feat-smile-desc':'Cantik dan menular luar biasa. Begitu muncul, seluruh ruangan bersinar — termasuk hatiku.',
+        'feat-nose-label':'Hidung Itu','feat-nose-desc':'Hidung paling lucu di dunia. Dan lubang hidungnya? Seperti telinga kucing kecil. Aku tahu. Itu hal paling menggemaskan yang pernah kulihat.',
+        'feat-ears-label':'Telinga Mungil Itu','feat-ears-desc':'Mungil, sempurna kecilnya, dan sangat menggemaskan. Seolah diciptakan untuk dibisiki kata-kata manis.',
+        'feat-laugh-label':'Tawamu','feat-laugh-desc':'Suara paling menular yang pernah ada. Begitu dimulai, semua orang di sekitar ikut terbawa.',
+        'feat-you-label':'Hanya… Kamu','feat-you-desc':'Gambaran utuhnya. Setiap detail kecil membentuk seseorang yang benar-benar, luar biasa tak tergantikan.',
+        'reasons-title':'Mengapa Aku <span>Mencintaimu</span>','reasons-sub':'Ketuk tombol mana saja untuk mengungkap alasannya 💕','reason-reveal-default':'Ketuk tombol di atas untuk mengetahuinya ✨',
+        'jokes-title':'Lelucon <span>Terbaik</span> (Hanya Yang Terbaik)','jokes-sub':'Ketuk kartu untuk mengungkap kelucuannya 😄',
+        'quiz-title':'Seberapa Baik Kamu <span>Mengenalku?</span>','quiz-next-btn':'Pertanyaan berikutnya →','quiz-restart':'Main lagi 🔄',
+        'song-title':'Lagu Ini <span>Sangat Kita</span>','song-caption':'Setiap kali mendengar ini, aku memikirkanmu.<br>Matamu, senyummu, dan betapa beruntungnya aku kamu milikku. 🌸',
+        'gallery-title':'Kenangan <span>Indah Kita</span>','gallery-sub':'Arahkan ke foto untuk merasakan cintanya — klik untuk melihat ukuran penuh 💕','c-label':'Kenangan Kita',
+        'dates-title':'Bab-Bab <span>Kisah Kita</span>','dates-sub':'Setiap kisah cinta besar punya momennya. Inilah milik kita. 💕',
+        'tl-bday-me-label':'Ulang Tahunku','tl-bday-me-desc':'Hari aku hadir di dunia ini — tanpa sadar bahwa suatu hari, kamu pun akan ada di dalamnya.',
+        'tl-bday-her-label':'Ulang Tahunnya — Hari Mochi','tl-bday-her-desc':'Hari dunia menjadi jauh lebih indah. Syukurlah kamu terlahir, Sayang. 💕',
+        'tl-text-label':'Pesan Pertama','tl-text-desc':'Hari semuanya dimulai — sebuah pesan sederhana yang mengubah segalanya.',
+        'tl-proposal-label':'Lamaran','tl-proposal-desc':'Hari aku bertanya, dan kamu menjawab iya. Hatiku tidak pernah sama sejak saat itu.',
+        'tl-gift-label':'Hadiah Pertama Mochi','tl-gift-desc':'Hal pertama yang kukirim melewati jarak — sepotong kecil hatiku yang dibungkus khusus untukmu.',
+        'tl-meet-label':'Hari Kita Akhirnya Bertemu','tl-meet-desc':'Bab yang telah lama kita tunggu. Yang membuat semua jarak itu terasa berharga.',
+        'countdown-title':'Hingga Aku <span>Memelukmu</span>','countdown-p':'Setiap hari membawaku selangkah lebih dekat padamu, Sayang.<br>Aku menghitung setiap harinya. 🌸',
+        'cd-label-days':'Hari','cd-label-hours':'Jam','cd-label-mins':'Menit','cd-label-secs':'Detik',
+        'cd-message':'Setiap detik yang berlalu adalah satu detik lebih dekat ke momen aku akhirnya bisa melihat wajahmu, mendengar tawamu, dan memelukmu erat. Aku tidak sabar, Habibtiku. 💖',
+        'bday-section-title':'Ulang Tahun Berikutnya 🎂','bday-me-title':'Ulang Tahunku','bday-her-title':'Ulang Tahun Mochi',
+        'bday-me-label':'6 Maret · Milikku 🎂','bday-her-label':'22 Mei · Miliknya 🌸',
+      }
+    };
+
+    const reasonsData = {
+      en: [
+        {icon:'👁️',label:'Your eyes',     text:'Those gorgeous eyes. I get completely, hopelessly lost in them and I never, ever want to find my way back.'},
+        {icon:'😊',label:'Your smile',    text:'That pretty, contagious smile that lights up every room and every heart it touches — especially mine.'},
+        {icon:'🐱',label:'Your nose',     text:'The cutest nose in the world — with those little nostrils that make the most adorable cat ears. I am obsessed.'},
+        {icon:'🌸',label:'Tiny ears',     text:'Those tiny, perfectly cute little ears. Ever so small, ever so precious, ever so you.'},
+        {icon:'😂',label:'Your laugh',    text:'Because your laugh is the most contagious, beautiful sound — it makes the whole room better.'},
+        {icon:'🤗',label:'Your warmth',   text:'Because you make everyone around you feel seen, safe and genuinely cared for.'},
+        {icon:'🧠',label:'Your mind',     text:'Because the way you think — curious, sharp, full of wonder — is endlessly fascinating to me.'},
+        {icon:'💪',label:'Your strength', text:'Because you handle hard things with more grace than you even realise.'},
+        {icon:'💫',label:'Just you',      text:"Because you are simply, entirely, one of a kind — and I'm so glad you're mine."},
+      ],
+      id: [
+        {icon:'👁️',label:'Matamu',        text:'Mata yang indah itu. Aku benar-benar tersesat di dalamnya dan tidak pernah ingin kembali.'},
+        {icon:'😊',label:'Senyummu',      text:'Senyum cantik yang menular itu, yang menerangi setiap ruangan dan setiap hati yang disentuhnya — terutama hatiku.'},
+        {icon:'🐱',label:'Hidungmu',      text:'Hidung paling lucu di dunia — dengan lubang hidung kecil yang membentuk telinga kucing paling menggemaskan. Aku sangat terobsesi.'},
+        {icon:'🌸',label:'Telinga mungil',text:'Telinga kecil yang sempurna itu. Begitu mungil, begitu berharga, begitu kamu.'},
+        {icon:'😂',label:'Tawamu',        text:'Karena tawamu adalah suara paling menular dan indah — ia membuat seluruh ruangan menjadi lebih baik.'},
+        {icon:'🤗',label:'Kehangatan',    text:'Karena kamu membuat semua orang di sekitarmu merasa dilihat, aman, dan sungguh-sungguh dipedulikan.'},
+        {icon:'🧠',label:'Pikiranmu',     text:'Karena cara berpikirmu — penuh rasa ingin tahu, tajam, penuh keajaiban — selalu mempesonaku.'},
+        {icon:'💪',label:'Kekuatanmu',    text:'Karena kamu menghadapi hal-hal sulit dengan keanggunan yang bahkan tidak kamu sadari.'},
+        {icon:'💫',label:'Hanya kamu',    text:'Karena kamu sungguh, sepenuhnya, satu-satunya — dan aku sangat bersyukur kamu milikku.'},
+      ]
+    };
+
+    const jokesData = {
+      en: [
+        {q:"Why did I fall for you?",              a:"Because gravity had nothing to do with it — your smile did all the work. 💕"},
+        {q:"Are you a parking ticket?",             a:"Because you've got 'fine' written all over you. 😏"},
+        {q:"Do you have a map?",                    a:"I keep getting lost in your eyes. 🗺️👀"},
+        {q:"Are you a magician?",                   a:"Because every time I look at you, everyone else disappears. ✨"},
+        {q:"Why don't scientists trust atoms?",     a:"Because they make up everything... just like my excuses to spend more time with you."},
+        {q:"Your nose is so cute it should be illegal.", a:"Especially those little cat-ear nostrils. Exhibit A of nature showing off. 🐱"},
+      ],
+      id: [
+        {q:"Kenapa aku jatuh cinta padamu?",        a:"Karena gravitasi tidak ada hubungannya — senyummu yang melakukan semua pekerjaan itu. 💕"},
+        {q:"Kamu seperti karcis parkir?",           a:"Karena ada tulisan 'denda' di mana-mana... eh maksudnya 'indah'. 😏"},
+        {q:"Kamu punya peta?",                      a:"Aku selalu tersesat di matamu. 🗺️👀"},
+        {q:"Kamu pesulap?",                         a:"Karena setiap kali aku memandangmu, semua orang lain menghilang. ✨"},
+        {q:"Kenapa ilmuwan tidak percaya atom?",    a:"Karena mereka bisa membuat-buat segalanya... seperti alasanku untuk menghabiskan lebih banyak waktu denganmu."},
+        {q:"Hidungmu begitu lucu sampai harusnya ilegal.", a:"Terutama lubang hidung kecil seperti telinga kucing itu. Bukti nyata alam sedang pamer. 🐱"},
+      ]
+    };
+
+    const quizDataAll = {
+      en: [
+        {q:"What's my favourite way to spend a lazy Sunday?",opts:["Going for a run","Being cosy with you","Cleaning the house","Shopping alone"],correct:1,feedback:"Of course — lazy Sundays are only perfect with you by my side 💕"},
+        {q:"If I could eat one meal forever, what would it be?",opts:["Sushi","Pizza","Ramen","A big Sunday roast"],correct:2,feedback:"A warm bowl of ramen = happiness in a bowl 🍜"},
+        {q:"What makes me laugh most?",opts:["Dad jokes","Slapstick films","Your reaction to my bad jokes","Nature documentaries"],correct:2,feedback:"Honestly, your face when I tell a terrible pun? Priceless. 😂"},
+        {q:"What do I find most beautiful about you?",opts:["Your smile","Your eyes","Your tiny ears and cat-nose","All of the above, obviously"],correct:3,feedback:"It could NEVER be just one thing — all of you is beautiful 🌸"},
+        {q:"What's my love language?",opts:["Gift giving","Acts of service","Quality time","Words of affirmation"],correct:2,feedback:"Being present with you, doing little things together — that's everything to me ✨"},
+      ],
+      id: [
+        {q:"Apa cara favoritku menghabiskan hari Minggu yang santai?",opts:["Jogging","Rebahan bersamamu","Bersih-bersih rumah","Belanja sendiri"],correct:1,feedback:"Tentu saja — hari Minggu santai hanya sempurna kalau kamu ada di sisiku 💕"},
+        {q:"Kalau aku bisa makan satu makanan selamanya, apa itu?",opts:["Sushi","Pizza","Ramen","Nasi padang"],correct:2,feedback:"Semangkuk ramen hangat = kebahagiaan dalam mangkuk 🍜"},
+        {q:"Apa yang paling membuatku tertawa?",opts:["Lelucon bapak-bapak","Film konyol","Reaksimu saat aku bercanda","Dokumenter alam"],correct:2,feedback:"Serius, ekspresi wajahmu waktu aku bilang lelucon payah? Tak ternilai. 😂"},
+        {q:"Apa yang paling kutemukan indah darimu?",opts:["Senyummu","Matamu","Telinga mungil dan hidung kucingmu","Semua di atas, jelas"],correct:3,feedback:"Tidak pernah bisa hanya satu hal — semua darimu itu indah 🌸"},
+        {q:"Apa bahasa cintaku?",opts:["Memberi hadiah","Tindakan pelayanan","Waktu berkualitas","Kata-kata afirmasi"],correct:2,feedback:"Hadir bersamamu, melakukan hal-hal kecil bersama — itulah segalanya bagiku ✨"},
+      ]
+    };
+
+    const quizResultMsgs = {
+      en: ["Not bad! But maybe spend a bit more time listening 😄","Getting there! You clearly pay attention 💕","Solid! You know me pretty well 🌸","Wow, you really know me! I feel so seen 💖","PERFECT SCORE! You know me better than I know myself 🥹✨"],
+      id: ["Lumayan! Tapi mungkin perlu lebih sering mendengarkan 😄","Hampir! Kamu jelas memperhatikan 💕","Bagus! Kamu cukup mengenalku 🌸","Wow, kamu benar-benar mengenalku! Aku merasa sangat dipahami 💖","SEMPURNA! Kamu mengenalku lebih baik dari aku mengenal diriku sendiri 🥹✨"]
+    };
+    let quizResultMessages = quizResultMsgs['en'];
+
+    function applyTranslation(lang) {
+      const t = translations[lang];
+      document.querySelector('.hero-badge').textContent = t['hero-badge'];
+      document.querySelector('.hero h1').innerHTML = t['hero-h1'];
+      document.querySelector('.hero-sub').textContent = t['hero-sub'];
+      const tabs = document.querySelectorAll('.tab-btn');
+      const tabKeys = ['tab-letter','tab-features','tab-reasons','tab-jokes','tab-quiz','tab-song','tab-gallery','tab-dates','tab-countdown'];
+      tabs.forEach((tab,i) => { if(tabKeys[i]) tab.innerHTML = t[tabKeys[i]]; });
+      document.querySelector('#sec-letter .section-title').innerHTML = t['letter-title'];
+      document.querySelector('.letter-text').innerHTML = t['letter-body'];
+      document.querySelector('.letter-sign').innerHTML = t['letter-sign'];
+      document.querySelector('.heart-btn').innerHTML = t['heart-btn'];
+      document.querySelector('#sec-features .section-title').innerHTML = t['features-title'];
+      document.querySelector('#sec-features > p').textContent = t['features-sub'];
+      const fLabels = document.querySelectorAll('.feature-label');
+      const fDescs  = document.querySelectorAll('.feature-desc');
+      ['feat-eyes','feat-smile','feat-nose','feat-ears','feat-laugh','feat-you'].forEach((k,i) => {
+        if(fLabels[i]) fLabels[i].textContent = t[k+'-label'];
+        if(fDescs[i])  fDescs[i].textContent  = t[k+'-desc'];
+      });
+      document.querySelector('#sec-reasons .section-title').innerHTML = t['reasons-title'];
+      document.querySelector('#sec-reasons > p').textContent = t['reasons-sub'];
+      document.getElementById('reasonReveal').textContent = t['reason-reveal-default'];
+      rebuildReasons(lang);
+      document.querySelector('#sec-jokes .section-title').innerHTML = t['jokes-title'];
+      document.querySelector('#sec-jokes > p').textContent = t['jokes-sub'];
+      rebuildJokes(lang);
+      document.querySelector('#sec-quiz .section-title').innerHTML = t['quiz-title'];
+      document.getElementById('quizNext').innerHTML = t['quiz-next-btn'];
+      document.querySelector('.quiz-restart').innerHTML = t['quiz-restart'];
+      document.querySelector('#sec-song .section-title').innerHTML = t['song-title'];
+      document.querySelector('.yt-caption p').innerHTML = t['song-caption'];
+      document.querySelector('#sec-gallery .section-title').innerHTML = t['gallery-title'];
+      document.querySelector('.collage-header p').textContent = t['gallery-sub'];
+      document.querySelectorAll('.c-label').forEach(el => el.textContent = t['c-label']);
+      document.querySelector('#sec-dates .section-title').innerHTML = t['dates-title'];
+      document.querySelector('#sec-dates > p').textContent = t['dates-sub'];
+      const tlLabels = document.querySelectorAll('.tl-label');
+      const tlDescs  = document.querySelectorAll('.tl-desc');
+      ['tl-bday-me','tl-bday-her','tl-text','tl-proposal','tl-gift','tl-meet'].forEach((k,i) => {
+        if(tlLabels[i]) tlLabels[i].textContent = t[k+'-label'];
+        if(tlDescs[i])  tlDescs[i].textContent  = t[k+'-desc'];
+      });
+      document.querySelector('#sec-countdown .section-title').innerHTML = t['countdown-title'];
+      document.querySelector('.countdown-header p').innerHTML = t['countdown-p'];
+      const cdLabels = document.querySelectorAll('.cd-label');
+      if(cdLabels[0]) cdLabels[0].textContent = t['cd-label-days'];
+      if(cdLabels[1]) cdLabels[1].textContent = t['cd-label-hours'];
+      if(cdLabels[2]) cdLabels[2].textContent = t['cd-label-mins'];
+      if(cdLabels[3]) cdLabels[3].textContent = t['cd-label-secs'];
+      document.getElementById('cd-message').textContent = t['cd-message'];
+      const bdayTitle = document.querySelector('#sec-countdown h3');
+      if(bdayTitle) bdayTitle.textContent = t['bday-section-title'];
+      const bdayLabels = document.querySelectorAll('.bday-label');
+      const bdayTitles = document.querySelectorAll('.bday-title');
+      if(bdayLabels[0]) bdayLabels[0].textContent = t['bday-me-label'];
+      if(bdayLabels[1]) bdayLabels[1].textContent = t['bday-her-label'];
+      if(bdayTitles[0]) bdayTitles[0].textContent = t['bday-me-title'];
+      if(bdayTitles[1]) bdayTitles[1].textContent = t['bday-her-title'];
+    }
+
+    function rebuildReasons(lang) {
+      const g = document.getElementById('reasonsGrid');
+      g.innerHTML = '';
+      reasonsData[lang].forEach(r => {
+        const btn = document.createElement('button');
+        btn.className = 'reason-btn';
+        btn.innerHTML = `<span class="icon">${r.icon}</span>${r.label}`;
+        btn.onclick = function() {
+          document.querySelectorAll('.reason-btn').forEach(b => b.classList.remove('popped'));
+          btn.classList.add('popped');
+          document.getElementById('reasonReveal').textContent = r.text;
+        };
+        g.appendChild(btn);
+      });
+    }
+
+    function rebuildJokes(lang) {
+      const jc = document.getElementById('jokesContainer');
+      jc.innerHTML = '';
+      jokesData[lang].forEach(j => {
+        const card = document.createElement('div');
+        card.className = 'joke-card';
+        const hint = lang === 'id' ? 'Ketuk untuk mengungkap 👆' : 'Tap to reveal 👆';
+        card.innerHTML = `<div class="joke-q">${j.q}</div><div class="joke-a">${j.a}</div><div class="joke-hint">${hint}</div>`;
+        card.onclick = function() {
+          card.classList.toggle('open');
+          card.querySelector('.joke-hint').style.display = card.classList.contains('open') ? 'none' : 'block';
+        };
+        jc.appendChild(card);
+      });
+    }
+
+    function toggleLanguage() {
+      currentLang = currentLang === 'en' ? 'id' : 'en';
+      document.getElementById('langFlag').textContent  = currentLang === 'id' ? '🇬🇧' : '🇮🇩';
+      document.getElementById('langLabel').textContent = currentLang === 'id' ? 'English' : 'Bahasa';
+      applyTranslation(currentLang);
+      quizData.length = 0;
+      quizDataAll[currentLang].forEach(q => quizData.push(q));
+      quizResultMessages = quizResultMsgs[currentLang];
+      initQuiz();
+    }
+
     // keyboard nav
     document.addEventListener('keydown', function(e) {
       const lb = document.getElementById('lightbox');
