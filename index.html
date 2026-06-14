@@ -1362,6 +1362,33 @@
     </div>
   </div>
 
+  <!-- FIREBASE — for bucket list cross-device sync -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+    import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyD6ENE8MrnfHGeZcZjk_pASdgu9wN3PBdA",
+  authDomain: "database-c2261.firebaseapp.com",
+  databaseURL: "https://database-c2261-default-rtdb.firebaseio.com",
+  projectId: "database-c2261",
+  storageBucket: "database-c2261.firebasestorage.app",
+  messagingSenderId: "170137966551",
+  appId: "1:170137966551:web:7dde1d0ec9dd20eb8edd92",
+  measurementId: "G-YLL0N79EGG"
+};
+
+    const app = initializeApp(firebaseConfig);
+    const db  = getDatabase(app);
+
+    window._fbDb = db;
+    window._fbRef = ref;
+    window._fbSet = set;
+    window._fbOnValue = onValue;
+
+    window.dispatchEvent(new Event('firebase-ready'));
+  </script>
+
   <script>
     const petalEmojis = ['🌸','🌷','🌹','🌺','💐'];
     const petalContainer = document.getElementById('petals');
@@ -1456,22 +1483,8 @@
       jc.appendChild(card);
     });
 
-    // bucket list — synced via GitHub API to bucket-list.json in the repo
-    const GH_OWNER  = 'his6her22';
-    const GH_REPO   = 'LOVE-YOU-SAYANGG';
-    const GH_BRANCH = 'main';
-    const GH_PATH   = 'bucket-list.json';
-    // token stored split + encoded so secret scanners don't flag the literal string
-    const GH_TOKEN_PARTS = [
-      'Z2l0aHViX3BhdF8xMUNGUEQ1VEkwYUdFYVA5dVI1UklmX05IbDVCNFpN',
-      'MXhBRUtaN1lrVUZMNm9SUHFpOWpreVJyVUNuQ0p6WmdIbExPRlA0N1hE',
-      'RXNRaXkwUjhC'
-    ];
-    const GH_TOKEN = atob(GH_TOKEN_PARTS.join(''));
-    const GH_API    = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_PATH}`;
-
+    // bucket list — synced via Firebase Realtime Database
     let bucketList = [];
-    let bucketFileSha = null; // needed for GitHub API updates
     let bucketSyncing = false;
 
     function setBucketStatus(msg, isError) {
@@ -1479,83 +1492,6 @@
       if (!el) return;
       el.textContent = msg;
       el.style.color = isError ? '#e53935' : '#ba68c8';
-    }
-
-    async function fetchBucketList() {
-      setBucketStatus('Loading our list... 🌍');
-      try {
-        const res = await fetch(GH_API + `?ref=${GH_BRANCH}`, {
-          headers: { 'Accept': 'application/vnd.github+json' }
-        });
-        if (res.status === 404) {
-          // file doesn't exist yet — start empty
-          bucketList = [];
-          bucketFileSha = null;
-          setBucketStatus('');
-          renderBucketList();
-          return;
-        }
-        if (!res.ok) throw new Error('fetch failed');
-        const data = await res.json();
-        bucketFileSha = data.sha;
-        const content = decodeURIComponent(escape(atob(data.content.replace(/\n/g, ''))));
-        bucketList = JSON.parse(content || '[]');
-        setBucketStatus('');
-        renderBucketList();
-      } catch (err) {
-        console.error(err);
-        setBucketStatus('⚠️ Could not load — showing offline copy', true);
-        // fallback to localStorage if GitHub fetch fails
-        try {
-          const raw = localStorage.getItem('ourBucketList');
-          bucketList = raw ? JSON.parse(raw) : [];
-        } catch(e) { bucketList = []; }
-        renderBucketList();
-      }
-    }
-
-    async function saveBucketListToGitHub() {
-      if (bucketSyncing) return;
-      bucketSyncing = true;
-      setBucketStatus('Saving... 💫');
-
-      // always keep a local backup too
-      try { localStorage.setItem('ourBucketList', JSON.stringify(bucketList)); } catch(e) {}
-
-      try {
-        const content = btoa(unescape(encodeURIComponent(JSON.stringify(bucketList, null, 2))));
-        const body = {
-          message: 'Update bucket list 💕',
-          content: content,
-          branch: GH_BRANCH,
-        };
-        if (bucketFileSha) body.sha = bucketFileSha;
-
-        const res = await fetch(GH_API, {
-          method: 'PUT',
-          headers: {
-            'Accept': 'application/vnd.github+json',
-            'Authorization': `Bearer ${GH_TOKEN}`,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(body)
-        });
-
-        if (!res.ok) {
-          const errData = await res.json().catch(() => ({}));
-          throw new Error(errData.message || 'save failed');
-        }
-
-        const data = await res.json();
-        bucketFileSha = data.content.sha; // update sha for next save
-        setBucketStatus('✅ Saved — synced everywhere', false);
-        setTimeout(() => setBucketStatus(''), 2500);
-      } catch (err) {
-        console.error(err);
-        setBucketStatus('⚠️ Saved locally — sync failed (' + err.message + ')', true);
-      } finally {
-        bucketSyncing = false;
-      }
     }
 
     function renderBucketList() {
@@ -1595,6 +1531,30 @@
       });
     }
 
+    function saveBucketListToFirebase() {
+      if (!window._fbDb) {
+        setBucketStatus('⚠️ Sync unavailable — saved locally only', true);
+        try { localStorage.setItem('ourBucketList', JSON.stringify(bucketList)); } catch(e) {}
+        return;
+      }
+      bucketSyncing = true;
+      setBucketStatus('Saving... 💫');
+      try { localStorage.setItem('ourBucketList', JSON.stringify(bucketList)); } catch(e) {}
+
+      const db  = window._fbDb;
+      const ref = window._fbRef;
+      const set = window._fbSet;
+      set(ref(db, 'bucketList'), bucketList).then(() => {
+        setBucketStatus('✅ Saved — synced everywhere', false);
+        setTimeout(() => setBucketStatus(''), 2500);
+        bucketSyncing = false;
+      }).catch(err => {
+        console.error(err);
+        setBucketStatus('⚠️ Saved locally — sync failed (' + err.message + ')', true);
+        bucketSyncing = false;
+      });
+    }
+
     function addBucketItem() {
       const input = document.getElementById('bucketInput');
       const val = input.value.trim();
@@ -1602,22 +1562,54 @@
       bucketList.push({ text: val, done: false });
       input.value = '';
       renderBucketList();
-      saveBucketListToGitHub();
+      saveBucketListToFirebase();
     }
 
     function toggleBucketItem(i) {
       bucketList[i].done = !bucketList[i].done;
       renderBucketList();
-      saveBucketListToGitHub();
+      saveBucketListToFirebase();
     }
 
     function deleteBucketItem(i) {
       bucketList.splice(i, 1);
       renderBucketList();
-      saveBucketListToGitHub();
+      saveBucketListToFirebase();
     }
 
-    fetchBucketList();
+    // initial render from localStorage while waiting for Firebase
+    try {
+      const raw = localStorage.getItem('ourBucketList');
+      if (raw) { bucketList = JSON.parse(raw); renderBucketList(); }
+    } catch(e) {}
+
+    // listen for live updates from Firebase (real-time sync across devices)
+    window._startBucketListening = function() {
+      if (!window._fbDb) {
+        setBucketStatus('⚠️ Sync unavailable — using local copy only', true);
+        return;
+      }
+      const db  = window._fbDb;
+      const ref = window._fbRef;
+      const onValue = window._fbOnValue;
+      setBucketStatus('Loading our list... 🌍');
+      onValue(ref(db, 'bucketList'), snap => {
+        const data = snap.val();
+        bucketList = Array.isArray(data) ? data : (data ? Object.values(data) : []);
+        renderBucketList();
+        setBucketStatus('');
+      }, err => {
+        console.error(err);
+        setBucketStatus('⚠️ Could not load — showing local copy', true);
+      });
+    };
+
+    if (window._fbDb) {
+      window._startBucketListening();
+    } else {
+      // wait for firebase module script to finish loading
+      window.addEventListener('firebase-ready', () => window._startBucketListening());
+    }
 
     // ── ENVELOPES ───────────────────────────────────
     const envelopesData = {
