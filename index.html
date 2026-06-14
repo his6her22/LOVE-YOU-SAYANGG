@@ -247,40 +247,6 @@
     .joke-card.open .joke-a { max-height: 100px; padding-top: 8px; }
     .joke-hint { font-size: 12px; color: #ba68c8; margin-top: 6px; }
 
-    /* quiz */
-    .quiz-progress { display: flex; gap: 6px; justify-content: center; margin-bottom: 1.5rem; }
-    .q-dot { width: 10px; height: 10px; border-radius: 50%; background: #fce4ec; border: 2px solid #f48fb1; transition: all 0.3s; }
-    .q-dot.done { background: #c2185b; border-color: #c2185b; }
-    .q-dot.current { background: #f48fb1; border-color: #c2185b; transform: scale(1.3); }
-    .quiz-card { background: white; border: 1px solid #fce4ec; border-radius: 20px; padding: 2rem; box-shadow: 0 4px 20px rgba(194,24,91,0.08); }
-    .quiz-q { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: #880e4f; margin-bottom: 1.4rem; line-height: 1.5; }
-    .quiz-options { display: flex; flex-direction: column; gap: 10px; }
-    .quiz-opt {
-      background: #fff5f8; border: 1.5px solid #f48fb1; border-radius: 12px;
-      padding: 12px 16px; cursor: pointer;
-      font-family: 'Lato', sans-serif; font-size: 14px; color: #880e4f; font-weight: 600;
-      text-align: left; transition: all 0.2s;
-    }
-    .quiz-opt:hover { background: #fce4ec; transform: translateX(4px); }
-    .quiz-opt.correct { background: #e8f5e9; border-color: #66bb6a; color: #2e7d32; }
-    .quiz-opt.wrong   { background: #fce4ec; border-color: #f48fb1; color: #c62828; }
-    .quiz-feedback { margin-top: 1rem; font-family: 'Playfair Display', serif; font-style: italic; font-size: 1rem; color: #7b1fa2; min-height: 28px; text-align: center; }
-    .quiz-next {
-      margin-top: 1.2rem; background: #c2185b; color: white; border: none;
-      border-radius: 50px; padding: 10px 28px; font-size: 14px; font-weight: 700;
-      cursor: pointer; font-family: 'Lato', sans-serif; display: none; transition: transform 0.2s;
-    }
-    .quiz-next:hover { transform: scale(1.04); }
-    .quiz-result { text-align: center; display: none; }
-    .quiz-result .big-score { font-size: 3.5rem; font-family: 'Playfair Display', serif; color: #c2185b; margin: 1rem 0 0.5rem; }
-    .quiz-result p { color: #880e4f; font-size: 1rem; line-height: 1.7; }
-    .quiz-restart {
-      margin-top: 1.4rem; background: white; color: #c2185b;
-      border: 2px solid #c2185b; border-radius: 50px; padding: 10px 28px;
-      font-size: 14px; font-weight: 700; cursor: pointer; font-family: 'Lato', sans-serif; transition: all 0.2s;
-    }
-    .quiz-restart:hover { background: #c2185b; color: white; }
-
     /* song / youtube */
     .yt-wrap { display: flex; flex-direction: column; align-items: center; gap: 1.6rem; }
     .yt-caption {
@@ -788,6 +754,203 @@
       .hw-letter-card { padding: 2rem 1.4rem; }
       .hw-text { font-size: 1.25rem; }
     }
+    /* bucket list */
+    .bucket-add {
+      display: flex; gap: 10px; margin-bottom: 1.4rem; flex-wrap: wrap;
+    }
+    .bucket-add input {
+      flex: 1; min-width: 180px;
+      border: 1.5px solid #f48fb1; border-radius: 50px;
+      padding: 11px 18px; font-size: 14px;
+      font-family: 'Lato', sans-serif; color: #880e4f;
+      outline: none; background: white;
+    }
+    .bucket-add input:focus { border-color: #c2185b; box-shadow: 0 0 0 3px rgba(194,24,91,0.1); }
+    .bucket-add-btn {
+      background: #c2185b; color: white; border: none;
+      border-radius: 50px; padding: 11px 24px; font-size: 14px; font-weight: 700;
+      cursor: pointer; font-family: 'Lato', sans-serif; transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .bucket-add-btn:hover { background: #880e4f; transform: translateY(-1px); }
+    .bucket-status {
+      text-align: center; font-size: 12px; font-family: 'Lato', sans-serif;
+      font-weight: 700; min-height: 16px; margin-bottom: 0.6rem;
+      color: #ba68c8; transition: color 0.2s;
+    }
+
+    .bucket-list { display: flex; flex-direction: column; gap: 10px; }
+    .bucket-item {
+      background: white; border: 1.5px solid #fce4ec; border-radius: 16px;
+      padding: 0.9rem 1.2rem;
+      display: flex; align-items: center; gap: 12px;
+      box-shadow: 0 2px 10px rgba(194,24,91,0.06);
+      transition: all 0.2s;
+    }
+    .bucket-item:hover { box-shadow: 0 4px 16px rgba(194,24,91,0.12); transform: translateY(-1px); }
+    .bucket-item.done { background: #fdf5f8; opacity: 0.7; }
+    .bucket-checkbox {
+      width: 24px; height: 24px; border-radius: 50%;
+      border: 2px solid #f48fb1; flex-shrink: 0;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      font-size: 14px; transition: all 0.2s; background: white;
+    }
+    .bucket-checkbox.checked { background: #c2185b; border-color: #c2185b; color: white; }
+    .bucket-text {
+      flex: 1; font-family: 'Playfair Display', serif; font-size: 1rem;
+      color: #880e4f; line-height: 1.5;
+    }
+    .bucket-item.done .bucket-text { text-decoration: line-through; color: #ad6e8a; }
+    .bucket-delete {
+      background: none; border: none; font-size: 18px;
+      cursor: pointer; color: #f48fb1; flex-shrink: 0;
+      transition: all 0.2s; padding: 4px;
+    }
+    .bucket-delete:hover { color: #c2185b; transform: scale(1.15); }
+    .bucket-empty {
+      text-align: center; color: #ad6e8a; font-size: 14px;
+      font-style: italic; font-family: 'Playfair Display', serif;
+      padding: 1.5rem 0; display: none;
+    }
+
+    /* ── ENVELOPES ─────────────────────────────────── */
+    .envelopes-title {
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      color: #c2185b;
+      margin: 2.4rem 0 0.4rem;
+    }
+    .envelopes-title span { font-style: italic; color: #9c27b0; }
+    .envelopes-sub {
+      text-align: center; color: #ad6e8a; font-size: 13px;
+      font-style: italic; font-family: 'Playfair Display', serif;
+      margin-bottom: 1.4rem;
+    }
+    .envelopes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 14px;
+    }
+    .envelope {
+      background: linear-gradient(160deg, #fff5f8, #fce4ec);
+      border: 1.5px solid #f8bbd0;
+      border-radius: 16px;
+      padding: 1.6rem 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .envelope::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 50%;
+      background: linear-gradient(160deg, rgba(255,255,255,0.5), transparent);
+      clip-path: polygon(0 0, 100% 0, 50% 70%);
+    }
+    .envelope:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 10px 28px rgba(194,24,91,0.18);
+      border-color: #c2185b;
+    }
+    .envelope-icon { font-size: 2.2rem; margin-bottom: 8px; display: block; position: relative; z-index: 1; }
+    .envelope-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.95rem; font-weight: 600;
+      color: #880e4f; line-height: 1.4; position: relative; z-index: 1;
+    }
+
+    /* envelope modal */
+    .envelope-modal {
+      position: fixed; inset: 0; z-index: 10001;
+      background: rgba(30,10,20,0.55);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease;
+      backdrop-filter: blur(4px);
+      padding: 1.5rem;
+    }
+    .envelope-modal.open { opacity: 1; pointer-events: all; }
+    .envelope-modal-card {
+      background: linear-gradient(160deg, #fffef9, #fff9f5);
+      border-radius: 20px;
+      padding: 2.2rem 2rem;
+      max-width: 480px; width: 100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      transform: scale(0.85) translateY(20px);
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+      position: relative;
+      text-align: center;
+    }
+    .envelope-modal.open .envelope-modal-card { transform: scale(1) translateY(0); }
+    .envelope-modal-icon { font-size: 2.6rem; margin-bottom: 0.8rem; }
+    .envelope-modal-title {
+      font-family: 'Playfair Display', serif; font-size: 1.2rem;
+      color: #c2185b; margin-bottom: 1rem; font-style: italic;
+    }
+    .envelope-modal-text {
+      font-family: 'Caveat', cursive; font-size: 1.3rem;
+      color: #4a2030; line-height: 1.8;
+    }
+    .envelope-modal-close {
+      position: absolute; top: 12px; right: 14px;
+      background: none; border: none; font-size: 1.4rem;
+      cursor: pointer; color: #ad6e8a; transition: color 0.2s;
+    }
+    .envelope-modal-close:hover { color: #c2185b; }
+
+    /* ── VOICE NOTE ───────────────────────────────── */
+    .voice-section {
+      margin-top: 2.4rem;
+      text-align: center;
+    }
+    .voice-card {
+      background: linear-gradient(135deg, #fce4ec, #f3e5f5);
+      border: 1.5px solid #f8bbd0;
+      border-radius: 20px;
+      padding: 1.6rem 1.4rem;
+      max-width: 420px;
+      margin: 0 auto;
+      box-shadow: 0 4px 18px rgba(194,24,91,0.10);
+    }
+    .voice-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem; font-style: italic;
+      color: #880e4f; margin-bottom: 1rem;
+    }
+    .voice-player {
+      display: flex; align-items: center; gap: 12px;
+      background: white; border-radius: 50px;
+      padding: 10px 16px;
+      box-shadow: 0 2px 10px rgba(194,24,91,0.08);
+    }
+    .voice-play-btn {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: linear-gradient(135deg, #f06292, #ba68c8);
+      border: none; color: white; font-size: 16px;
+      cursor: pointer; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.2s;
+    }
+    .voice-play-btn:hover { transform: scale(1.08); }
+    .voice-progress-wrap {
+      flex: 1; height: 5px; background: #fce4ec;
+      border-radius: 4px; cursor: pointer; position: relative;
+    }
+    .voice-progress-bar {
+      height: 100%; background: linear-gradient(90deg, #f06292, #ba68c8);
+      border-radius: 4px; width: 0%; transition: width 0.1s linear;
+    }
+    .voice-time {
+      font-size: 12px; color: #ba68c8; font-family: 'Lato', sans-serif;
+      flex-shrink: 0; min-width: 38px;
+    }
+    .voice-placeholder-note {
+      font-size: 12px; color: #ce93d8; margin-top: 10px;
+      font-family: 'Lato', sans-serif; font-style: italic;
+    }
   </style>
 </head>
 <body>
@@ -822,7 +985,7 @@
     <button class="tab-btn" onclick="showSection('features',this)">✨ What I Love About You</button>
     <button class="tab-btn" onclick="showSection('reasons',this)">🌸 Reasons I Love You</button>
     <button class="tab-btn" onclick="showSection('jokes',this)">😂 Jokes For You</button>
-    <button class="tab-btn" onclick="showSection('quiz',this)">💡 Quiz Time!</button>
+    <button class="tab-btn" onclick="showSection('bucket',this)">🌍 Bucket List</button>
     <button class="tab-btn" onclick="showSection('song',this)">🎵 Our Song</button>
     <button class="tab-btn" onclick="showSection('gallery',this)">🖼️ Our Memories</button>
     <button class="tab-btn" onclick="showSection('dates',this)">📅 Our Story</button>
@@ -863,6 +1026,29 @@
       <button class="heart-btn" onclick="rainHearts()">Send her hearts 💖</button>
     </div>
     <div class="floating-hearts" id="fhContainer"></div>
+
+    <!-- OPEN WHEN ENVELOPES -->
+    <h3 class="envelopes-title">Open When <span>You Need Me</span></h3>
+    <p class="envelopes-sub">A little something for whatever you're feeling 💌</p>
+    <div class="envelopes-grid" id="envelopesGrid"></div>
+
+    <!-- VOICE NOTE -->
+    <div class="voice-section">
+      <div class="voice-card">
+        <div class="voice-title" id="voiceTitle">A little something in my own voice 🎙️</div>
+        <div class="voice-player">
+          <button class="voice-play-btn" id="voicePlayBtn" onclick="toggleVoiceNote()">▶️</button>
+          <div class="voice-progress-wrap" onclick="seekVoiceNote(event)">
+            <div class="voice-progress-bar" id="voiceProgressBar"></div>
+          </div>
+          <div class="voice-time" id="voiceTime">0:00</div>
+        </div>
+        <audio id="voiceAudio" preload="metadata">
+          <!-- Add your audio file here, e.g: <source src="voice-note.mp3" type="audio/mpeg"> -->
+        </audio>
+        <p class="voice-placeholder-note" id="voicePlaceholderNote">🎤 Add your audio file as "voice-note.mp3" in the same folder to activate this player</p>
+      </div>
+    </div>
   </div>
 
   <!-- FEATURES -->
@@ -918,21 +1104,19 @@
     <div id="jokesContainer"></div>
   </div>
 
-  <!-- QUIZ -->
-  <div class="section" id="sec-quiz">
-    <h2 class="section-title">How Well Do <span>You Know Me?</span></h2>
-    <div class="quiz-progress" id="quizProgress"></div>
-    <div class="quiz-card" id="quizCard">
-      <div class="quiz-q" id="quizQuestion"></div>
-      <div class="quiz-options" id="quizOptions"></div>
-      <div class="quiz-feedback" id="quizFeedback"></div>
-      <button class="quiz-next" id="quizNext" onclick="nextQuestion()">Next question →</button>
+  <!-- BUCKET LIST -->
+  <div class="section" id="sec-bucket">
+    <h2 class="section-title">Our <span>Bucket List</span></h2>
+    <p style="text-align:center;color:#ad6e8a;margin-bottom:1.4rem;font-size:14px;">Everything we want to do, see, and experience together 🌍💕</p>
+
+    <div class="bucket-add">
+      <input type="text" id="bucketInput" placeholder="Add something to our list..." onkeydown="if(event.key==='Enter') addBucketItem()">
+      <button class="bucket-add-btn" onclick="addBucketItem()">Add ✨</button>
     </div>
-    <div class="quiz-result" id="quizResult">
-      <div class="big-score" id="quizScore"></div>
-      <p id="quizResultText"></p>
-      <button class="quiz-restart" onclick="restartQuiz()">Play again 🔄</button>
-    </div>
+    <p class="bucket-status" id="bucketStatus"></p>
+
+    <div class="bucket-list" id="bucketList"></div>
+    <p class="bucket-empty" id="bucketEmpty">Nothing here yet — add your first dream together! 🌸</p>
   </div>
 
   <!-- SONG -->
@@ -1054,6 +1238,16 @@
     <img id="lightboxImg" src="" alt="Memory">
     <button class="lightbox-nav lightbox-next" onclick="lightboxNav(1)">›</button>
     <div class="lightbox-counter" id="lightboxCounter"></div>
+  </div>
+
+  <!-- ENVELOPE MODAL -->
+  <div class="envelope-modal" id="envelopeModal" onclick="if(event.target===this) closeEnvelope()">
+    <div class="envelope-modal-card">
+      <button class="envelope-modal-close" onclick="closeEnvelope()">✕</button>
+      <div class="envelope-modal-icon" id="envelopeModalIcon">💌</div>
+      <div class="envelope-modal-title" id="envelopeModalTitle"></div>
+      <div class="envelope-modal-text" id="envelopeModalText"></div>
+    </div>
   </div>
 
   <!-- KEY DATES -->
@@ -1188,7 +1382,6 @@
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.getElementById('sec-' + id).classList.add('active');
       btn.classList.add('active');
-      if (id === 'quiz') initQuiz();
     }
 
     // heart rain
@@ -1244,6 +1437,12 @@
       { q: "Are you a magician?",                   a: "Because every time I look at you, everyone else disappears. ✨" },
       { q: "Why don't scientists trust atoms?",     a: "Because they make up everything... just like my excuses to spend more time with you." },
       { q: "Your nose is so cute it should be illegal.", a: "Especially those little cat-ear nostrils. Exhibit A of nature showing off. 🐱" },
+      { q: "What do you call a bear with no teeth?", a: "A gummy bear. Just like how you turn me into mush. 🧸" },
+      { q: "I'm not a photographer, but...",        a: "...I can definitely picture us together. 📸💕" },
+      { q: "What's the wifi password to your heart?", a: "Don't worry, it auto-connected the day we met. 📶💖" },
+      { q: "Why did the phone need glasses?",       a: "It lost all its contacts — kind of like how I'd lose my mind without you." },
+      { q: "Are you made of copper and tellurium?", a: "Because you're Cu-Te. (I'll see myself out.) 🧪😏" },
+      { q: "If you were a vegetable...",            a: "...you'd be a cute-cumber. 🥒💕" },
     ];
     const jc = document.getElementById('jokesContainer');
     jokes.forEach(j => {
@@ -1257,80 +1456,275 @@
       jc.appendChild(card);
     });
 
-    // quiz
-    const quizData = [
-      { q: "What's my favourite way to spend a lazy Sunday?", opts: ["Going for a run","Being cosy with you","Cleaning the house","Shopping alone"], correct: 1, feedback: "Of course — lazy Sundays are only perfect with you by my side 💕" },
-      { q: "If I could eat one meal forever, what would it be?", opts: ["Sushi","Pizza","Ramen","A big Sunday roast"], correct: 2, feedback: "A warm bowl of ramen = happiness in a bowl 🍜" },
-      { q: "What makes me laugh most?", opts: ["Dad jokes","Slapstick films","Your reaction to my bad jokes","Nature documentaries"], correct: 2, feedback: "Honestly, your face when I tell a terrible pun? Priceless. 😂" },
-      { q: "What do I find most beautiful about you?", opts: ["Your smile","Your eyes","Your tiny ears and cat-nose","All of the above, obviously"], correct: 3, feedback: "It could NEVER be just one thing — all of you is beautiful 🌸" },
-      { q: "What's my love language?", opts: ["Gift giving","Acts of service","Quality time","Words of affirmation"], correct: 2, feedback: "Being present with you, doing little things together — that's everything to me ✨" },
-    ];
-    let qIndex = 0, score = 0, answered = false;
+    // bucket list — synced via GitHub API to bucket-list.json in the repo
+    const GH_OWNER  = 'his6her22';
+    const GH_REPO   = 'LOVE-YOU-SAYANGG';
+    const GH_BRANCH = 'main';
+    const GH_PATH   = 'bucket-list.json';
+    const GH_TOKEN  = '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';
+    const GH_API    = `https://api.github.com/repos/${GH_OWNER}/${GH_REPO}/contents/${GH_PATH}`;
 
-    function initQuiz() {
-      qIndex = 0; score = 0;
-      document.getElementById('quizResult').style.display = 'none';
-      document.getElementById('quizCard').style.display = 'block';
-      renderQuestion(); renderDots();
+    let bucketList = [];
+    let bucketFileSha = null; // needed for GitHub API updates
+    let bucketSyncing = false;
+
+    function setBucketStatus(msg, isError) {
+      const el = document.getElementById('bucketStatus');
+      if (!el) return;
+      el.textContent = msg;
+      el.style.color = isError ? '#e53935' : '#ba68c8';
     }
-    function renderDots() {
-      const prog = document.getElementById('quizProgress');
-      prog.innerHTML = '';
-      quizData.forEach((_, i) => {
-        const d = document.createElement('div');
-        d.className = 'q-dot' + (i < qIndex ? ' done' : i === qIndex ? ' current' : '');
-        prog.appendChild(d);
-      });
+
+    async function fetchBucketList() {
+      setBucketStatus('Loading our list... 🌍');
+      try {
+        const res = await fetch(GH_API + `?ref=${GH_BRANCH}`, {
+          headers: { 'Accept': 'application/vnd.github+json' }
+        });
+        if (res.status === 404) {
+          // file doesn't exist yet — start empty
+          bucketList = [];
+          bucketFileSha = null;
+          setBucketStatus('');
+          renderBucketList();
+          return;
+        }
+        if (!res.ok) throw new Error('fetch failed');
+        const data = await res.json();
+        bucketFileSha = data.sha;
+        const content = decodeURIComponent(escape(atob(data.content.replace(/\n/g, ''))));
+        bucketList = JSON.parse(content || '[]');
+        setBucketStatus('');
+        renderBucketList();
+      } catch (err) {
+        console.error(err);
+        setBucketStatus('⚠️ Could not load — showing offline copy', true);
+        // fallback to localStorage if GitHub fetch fails
+        try {
+          const raw = localStorage.getItem('ourBucketList');
+          bucketList = raw ? JSON.parse(raw) : [];
+        } catch(e) { bucketList = []; }
+        renderBucketList();
+      }
     }
-    function renderQuestion() {
-      answered = false;
-      const q = quizData[qIndex];
-      document.getElementById('quizQuestion').textContent = q.q;
-      document.getElementById('quizFeedback').textContent = '';
-      document.getElementById('quizNext').style.display = 'none';
-      const opts = document.getElementById('quizOptions');
-      opts.innerHTML = '';
-      q.opts.forEach((o, i) => {
-        const btn = document.createElement('button');
-        btn.className = 'quiz-opt';
-        btn.textContent = o;
-        btn.onclick = function () {
-          if (answered) return; answered = true;
-          if (i === q.correct) { btn.classList.add('correct'); score++; }
-          else { btn.classList.add('wrong'); opts.children[q.correct].classList.add('correct'); }
-          document.getElementById('quizFeedback').textContent = q.feedback;
-          document.getElementById('quizNext').style.display = 'inline-block';
+
+    async function saveBucketListToGitHub() {
+      if (bucketSyncing) return;
+      bucketSyncing = true;
+      setBucketStatus('Saving... 💫');
+
+      // always keep a local backup too
+      try { localStorage.setItem('ourBucketList', JSON.stringify(bucketList)); } catch(e) {}
+
+      try {
+        const content = btoa(unescape(encodeURIComponent(JSON.stringify(bucketList, null, 2))));
+        const body = {
+          message: 'Update bucket list 💕',
+          content: content,
+          branch: GH_BRANCH,
         };
-        opts.appendChild(btn);
+        if (bucketFileSha) body.sha = bucketFileSha;
+
+        const res = await fetch(GH_API, {
+          method: 'PUT',
+          headers: {
+            'Accept': 'application/vnd.github+json',
+            'Authorization': `Bearer ${GH_TOKEN}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(body)
+        });
+
+        if (!res.ok) {
+          const errData = await res.json().catch(() => ({}));
+          throw new Error(errData.message || 'save failed');
+        }
+
+        const data = await res.json();
+        bucketFileSha = data.content.sha; // update sha for next save
+        setBucketStatus('✅ Saved — synced everywhere', false);
+        setTimeout(() => setBucketStatus(''), 2500);
+      } catch (err) {
+        console.error(err);
+        setBucketStatus('⚠️ Saved locally — sync failed (' + err.message + ')', true);
+      } finally {
+        bucketSyncing = false;
+      }
+    }
+
+    function renderBucketList() {
+      const list = bucketList;
+      const container = document.getElementById('bucketList');
+      const empty = document.getElementById('bucketEmpty');
+      container.innerHTML = '';
+
+      if (list.length === 0) {
+        empty.style.display = 'block';
+        return;
+      }
+      empty.style.display = 'none';
+
+      list.forEach((item, i) => {
+        const row = document.createElement('div');
+        row.className = 'bucket-item' + (item.done ? ' done' : '');
+
+        const check = document.createElement('div');
+        check.className = 'bucket-checkbox' + (item.done ? ' checked' : '');
+        check.textContent = item.done ? '✓' : '';
+        check.onclick = () => toggleBucketItem(i);
+
+        const text = document.createElement('div');
+        text.className = 'bucket-text';
+        text.textContent = item.text;
+
+        const del = document.createElement('button');
+        del.className = 'bucket-delete';
+        del.innerHTML = '✕';
+        del.onclick = () => deleteBucketItem(i);
+
+        row.appendChild(check);
+        row.appendChild(text);
+        row.appendChild(del);
+        container.appendChild(row);
       });
     }
-    function nextQuestion() {
-      qIndex++;
-      if (qIndex >= quizData.length) { showResult(); return; }
-      renderQuestion(); renderDots();
+
+    function addBucketItem() {
+      const input = document.getElementById('bucketInput');
+      const val = input.value.trim();
+      if (!val) return;
+      bucketList.push({ text: val, done: false });
+      input.value = '';
+      renderBucketList();
+      saveBucketListToGitHub();
     }
-    function showResult() {
-      document.getElementById('quizCard').style.display = 'none';
-      const res = document.getElementById('quizResult');
-      res.style.display = 'block';
-      document.getElementById('quizScore').textContent = score + '/' + quizData.length;
-      const msgs = [
-        "Not bad! But maybe spend a bit more time listening 😄",
-        "Getting there! You clearly pay attention 💕",
-        "Solid! You know me pretty well 🌸",
-        "Wow, you really know me! I feel so seen 💖",
-        "PERFECT SCORE! You know me better than I know myself 🥹✨"
-      ];
-      document.getElementById('quizResultText').textContent = msgs[Math.min(score, msgs.length - 1)];
-      document.getElementById('quizProgress').innerHTML = '';
-      quizData.forEach(() => {
-        const d = document.createElement('div');
-        d.className = 'q-dot done';
-        document.getElementById('quizProgress').appendChild(d);
+
+    function toggleBucketItem(i) {
+      bucketList[i].done = !bucketList[i].done;
+      renderBucketList();
+      saveBucketListToGitHub();
+    }
+
+    function deleteBucketItem(i) {
+      bucketList.splice(i, 1);
+      renderBucketList();
+      saveBucketListToGitHub();
+    }
+
+    fetchBucketList();
+
+    // ── ENVELOPES ───────────────────────────────────
+    const envelopesData = {
+      en: [
+        { icon: '💌', label: 'Open when you miss me',
+          text: "If you're reading this, it's because you miss me right now — and I just want you to know, I miss you too. Every single moment, even when I'm busy, even when I'm quiet, you're there in the back of my mind. Close your eyes and imagine me holding you. I'm not far, Sayang. I'm always thinking of you. 💕" },
+        { icon: '😣', label: 'Open when you are stressed',
+          text: "Take a deep breath, Habibti. In... and out. Whatever is overwhelming you right now — it will pass. You are so much stronger than you realise, and you've gotten through hard days before. I believe in you completely. You don't have to carry everything alone; even from far away, I'm carrying it with you. 🌸" },
+        { icon: '🔥', label: 'Open when you need motivation',
+          text: "Hey you. Yes, you — the incredible woman I'm so proud of. Whatever you're working towards, you are capable of it. I've seen your strength, your discipline, your heart. Don't give up now. Every step you take is one step closer to the life we're building together. I'm cheering for you, always. 💪✨" },
+        { icon: '😂', label: 'Open when you need a laugh',
+          text: "Okay, picture this: me, trying to act cool, immediately tripping over absolutely nothing. That's basically my entire personality around you. Also — remember that I think your laugh is one of the best sounds in the world, so go ahead, laugh at this message, laugh at me, laugh at anything. It suits you. 😄💕" },
+        { icon: '🌙', label: 'Open when you cant sleep',
+          text: "Shh, close your eyes, Mochi. I know your mind is busy right now, but everything can wait until morning. Just breathe slowly and picture us lying together, my arms around you, the world quiet outside. You're safe. You're loved. Sleep well, my love — I'll be here when you wake up. 🌙💖" },
+        { icon: '💔', label: 'Open when you are sad',
+          text: "I wish I could be there right now to hold you and wipe away every tear. Since I can't, just know this — whatever is making you sad, it doesn't define you, and it won't last forever. You are deeply loved, exactly as you are, sadness and all. I'm here. I'm not going anywhere. Let yourself feel it, and then let me help carry it. 🥺💕" },
+      ],
+      id: [
+        { icon: '💌', label: 'Buka saat kamu merindukanku',
+          text: "Jika kamu membaca ini, itu karena kamu sedang merindukanku — dan aku ingin kamu tahu, aku juga merindukanmu. Setiap saat, bahkan saat aku sibuk, bahkan saat aku diam, kamu selalu ada di pikiranku. Pejamkan matamu dan bayangkan aku memelukmu. Aku tidak jauh, Sayang. Aku selalu memikirkanmu. 💕" },
+        { icon: '😣', label: 'Buka saat kamu stres',
+          text: "Tarik nafas dalam-dalam, Habibti. Masuk... dan keluar. Apapun yang sedang membebanimu sekarang — itu akan berlalu. Kamu jauh lebih kuat dari yang kamu sadari, dan kamu sudah melewati hari-hari sulit sebelumnya. Aku percaya padamu sepenuhnya. Kamu tidak harus menanggung semuanya sendiri; meski dari jauh, aku menanggungnya bersamamu. 🌸" },
+        { icon: '🔥', label: 'Buka saat kamu butuh motivasi',
+          text: "Hai kamu. Ya, kamu — wanita luar biasa yang sangat aku banggakan. Apapun yang sedang kamu kerjakan, kamu mampu melakukannya. Aku sudah melihat kekuatanmu, disiplinmu, hatimu. Jangan menyerah sekarang. Setiap langkah yang kamu ambil adalah satu langkah lebih dekat ke kehidupan yang kita bangun bersama. Aku selalu mendukungmu. 💪✨" },
+        { icon: '😂', label: 'Buka saat kamu butuh tertawa',
+          text: "Oke, bayangkan ini: aku, mencoba bersikap keren, langsung tersandung karena tidak ada apa-apa. Itu kira-kira seluruh kepribadianku di dekatmu. Dan ingat — aku selalu berpikir tawamu adalah salah satu suara terbaik di dunia, jadi silakan, tertawalah membaca ini, tertawakan aku, tertawakan apa saja. Itu cocok untukmu. 😄💕" },
+        { icon: '🌙', label: 'Buka saat kamu tidak bisa tidur',
+          text: "Ssst, pejamkan matamu, Mochi. Aku tahu pikiranmu sedang ramai sekarang, tapi semuanya bisa menunggu sampai pagi. Tarik nafas perlahan dan bayangkan kita berbaring bersama, lenganku memelukmu, dunia di luar sunyi. Kamu aman. Kamu dicintai. Selamat tidur, cintaku — aku akan ada di sini saat kamu bangun. 🌙💖" },
+        { icon: '💔', label: 'Buka saat kamu sedih',
+          text: "Andai aku bisa ada di sana sekarang untuk memelukmu dan menghapus setiap air matamu. Karena aku tidak bisa, ketahuilah ini — apapun yang membuatmu sedih, itu tidak mendefinisikan dirimu, dan itu tidak akan berlangsung selamanya. Kamu sangat dicintai, apa adanya, termasuk kesedihanmu. Aku di sini. Aku tidak akan kemana-mana. Biarkan dirimu merasakannya, lalu biarkan aku membantu menanggungnya. 🥺💕" },
+      ]
+    };
+
+    function renderEnvelopes(lang) {
+      const grid = document.getElementById('envelopesGrid');
+      grid.innerHTML = '';
+      envelopesData[lang].forEach(env => {
+        const card = document.createElement('div');
+        card.className = 'envelope';
+        card.innerHTML = `<span class="envelope-icon">${env.icon}</span><div class="envelope-label">${env.label}</div>`;
+        card.onclick = () => openEnvelope(env);
+        grid.appendChild(card);
       });
     }
-    function restartQuiz() { initQuiz(); }
-    initQuiz();
+
+    function openEnvelope(env) {
+      const modal = document.getElementById('envelopeModal');
+      document.getElementById('envelopeModalIcon').textContent = env.icon;
+      document.getElementById('envelopeModalTitle').textContent = env.label;
+      document.getElementById('envelopeModalText').textContent = env.text;
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeEnvelope() {
+      document.getElementById('envelopeModal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    renderEnvelopes('en');
+
+    // ── VOICE NOTE ───────────────────────────────────
+    const voiceAudio = document.getElementById('voiceAudio');
+    const voicePlayBtn = document.getElementById('voicePlayBtn');
+    const voiceProgressBar = document.getElementById('voiceProgressBar');
+    const voiceTime = document.getElementById('voiceTime');
+
+    function toggleVoiceNote() {
+      if (!voiceAudio.src || voiceAudio.src === window.location.href) {
+        voicePlayBtn.textContent = '❌';
+        setTimeout(() => voicePlayBtn.textContent = '▶️', 1200);
+        return;
+      }
+      if (voiceAudio.paused) {
+        voiceAudio.play();
+        voicePlayBtn.textContent = '⏸️';
+      } else {
+        voiceAudio.pause();
+        voicePlayBtn.textContent = '▶️';
+      }
+    }
+
+    function seekVoiceNote(e) {
+      if (!voiceAudio.duration) return;
+      const rect = e.currentTarget.getBoundingClientRect();
+      const ratio = (e.clientX - rect.left) / rect.width;
+      voiceAudio.currentTime = ratio * voiceAudio.duration;
+    }
+
+    voiceAudio.addEventListener('timeupdate', () => {
+      if (voiceAudio.duration) {
+        voiceProgressBar.style.width = (voiceAudio.currentTime / voiceAudio.duration * 100) + '%';
+        const mins = Math.floor(voiceAudio.currentTime / 60);
+        const secs = Math.floor(voiceAudio.currentTime % 60);
+        voiceTime.textContent = mins + ':' + String(secs).padStart(2,'0');
+      }
+    });
+    voiceAudio.addEventListener('ended', () => {
+      voicePlayBtn.textContent = '▶️';
+      voiceProgressBar.style.width = '0%';
+      voiceTime.textContent = '0:00';
+    });
+    voiceAudio.addEventListener('loadedmetadata', () => {
+      document.getElementById('voicePlaceholderNote').style.display = 'none';
+    });
+
+    window.addBucketItem    = addBucketItem;
+    window.toggleBucketItem = toggleBucketItem;
+    window.deleteBucketItem = deleteBucketItem;
+    window.openEnvelope     = openEnvelope;
+    window.closeEnvelope    = closeEnvelope;
+    window.toggleVoiceNote  = toggleVoiceNote;
+    window.seekVoiceNote    = seekVoiceNote;
 
     // countdown timer
     function updateCountdown() {
@@ -1423,7 +1817,7 @@
         'hero-badge':'made just for you 💌','hero-h1':'For my <em>beautiful</em> girl',
         'hero-sub':'A little corner of the internet that exists for one reason only — to remind you how loved you truly are. 🌸',
         'tab-letter':'💌 Love Letter','tab-features':'✨ What I Love About You','tab-reasons':'🌸 Reasons I Love You',
-        'tab-jokes':'😂 Jokes For You','tab-quiz':'💡 Quiz Time!','tab-song':'🎵 Our Song',
+        'tab-jokes':'😂 Jokes For You','tab-bucket':'🌍 Bucket List','tab-song':'🎵 Our Song',
         'tab-gallery':'🖼️ Our Memories','tab-dates':'📅 Our Story','tab-countdown':'✈️ Counting Down',
         'letter-title':'A Letter From <span>My Soul</span>',
         'letter-body':`My Sayang, my Habibti, my little Mochi —<br><br>I don't think words will ever be enough to tell you how much I love you — but I will spend every single day of my life trying.<br><br><em>You are amazing.</em> Not in the way people casually throw that word around — truly, deeply, remarkably amazing. The way you carry yourself, the way you love, the way you face everything life throws at you with a grace that leaves me in awe every single time.<br><br>I fell in love with <em>you</em> — your personality, your soul, your strength. The strength you have is something I admire more than you will ever know. It is one of the most beautiful things about you, and it makes me love you more every single day.<br><br><em>You make my days brighter.</em> A single smile from you and the whole world feels lighter. You are the sun to my moon — without you, I am just darkness. With you, I glow.<br><br>Meeting you, loving you — these are my <em>biggest achievements.</em> But the moment I am most proud of, the moment I will carry in my heart forever, is the moment I asked you to be my wife. That was the best thing I have ever done.<br><br>My biggest dream is simple — <em>to see you happy.</em> That is all I want. Every prayer I make, every dua I raise to Allah, is for you. I make dua that I become someone you are proud of. Someone worthy of you. Someone you are glad to call yours.<br><br><em>May Allah grant us the support of one another — in this dunya and in the akhira.</em> May He keep our hearts tied together, our love protected, and our path lit. Ameen.<br><br>There is no one else in this entire world I would choose. It has always been you. It will always be you.<br><br><span class="hw-big">I LOVE YOU, SAYANG —<br>with all my heart and all my soul. 💖</span>`,
@@ -1437,7 +1831,8 @@
         'feat-you-label':'Just… You','feat-you-desc':'The full picture. Every little detail adds up to someone completely, wonderfully irreplaceable.',
         'reasons-title':'Why I Love <span>You</span>','reasons-sub':'Tap any button to reveal a reason 💕','reason-reveal-default':'Tap a button above to find out ✨',
         'jokes-title':'The <span>Best</span> Jokes (Only)','jokes-sub':'Tap a card to reveal the punchline 😄',
-        'quiz-title':'How Well Do <span>You Know Me?</span>','quiz-next-btn':'Next question →','quiz-restart':'Play again 🔄',
+        'bucket-title':'Our <span>Bucket List</span>','bucket-sub':'Everything we want to do, see, and experience together 🌍💕',
+        'bucket-placeholder':'Add something to our list...','bucket-add-btn':'Add ✨','bucket-empty':'Nothing here yet — add your first dream together! 🌸',
         'song-title':'This Song Is <span>So Us</span>','song-caption':'Every time I hear this, I think of you.<br>Of your eyes, your smile, and how lucky I am that you\'re mine. 🌸',
         'gallery-title':'Our <span>Beautiful Memories</span>','gallery-sub':'Hover over a photo to feel the love — click to see it full size 💕','c-label':'Our Memory',
         'dates-title':'Chapters of <span>Our Story</span>','dates-sub':'Every great love story has its moments. Here are ours. 💕',
@@ -1457,7 +1852,7 @@
         'hero-badge':'dibuat khusus untukmu 💌','hero-h1':'Untuk gadis <em>cantikku</em>',
         'hero-sub':'Sebuah sudut kecil di internet yang hadir hanya untuk satu alasan — mengingatkanmu betapa dicintainya dirimu. 🌸',
         'tab-letter':'💌 Surat Cinta','tab-features':'✨ Yang Aku Cintai Darimu','tab-reasons':'🌸 Alasan Aku Mencintaimu',
-        'tab-jokes':'😂 Lelucon Untukmu','tab-quiz':'💡 Kuis!','tab-song':'🎵 Lagu Kita',
+        'tab-jokes':'😂 Lelucon Untukmu','tab-bucket':'🌍 Daftar Impian','tab-song':'🎵 Lagu Kita',
         'tab-gallery':'🖼️ Kenangan Kita','tab-dates':'📅 Kisah Kita','tab-countdown':'✈️ Menghitung Hari',
         'letter-title':'Surat Dari <span>Jiwaku</span>',
         'letter-body':`Sayangku, Habibtiku, Mochi kecilku —<br><br>Aku rasa kata-kata tidak akan pernah cukup untuk memberitahumu betapa besar cintaku padamu — tapi aku akan menghabiskan setiap hari hidupku untuk mencoba.<br><br><em>Kamu luar biasa.</em> Bukan dengan cara orang sembarangan mengucapkan kata itu — sungguh, dalam, luar biasa. Cara kamu membawa dirimu, cara kamu mencintai, cara kamu menghadapi segala yang dilemparkan hidup kepadamu dengan keanggunan yang membuatku terpesona setiap saat.<br><br>Aku jatuh cinta dengan <em>kamu</em> — kepribadianmu, jiwamu, kekuatanmu. Kekuatan yang kamu miliki adalah sesuatu yang aku kagumi lebih dari yang akan pernah kamu ketahui. Itu adalah salah satu hal paling indah tentang dirimu, dan itu membuatku semakin mencintaimu setiap hari.<br><br><em>Kamu membuat hariku lebih cerah.</em> Satu senyum darimu dan seluruh dunia terasa lebih ringan. Kamu adalah matahari untuk bulanku — tanpamu, aku hanyalah kegelapan. Bersamamu, aku bersinar.<br><br>Bertemu denganmu, mencintaimu — ini adalah <em>pencapaian terbesarku.</em> Tapi momen yang paling aku banggakan, momen yang akan selalu aku bawa di hatiku, Saat itulah aku memintamu menjadi istriku. Itu adalah hal terbaik yang pernah aku lakukan.<br><br>Impian terbesarku sederhana — <em>melihatmu bahagia.</em> Hanya itu yang aku inginkan. Setiap doa yang aku panjatkan kepada Allah adalah untukmu. Aku berdoa agar aku menjadi seseorang yang kamu banggakan. Seseorang yang layak untukmu. Seseorang yang dengan bangga kamu sebut milikmu.<br><br><em>Semoga Allah memberikan kita dukungan satu sama lain — di dunia dan di akhirat.</em> Semoga Dia menjaga hati kita tetap terikat, cinta kita terlindungi, dan jalan kita terang. Aamiin.<br><br>Tidak ada orang lain di dunia ini yang akan aku pilih. Selalu kamu. Akan selalu kamu.<br><br><span class="hw-big">AKU MENCINTAIMU, SAYANG —<br>dengan seluruh hati dan jiwaku. 💖</span>`,
@@ -1471,7 +1866,8 @@
         'feat-you-label':'Hanya… Kamu','feat-you-desc':'Gambaran utuhnya. Setiap detail kecil membentuk seseorang yang benar-benar, luar biasa tak tergantikan.',
         'reasons-title':'Mengapa Aku <span>Mencintaimu</span>','reasons-sub':'Ketuk tombol mana saja untuk mengungkap alasannya 💕','reason-reveal-default':'Ketuk tombol di atas untuk mengetahuinya ✨',
         'jokes-title':'Lelucon <span>Terbaik</span> (Hanya Yang Terbaik)','jokes-sub':'Ketuk kartu untuk mengungkap kelucuannya 😄',
-        'quiz-title':'Seberapa Baik Kamu <span>Mengenalku?</span>','quiz-next-btn':'Pertanyaan berikutnya →','quiz-restart':'Main lagi 🔄',
+        'bucket-title':'Daftar <span>Impian Kita</span>','bucket-sub':'Semua yang ingin kita lakukan, lihat, dan alami bersama 🌍💕',
+        'bucket-placeholder':'Tambahkan sesuatu ke daftar kita...','bucket-add-btn':'Tambah ✨','bucket-empty':'Belum ada apa-apa di sini — tambahkan impian pertama kita bersama! 🌸',
         'song-title':'Lagu Ini <span>Sangat Kita</span>','song-caption':'Setiap kali mendengar ini, aku memikirkanmu.<br>Matamu, senyummu, dan betapa beruntungnya aku kamu milikku. 🌸',
         'gallery-title':'Kenangan <span>Indah Kita</span>','gallery-sub':'Arahkan ke foto untuk merasakan cintanya — klik untuk melihat ukuran penuh 💕','c-label':'Kenangan Kita',
         'dates-title':'Bab-Bab <span>Kisah Kita</span>','dates-sub':'Setiap kisah cinta besar punya momennya. Inilah milik kita. 💕',
@@ -1522,6 +1918,12 @@
         {q:"Are you a magician?",                   a:"Because every time I look at you, everyone else disappears. ✨"},
         {q:"Why don't scientists trust atoms?",     a:"Because they make up everything... just like my excuses to spend more time with you."},
         {q:"Your nose is so cute it should be illegal.", a:"Especially those little cat-ear nostrils. Exhibit A of nature showing off. 🐱"},
+        {q:"What do you call a bear with no teeth?", a:"A gummy bear. Just like how you turn me into mush. 🧸"},
+        {q:"I'm not a photographer, but...",        a:"...I can definitely picture us together. 📸💕"},
+        {q:"What's the wifi password to your heart?", a:"Don't worry, it auto-connected the day we met. 📶💖"},
+        {q:"Why did the phone need glasses?",       a:"It lost all its contacts — kind of like how I'd lose my mind without you."},
+        {q:"Are you made of copper and tellurium?", a:"Because you're Cu-Te. (I'll see myself out.) 🧪😏"},
+        {q:"If you were a vegetable...",            a:"...you'd be a cute-cumber. 🥒💕"},
       ],
       id: [
         {q:"Kenapa aku jatuh cinta padamu?",        a:"Karena gravitasi tidak ada hubungannya — senyummu yang melakukan semua pekerjaan itu. 💕"},
@@ -1530,31 +1932,14 @@
         {q:"Kamu pesulap?",                         a:"Karena setiap kali aku memandangmu, semua orang lain menghilang. ✨"},
         {q:"Kenapa ilmuwan tidak percaya atom?",    a:"Karena mereka bisa membuat-buat segalanya... seperti alasanku untuk menghabiskan lebih banyak waktu denganmu."},
         {q:"Hidungmu begitu lucu sampai harusnya ilegal.", a:"Terutama lubang hidung kecil seperti telinga kucing itu. Bukti nyata alam sedang pamer. 🐱"},
+        {q:"Apa sebutan untuk beruang tanpa gigi?", a:"Beruang gummy. Sama seperti caramu membuatku jadi lumer. 🧸"},
+        {q:"Aku bukan fotografer, tapi...",         a:"...aku bisa membayangkan kita berdua bersama dengan jelas. 📸💕"},
+        {q:"Apa password wifi ke hatimu?",          a:"Tenang saja, sudah otomatis terhubung sejak hari kita bertemu. 📶💖"},
+        {q:"Kenapa ponsel butuh kacamata?",         a:"Karena kehilangan semua kontaknya — sama seperti aku akan kehilangan akal tanpamu."},
+        {q:"Apakah kamu terbuat dari tembaga dan telurium?", a:"Karena kamu Cu-Te alias cute. (Aku permisi dulu ya.) 🧪😏"},
+        {q:"Kalau kamu jadi sayuran...",            a:"...kamu pasti jadi timun yang menggemaskan. 🥒💕"},
       ]
     };
-
-    const quizDataAll = {
-      en: [
-        {q:"What's my favourite way to spend a lazy Sunday?",opts:["Going for a run","Being cosy with you","Cleaning the house","Shopping alone"],correct:1,feedback:"Of course — lazy Sundays are only perfect with you by my side 💕"},
-        {q:"If I could eat one meal forever, what would it be?",opts:["Sushi","Pizza","Ramen","A big Sunday roast"],correct:2,feedback:"A warm bowl of ramen = happiness in a bowl 🍜"},
-        {q:"What makes me laugh most?",opts:["Dad jokes","Slapstick films","Your reaction to my bad jokes","Nature documentaries"],correct:2,feedback:"Honestly, your face when I tell a terrible pun? Priceless. 😂"},
-        {q:"What do I find most beautiful about you?",opts:["Your smile","Your eyes","Your tiny ears and cat-nose","All of the above, obviously"],correct:3,feedback:"It could NEVER be just one thing — all of you is beautiful 🌸"},
-        {q:"What's my love language?",opts:["Gift giving","Acts of service","Quality time","Words of affirmation"],correct:2,feedback:"Being present with you, doing little things together — that's everything to me ✨"},
-      ],
-      id: [
-        {q:"Apa cara favoritku menghabiskan hari Minggu yang santai?",opts:["Jogging","Rebahan bersamamu","Bersih-bersih rumah","Belanja sendiri"],correct:1,feedback:"Tentu saja — hari Minggu santai hanya sempurna kalau kamu ada di sisiku 💕"},
-        {q:"Kalau aku bisa makan satu makanan selamanya, apa itu?",opts:["Sushi","Pizza","Ramen","Nasi padang"],correct:2,feedback:"Semangkuk ramen hangat = kebahagiaan dalam mangkuk 🍜"},
-        {q:"Apa yang paling membuatku tertawa?",opts:["Lelucon bapak-bapak","Film konyol","Reaksimu saat aku bercanda","Dokumenter alam"],correct:2,feedback:"Serius, ekspresi wajahmu waktu aku bilang lelucon payah? Tak ternilai. 😂"},
-        {q:"Apa yang paling kutemukan indah darimu?",opts:["Senyummu","Matamu","Telinga mungil dan hidung kucingmu","Semua di atas, jelas"],correct:3,feedback:"Tidak pernah bisa hanya satu hal — semua darimu itu indah 🌸"},
-        {q:"Apa bahasa cintaku?",opts:["Memberi hadiah","Tindakan pelayanan","Waktu berkualitas","Kata-kata afirmasi"],correct:2,feedback:"Hadir bersamamu, melakukan hal-hal kecil bersama — itulah segalanya bagiku ✨"},
-      ]
-    };
-
-    const quizResultMsgs = {
-      en: ["Not bad! But maybe spend a bit more time listening 😄","Getting there! You clearly pay attention 💕","Solid! You know me pretty well 🌸","Wow, you really know me! I feel so seen 💖","PERFECT SCORE! You know me better than I know myself 🥹✨"],
-      id: ["Lumayan! Tapi mungkin perlu lebih sering mendengarkan 😄","Hampir! Kamu jelas memperhatikan 💕","Bagus! Kamu cukup mengenalku 🌸","Wow, kamu benar-benar mengenalku! Aku merasa sangat dipahami 💖","SEMPURNA! Kamu mengenalku lebih baik dari aku mengenal diriku sendiri 🥹✨"]
-    };
-    let quizResultMessages = quizResultMsgs['en'];
 
     function applyTranslation(lang) {
       const t = translations[lang];
@@ -1562,7 +1947,7 @@
       document.querySelector('.hero h1').innerHTML = t['hero-h1'];
       document.querySelector('.hero-sub').textContent = t['hero-sub'];
       const tabs = document.querySelectorAll('.tab-btn');
-      const tabKeys = ['tab-letter','tab-features','tab-reasons','tab-jokes','tab-quiz','tab-song','tab-gallery','tab-dates','tab-countdown'];
+      const tabKeys = ['tab-letter','tab-features','tab-reasons','tab-jokes','tab-bucket','tab-song','tab-gallery','tab-dates','tab-countdown'];
       tabs.forEach((tab,i) => { if(tabKeys[i]) tab.innerHTML = t[tabKeys[i]]; });
       document.querySelector('#sec-letter .section-title').innerHTML = t['letter-title'];
       const letterBody = document.querySelector('.hw-text') || document.querySelector('.letter-text');
@@ -1585,9 +1970,12 @@
       document.querySelector('#sec-jokes .section-title').innerHTML = t['jokes-title'];
       document.querySelector('#sec-jokes > p').textContent = t['jokes-sub'];
       rebuildJokes(lang);
-      document.querySelector('#sec-quiz .section-title').innerHTML = t['quiz-title'];
-      document.getElementById('quizNext').innerHTML = t['quiz-next-btn'];
-      document.querySelector('.quiz-restart').innerHTML = t['quiz-restart'];
+      document.querySelector('#sec-bucket .section-title').innerHTML = t['bucket-title'];
+      document.querySelector('#sec-bucket > p').textContent = t['bucket-sub'];
+      document.getElementById('bucketInput').placeholder = t['bucket-placeholder'];
+      document.querySelector('.bucket-add-btn').textContent = t['bucket-add-btn'];
+      document.getElementById('bucketEmpty').textContent = t['bucket-empty'];
+      renderEnvelopes(lang);
       document.querySelector('#sec-song .section-title').innerHTML = t['song-title'];
       document.querySelector('.yt-caption p').innerHTML = t['song-caption'];
       document.querySelector('#sec-gallery .section-title').innerHTML = t['gallery-title'];
@@ -1656,10 +2044,6 @@
       document.getElementById('langFlag').textContent  = currentLang === 'id' ? '🇬🇧' : '🇮🇩';
       document.getElementById('langLabel').textContent = currentLang === 'id' ? 'English' : 'Bahasa';
       applyTranslation(currentLang);
-      quizData.length = 0;
-      quizDataAll[currentLang].forEach(q => quizData.push(q));
-      quizResultMessages = quizResultMsgs[currentLang];
-      initQuiz();
     }
 
     // keyboard nav
