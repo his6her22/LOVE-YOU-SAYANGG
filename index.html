@@ -951,6 +951,59 @@
       font-size: 12px; color: #ce93d8; margin-top: 10px;
       font-family: 'Lato', sans-serif; font-style: italic;
     }
+    /* playlist */
+    .playlist-tracks {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    .playlist-track {
+      background: white;
+      border: 1.5px solid #fce4ec;
+      border-radius: 16px;
+      padding: 0.9rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 2px 10px rgba(194,24,91,0.06);
+    }
+    .playlist-track:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(194,24,91,0.13); border-color: #f48fb1; }
+    .playlist-track.active { background: linear-gradient(135deg, #fce4ec, #f3e5f5); border-color: #c2185b; }
+    .track-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; font-weight: 600;
+      color: #f48fb1; flex-shrink: 0;
+      width: 24px; text-align: center;
+    }
+    .playlist-track.active .track-num { color: #c2185b; }
+    .track-playing-icon {
+      display: none;
+      font-size: 16px;
+      flex-shrink: 0;
+      animation: trackPulse 1s ease-in-out infinite;
+    }
+    .playlist-track.active .track-num { display: none; }
+    .playlist-track.active .track-playing-icon { display: block; }
+    @keyframes trackPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.6;transform:scale(1.15)} }
+    .track-info { flex: 1; min-width: 0; }
+    .track-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.95rem; font-weight: 600;
+      color: #880e4f;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .track-note {
+      font-size: 12px; color: #ad6e8a;
+      font-style: italic;
+      font-family: 'Playfair Display', serif;
+      margin-top: 2px;
+    }
+    .track-arrow { font-size: 16px; color: #f48fb1; flex-shrink: 0; }
+    .playlist-track.active .track-arrow { color: #c2185b; }
   </style>
 </head>
 <body>
@@ -1121,15 +1174,21 @@
 
   <!-- SONG -->
   <div class="section" id="sec-song">
-    <h2 class="section-title">This Song Is <span>So Us</span></h2>
-    <div class="yt-wrap">
-      <div class="yt-caption">
-        <p>Every time I hear this, I think of you.<br>Of your eyes, your smile, and how lucky I am that you're mine. 🌸</p>
+    <h2 class="section-title">Songs That Make Me <span>Think Of You</span></h2>
+    <p style="text-align:center;color:#ad6e8a;margin-bottom:1.6rem;font-size:14px;">A little playlist, just for us 🎵💕</p>
+
+    <!-- track list -->
+    <div class="playlist-tracks" id="playlistTracks"></div>
+
+    <!-- player -->
+    <div class="yt-wrap" style="margin-top:1.4rem;">
+      <div class="yt-caption" id="songCaption">
+        <p id="songCaptionText">Every time I hear this, I think of you.<br>Of your eyes, your smile, and how lucky I am that you're mine. 🌸</p>
       </div>
       <div class="yt-frame-wrap">
-        <iframe
+        <iframe id="songFrame"
           src="https://www.youtube.com/embed/y1cBhJLNNXU?si=hp3VEJvfC92Yan6-"
-          title="Our Song"
+          title="Our Playlist"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowfullscreen>
         </iframe>
@@ -1831,7 +1890,7 @@ const firebaseConfig = {
         'jokes-title':'The <span>Best</span> Jokes (Only)','jokes-sub':'Tap a card to reveal the punchline 😄',
         'bucket-title':'Our <span>Bucket List</span>','bucket-sub':'Everything we want to do, see, and experience together 🌍💕',
         'bucket-placeholder':'Add something to our list...','bucket-add-btn':'Add ✨','bucket-empty':'Nothing here yet — add your first dream together! 🌸',
-        'song-title':'This Song Is <span>So Us</span>','song-caption':'Every time I hear this, I think of you.<br>Of your eyes, your smile, and how lucky I am that you\'re mine. 🌸',
+        'song-title':'Songs That Make Me <span>Think Of You</span>','song-caption':'A little playlist, just for us 🎵💕',
         'gallery-title':'Our <span>Beautiful Memories</span>','gallery-sub':'Hover over a photo to feel the love — click to see it full size 💕','c-label':'Our Memory',
         'dates-title':'Chapters of <span>Our Story</span>','dates-sub':'Every great love story has its moments. Here are ours. 💕',
         'tl-bday-me-label':'My Birthday','tl-bday-me-desc':'The day I arrived in this world — blissfully unaware that one day, you\'d be in it too.',
@@ -1866,7 +1925,7 @@ const firebaseConfig = {
         'jokes-title':'Lelucon <span>Terbaik</span> (Hanya Yang Terbaik)','jokes-sub':'Ketuk kartu untuk mengungkap kelucuannya 😄',
         'bucket-title':'Daftar <span>Impian Kita</span>','bucket-sub':'Semua yang ingin kita lakukan, lihat, dan alami bersama 🌍💕',
         'bucket-placeholder':'Tambahkan sesuatu ke daftar kita...','bucket-add-btn':'Tambah ✨','bucket-empty':'Belum ada apa-apa di sini — tambahkan impian pertama kita bersama! 🌸',
-        'song-title':'Lagu Ini <span>Sangat Kita</span>','song-caption':'Setiap kali mendengar ini, aku memikirkanmu.<br>Matamu, senyummu, dan betapa beruntungnya aku kamu milikku. 🌸',
+        'song-title':'Lagu-Lagu Yang Mengingatkanku <span>Padamu</span>','song-caption':'Playlist kecil, khusus untuk kita 🎵💕',
         'gallery-title':'Kenangan <span>Indah Kita</span>','gallery-sub':'Arahkan ke foto untuk merasakan cintanya — klik untuk melihat ukuran penuh 💕','c-label':'Kenangan Kita',
         'dates-title':'Bab-Bab <span>Kisah Kita</span>','dates-sub':'Setiap kisah cinta besar punya momennya. Inilah milik kita. 💕',
         'tl-bday-me-label':'Ulang Tahunku','tl-bday-me-desc':'Hari aku hadir di dunia ini — tanpa sadar bahwa suatu hari, kamu pun akan ada di dalamnya.',
@@ -1975,7 +2034,7 @@ const firebaseConfig = {
       document.getElementById('bucketEmpty').textContent = t['bucket-empty'];
       renderEnvelopes(lang);
       document.querySelector('#sec-song .section-title').innerHTML = t['song-title'];
-      document.querySelector('.yt-caption p').innerHTML = t['song-caption'];
+      document.querySelector('#sec-song > p').textContent = t['song-caption'].replace(/<br>/g,'');
       document.querySelector('#sec-gallery .section-title').innerHTML = t['gallery-title'];
       document.querySelector('.collage-header p').textContent = t['gallery-sub'];
       document.querySelectorAll('.c-label').forEach(el => el.textContent = t['c-label']);
@@ -2052,6 +2111,67 @@ const firebaseConfig = {
       if (e.key === 'ArrowLeft')  lightboxNav(-1);
       if (e.key === 'Escape')     closeLightbox();
     });
+
+    // ── PLAYLIST ─────────────────────────────────────
+    const songs = [
+      {
+        id: 'y1cBhJLNNXU',
+        title: 'Our First Song',
+        note: 'Every time I hear this, I think of your eyes, your smile, and how lucky I am. 🌸',
+        noteId: 'Every time I hear this, I think of your eyes, your smile, and how lucky I am that you\'re mine. 🌸'
+      },
+      {
+        id: 'GxldQ9eX2wo',
+        title: 'Song For You',
+        note: 'This one just feels like us. 💕',
+        noteId: 'Ini terasa seperti kita berdua. 💕'
+      },
+      {
+        id: 'V7HhLEOKrlc',
+        title: 'Thinking Of You',
+        note: 'Whenever I miss you, this song plays in my head. 💖',
+        noteId: 'Setiap kali aku merindukanmu, lagu ini terputar di kepalaku. 💖'
+      },
+      {
+        id: 'R8I3FOX7aZY',
+        title: 'كلام عينيه — Sherine',
+        note: 'Your eyes, your eyes, your eyes. That\'s all this song is about. 👁️✨',
+        noteId: 'Matamu, matamu, matamu. Hanya tentang itu lagu ini. 👁️✨'
+      },
+    ];
+
+    let currentSongIndex = 0;
+
+    function renderPlaylist() {
+      const container = document.getElementById('playlistTracks');
+      container.innerHTML = '';
+      songs.forEach((song, i) => {
+        const track = document.createElement('div');
+        track.className = 'playlist-track' + (i === currentSongIndex ? ' active' : '');
+        track.onclick = () => playSong(i);
+        track.innerHTML = `
+          <div class="track-num">${i + 1}</div>
+          <div class="track-playing-icon">🎵</div>
+          <div class="track-info">
+            <div class="track-title">${song.title}</div>
+            <div class="track-note">${song.note}</div>
+          </div>
+          <div class="track-arrow">${i === currentSongIndex ? '▶' : '›'}</div>
+        `;
+        container.appendChild(track);
+      });
+    }
+
+    function playSong(i) {
+      currentSongIndex = i;
+      const song = songs[i];
+      const frame = document.getElementById('songFrame');
+      frame.src = `https://www.youtube.com/embed/${song.id}?autoplay=1`;
+      document.getElementById('songCaptionText').innerHTML = song.note;
+      renderPlaylist();
+    }
+
+    renderPlaylist();
   </script>
 </body>
 </html>
