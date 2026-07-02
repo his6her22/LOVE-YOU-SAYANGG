@@ -1004,6 +1004,202 @@
     }
     .track-arrow { font-size: 16px; color: #f48fb1; flex-shrink: 0; }
     .playlist-track.active .track-arrow { color: #c2185b; }
+    /* ── PHOTOBOOTH ─────────────────────────────── */
+    .pb-wrap {
+      display: flex; flex-direction: column; align-items: center; gap: 1.4rem;
+    }
+    .pb-intro {
+      text-align: center; color: #ad6e8a; font-size: 14px;
+      font-style: italic; font-family: 'Playfair Display', serif;
+    }
+
+    /* filter selector */
+    .pb-filters {
+      display: flex; gap: 8px; flex-wrap: wrap; justify-content: center;
+    }
+    .pb-filter-btn {
+      background: white; border: 1.5px solid #f48fb1;
+      color: #880e4f; border-radius: 50px;
+      padding: 6px 16px; font-size: 13px; font-weight: 700;
+      cursor: pointer; font-family: 'Lato', sans-serif; transition: all 0.2s;
+    }
+    .pb-filter-btn:hover, .pb-filter-btn.active {
+      background: #c2185b; color: white; border-color: #c2185b;
+    }
+
+    /* camera area */
+    .pb-camera-wrap {
+      position: relative;
+      width: 100%; max-width: 420px;
+      border-radius: 20px; overflow: hidden;
+      box-shadow: 0 6px 28px rgba(194,24,91,0.15);
+      border: 3px solid #f48fb1;
+      background: #1a0a10;
+      aspect-ratio: 3/4;
+    }
+    .pb-video {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      display: block;
+      transform: scaleX(-1); /* mirror effect */
+    }
+    .pb-overlay-filter {
+      position: absolute; inset: 0; pointer-events: none;
+      border-radius: 18px; transition: background 0.3s;
+    }
+    .pb-countdown-display {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 7rem; font-weight: 600;
+      color: white;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .pb-countdown-display.show { opacity: 1; }
+    .pb-flash {
+      position: absolute; inset: 0;
+      background: white; opacity: 0;
+      pointer-events: none; border-radius: 18px;
+      transition: opacity 0.08s;
+    }
+    .pb-flash.flash { opacity: 1; }
+    .pb-shot-counter {
+      position: absolute; top: 12px; right: 14px;
+      background: rgba(194,24,91,0.85);
+      color: white; font-size: 12px; font-weight: 700;
+      font-family: 'Lato', sans-serif;
+      padding: 4px 12px; border-radius: 50px;
+      display: none;
+    }
+    .pb-no-camera {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      color: #ad6e8a; text-align: center; padding: 2rem;
+      gap: 10px;
+    }
+    .pb-no-camera .icon { font-size: 3rem; }
+    .pb-no-camera p { font-size: 14px; font-family: 'Lato', sans-serif; line-height: 1.6; }
+
+    /* controls */
+    .pb-controls { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .pb-start-btn {
+      background: linear-gradient(135deg, #f06292, #ba68c8);
+      color: white; border: none; border-radius: 50px;
+      padding: 14px 32px; font-size: 15px; font-weight: 700;
+      cursor: pointer; font-family: 'Lato', sans-serif;
+      box-shadow: 0 4px 18px rgba(240,98,146,0.35);
+      transition: all 0.2s; display: flex; align-items: center; gap: 8px;
+    }
+    .pb-start-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 26px rgba(240,98,146,0.45); }
+    .pb-start-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .pb-snap-btn {
+      background: white; border: 2px solid #c2185b; color: #c2185b;
+      border-radius: 50px; padding: 14px 28px; font-size: 15px; font-weight: 700;
+      cursor: pointer; font-family: 'Lato', sans-serif; transition: all 0.2s;
+    }
+    .pb-snap-btn:hover { background: #fce4ec; }
+    .pb-snap-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* strip */
+    .pb-strip-wrap {
+      display: none; flex-direction: column; align-items: center; gap: 1rem;
+    }
+    .pb-strip-wrap.show { display: flex; }
+    .pb-strip {
+      background: white;
+      padding: 14px 14px 24px;
+      border-radius: 8px;
+      box-shadow: 0 6px 28px rgba(0,0,0,0.15);
+      display: flex; flex-direction: column; gap: 8px;
+      position: relative;
+      width: 220px;
+    }
+    .pb-strip-header {
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      font-style: italic; font-size: 13px;
+      color: #c2185b; margin-bottom: 2px;
+    }
+    .pb-strip-photo {
+      width: 100%; aspect-ratio: 3/4;
+      object-fit: cover; border-radius: 4px;
+      display: block;
+    }
+    .pb-strip-footer {
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      font-style: italic; font-size: 11px;
+      color: #ad6e8a; margin-top: 2px;
+    }
+    .pb-strip-footer .hearts { color: #c2185b; font-style: normal; font-size: 14px; }
+    .pb-download-btn {
+      background: #c2185b; color: white; border: none;
+      border-radius: 50px; padding: 11px 28px;
+      font-size: 14px; font-weight: 700;
+      cursor: pointer; font-family: 'Lato', sans-serif;
+      transition: all 0.2s;
+    }
+    .pb-download-btn:hover { background: #880e4f; transform: translateY(-1px); }
+    .pb-retake-btn {
+      background: white; border: 1.5px solid #f48fb1; color: #c2185b;
+      border-radius: 50px; padding: 11px 24px;
+      font-size: 14px; font-weight: 700;
+      cursor: pointer; font-family: 'Lato', sans-serif; transition: all 0.2s;
+    }
+    .pb-retake-btn:hover { background: #fce4ec; }
+    .pb-strip-btns { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+
+    /* photobooth identity */
+    .pb-identity { text-align: center; }
+    .pb-identity-label {
+      font-family: 'Playfair Display', serif; font-style: italic;
+      color: #ad6e8a; font-size: 14px; margin-bottom: 10px;
+    }
+    .pb-identity-btns { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .pb-id-btn {
+      background: white; border: 1.5px solid #f48fb1; color: #c2185b;
+      border-radius: 50px; padding: 8px 22px; font-size: 14px; font-weight: 700;
+      cursor: pointer; font-family: 'Lato', sans-serif; transition: all 0.2s;
+    }
+    .pb-id-btn:hover, .pb-id-btn.selected { background: #c2185b; color: white; border-color: #c2185b; }
+
+    /* shared strips section */
+    .pb-shared-wrap {
+      width: 100%; display: none; flex-direction: column; align-items: center; gap: 1rem;
+    }
+    .pb-shared-wrap.show { display: flex; }
+    .pb-shared-title {
+      font-family: 'Playfair Display', serif; font-size: 1.2rem;
+      color: #c2185b; text-align: center; font-style: italic;
+    }
+    .pb-shared-strips {
+      display: flex; align-items: flex-start; gap: 10px;
+      justify-content: center; flex-wrap: wrap;
+    }
+    .pb-shared-col { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .pb-shared-label {
+      font-family: 'Lato', sans-serif; font-weight: 700;
+      font-size: 13px; color: #880e4f;
+    }
+    .pb-strip-sm { width: 140px; padding: 8px 8px 16px; }
+    .pb-strip-sm .pb-strip-header { font-size: 11px; }
+    .pb-strip-sm .pb-strip-photo { border-radius: 3px; }
+    .pb-strip-sm .pb-strip-footer { font-size: 10px; }
+    .pb-strip-empty {
+      text-align: center; color: #ce93d8; font-size: 12px;
+      font-style: italic; font-family: 'Playfair Display', serif;
+      padding: 1rem 0;
+    }
+    .pb-shared-heart { font-size: 2rem; padding-top: 80px; }
+    .pb-shared-note {
+      font-size: 13px; color: #ad6e8a; font-style: italic;
+      font-family: 'Playfair Display', serif; text-align: center;
+    }
+    .pb-shared-date { font-size: 10px; color: #ce93d8; }
   </style>
 </head>
 <body>
@@ -1043,6 +1239,7 @@
     <button class="tab-btn" onclick="showSection('gallery',this)">🖼️ Our Memories</button>
     <button class="tab-btn" onclick="showSection('dates',this)">📅 Our Story</button>
     <button class="tab-btn" onclick="showSection('countdown',this)">✈️ Counting Down</button>
+    <button class="tab-btn" onclick="showSection('photobooth',this)">📸 Photobooth</button>
   </div>
 
   <!-- LOVE LETTER -->
@@ -1289,6 +1486,101 @@
       </div>
     </div>
   </div>
+
+  <!-- PHOTOBOOTH -->
+  <div class="section" id="sec-photobooth">
+    <h2 class="section-title">Our <span>Photobooth</span> 📸</h2>
+    <div class="pb-wrap">
+
+      <p class="pb-intro">Each of you takes your own strip — both strips appear here together 💕</p>
+
+      <!-- who are you -->
+      <div class="pb-identity">
+        <p class="pb-identity-label">Who's taking photos?</p>
+        <div class="pb-identity-btns">
+          <button class="pb-id-btn" id="pbIdUmar"  onclick="setPbIdentity('umar')">👨 I'm Umar</button>
+          <button class="pb-id-btn" id="pbIdMochi" onclick="setPbIdentity('mochi')">🌸 I'm Mochi</button>
+        </div>
+      </div>
+
+      <!-- filter selector -->
+      <div class="pb-filters">
+        <button class="pb-filter-btn active" onclick="setFilter('none',this)">No Filter</button>
+        <button class="pb-filter-btn" onclick="setFilter('warm',this)">🌸 Warm</button>
+        <button class="pb-filter-btn" onclick="setFilter('rosy',this)">💕 Rosy</button>
+        <button class="pb-filter-btn" onclick="setFilter('dreamy',this)">✨ Dreamy</button>
+        <button class="pb-filter-btn" onclick="setFilter('noir',this)">🖤 Noir</button>
+      </div>
+
+      <!-- camera -->
+      <div class="pb-camera-wrap" id="pbCameraWrap">
+        <video class="pb-video" id="pbVideo" autoplay playsinline muted></video>
+        <div class="pb-overlay-filter" id="pbOverlayFilter"></div>
+        <div class="pb-countdown-display" id="pbCountdown"></div>
+        <div class="pb-flash" id="pbFlash"></div>
+        <div class="pb-shot-counter" id="pbShotCounter"></div>
+        <div class="pb-no-camera" id="pbNoCamera">
+          <div class="icon">📷</div>
+          <p>Select who you are, then click "Start Camera"!</p>
+        </div>
+      </div>
+
+      <!-- controls -->
+      <div class="pb-controls">
+        <button class="pb-start-btn" id="pbStartBtn" onclick="startCamera()" disabled>
+          <span>📷</span> Start Camera
+        </button>
+        <button class="pb-snap-btn" id="pbSnapBtn" onclick="startPhotoStrip()" disabled>
+          <span>🎞️</span> Take My Strip
+        </button>
+      </div>
+
+      <!-- my strip result -->
+      <div class="pb-strip-wrap" id="pbStripWrap">
+        <div class="pb-strip" id="pbStrip">
+          <div class="pb-strip-header" id="pbStripHeader">💕</div>
+          <div class="pb-strip-footer">
+            <span class="hearts">💖 💕 💖</span><br>
+            <span id="pbStripDate"></span>
+          </div>
+        </div>
+        <div class="pb-strip-btns">
+          <button class="pb-download-btn" onclick="downloadStrip()">⬇️ Save My Strip</button>
+          <button class="pb-retake-btn" onclick="retakeStrip()">🔄 Retake</button>
+        </div>
+      </div>
+
+      <!-- both strips together -->
+      <div class="pb-shared-wrap" id="pbSharedWrap">
+        <h3 class="pb-shared-title">Our Strips Together 💕</h3>
+        <div class="pb-shared-strips">
+          <div class="pb-shared-col">
+            <div class="pb-shared-label">👨 Umar</div>
+            <div class="pb-strip pb-strip-sm" id="pbStripUmar">
+              <div class="pb-strip-header">Umar 👨</div>
+              <div class="pb-strip-empty">No strip yet 📷</div>
+              <div class="pb-strip-footer"><span class="hearts">💖</span><br><span class="pb-shared-date" id="pbDateUmar"></span></div>
+            </div>
+          </div>
+          <div class="pb-shared-heart">💞</div>
+          <div class="pb-shared-col">
+            <div class="pb-shared-label">🌸 Mochi</div>
+            <div class="pb-strip pb-strip-sm" id="pbStripMochi">
+              <div class="pb-strip-header">Mochi 🌸</div>
+              <div class="pb-strip-empty">No strip yet 📷</div>
+              <div class="pb-strip-footer"><span class="hearts">💖</span><br><span class="pb-shared-date" id="pbDateMochi"></span></div>
+            </div>
+          </div>
+        </div>
+        <p class="pb-shared-note">Updates live when the other person takes their strip 🌍</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- hidden canvas for capturing frames -->
+  <canvas id="pbCanvas"></canvas>
+  <canvas id="pbStripCanvas"></canvas>
 
   <!-- LIGHTBOX -->
   <div class="lightbox" id="lightbox" onclick="closeLightboxOnBg(event)">
@@ -1875,7 +2167,7 @@ const firebaseConfig = {
         'hero-sub':'A little corner of the internet that exists for one reason only — to remind you how loved you truly are. 🌸',
         'tab-letter':'💌 Love Letter','tab-features':'✨ What I Love About You','tab-reasons':'🌸 Reasons I Love You',
         'tab-jokes':'😂 Jokes For You','tab-bucket':'🌍 Bucket List','tab-song':'🎵 Our Song',
-        'tab-gallery':'🖼️ Our Memories','tab-dates':'📅 Our Story','tab-countdown':'✈️ Counting Down',
+        'tab-gallery':'🖼️ Our Memories','tab-dates':'📅 Our Story','tab-countdown':'✈️ Counting Down','tab-photobooth':'📸 Photobooth',
         'letter-title':'A Letter From <span>My Soul</span>',
         'letter-body':`My Sayang, my Habibti, my little Mochi —<br><br>I don't think words will ever be enough to tell you how much I love you — but I will spend every single day of my life trying.<br><br><em>You are amazing.</em> Not in the way people casually throw that word around — truly, deeply, remarkably amazing. The way you carry yourself, the way you love, the way you face everything life throws at you with a grace that leaves me in awe every single time.<br><br>I fell in love with <em>you</em> — your personality, your soul, your strength. The strength you have is something I admire more than you will ever know. It is one of the most beautiful things about you, and it makes me love you more every single day.<br><br><em>You make my days brighter.</em> A single smile from you and the whole world feels lighter. You are the sun to my moon — without you, I am just darkness. With you, I glow.<br><br>Meeting you, loving you — these are my <em>biggest achievements.</em> But the moment I am most proud of, the moment I will carry in my heart forever, is the moment I asked you to be my wife. That was the best thing I have ever done.<br><br>My biggest dream is simple — <em>to see you happy.</em> That is all I want. Every prayer I make, every dua I raise to Allah, is for you. I make dua that I become someone you are proud of. Someone worthy of you. Someone you are glad to call yours.<br><br><em>May Allah grant us the support of one another — in this dunya and in the akhira.</em> May He keep our hearts tied together, our love protected, and our path lit. Ameen.<br><br>There is no one else in this entire world I would choose. It has always been you. It will always be you.<br><br><span class="hw-big">I LOVE YOU, SAYANG —<br>with all my heart and all my soul. 💖</span>`,
         'letter-sign':'— forever and always, yours 🌙','heart-btn':'Send her hearts 💖',
@@ -1910,7 +2202,7 @@ const firebaseConfig = {
         'hero-sub':'Sebuah sudut kecil di internet yang hadir hanya untuk satu alasan — mengingatkanmu betapa dicintainya dirimu. 🌸',
         'tab-letter':'💌 Surat Cinta','tab-features':'✨ Yang Aku Cintai Darimu','tab-reasons':'🌸 Alasan Aku Mencintaimu',
         'tab-jokes':'😂 Lelucon Untukmu','tab-bucket':'🌍 Daftar Impian','tab-song':'🎵 Lagu Kita',
-        'tab-gallery':'🖼️ Kenangan Kita','tab-dates':'📅 Kisah Kita','tab-countdown':'✈️ Menghitung Hari',
+        'tab-gallery':'🖼️ Kenangan Kita','tab-dates':'📅 Kisah Kita','tab-countdown':'✈️ Menghitung Hari','tab-photobooth':'📸 Photobooth',
         'letter-title':'Surat Dari <span>Jiwaku</span>',
         'letter-body':`Sayangku, Habibtiku, Mochi kecilku —<br><br>Aku rasa kata-kata tidak akan pernah cukup untuk memberitahumu betapa besar cintaku padamu — tapi aku akan menghabiskan setiap hari hidupku untuk mencoba.<br><br><em>Kamu luar biasa.</em> Bukan dengan cara orang sembarangan mengucapkan kata itu — sungguh, dalam, luar biasa. Cara kamu membawa dirimu, cara kamu mencintai, cara kamu menghadapi segala yang dilemparkan hidup kepadamu dengan keanggunan yang membuatku terpesona setiap saat.<br><br>Aku jatuh cinta dengan <em>kamu</em> — kepribadianmu, jiwamu, kekuatanmu. Kekuatan yang kamu miliki adalah sesuatu yang aku kagumi lebih dari yang akan pernah kamu ketahui. Itu adalah salah satu hal paling indah tentang dirimu, dan itu membuatku semakin mencintaimu setiap hari.<br><br><em>Kamu membuat hariku lebih cerah.</em> Satu senyum darimu dan seluruh dunia terasa lebih ringan. Kamu adalah matahari untuk bulanku — tanpamu, aku hanyalah kegelapan. Bersamamu, aku bersinar.<br><br>Bertemu denganmu, mencintaimu — ini adalah <em>pencapaian terbesarku.</em> Tapi momen yang paling aku banggakan, momen yang akan selalu aku bawa di hatiku, Saat itulah aku memintamu menjadi istriku. Itu adalah hal terbaik yang pernah aku lakukan.<br><br>Impian terbesarku sederhana — <em>melihatmu bahagia.</em> Hanya itu yang aku inginkan. Setiap doa yang aku panjatkan kepada Allah adalah untukmu. Aku berdoa agar aku menjadi seseorang yang kamu banggakan. Seseorang yang layak untukmu. Seseorang yang dengan bangga kamu sebut milikmu.<br><br><em>Semoga Allah memberikan kita dukungan satu sama lain — di dunia dan di akhirat.</em> Semoga Dia menjaga hati kita tetap terikat, cinta kita terlindungi, dan jalan kita terang. Aamiin.<br><br>Tidak ada orang lain di dunia ini yang akan aku pilih. Selalu kamu. Akan selalu kamu.<br><br><span class="hw-big">AKU MENCINTAIMU, SAYANG —<br>dengan seluruh hati dan jiwaku. 💖</span>`,
         'letter-sign':'— selamanya dan selalu, milikmu 🌙','heart-btn':'Kirimkan hati untuknya 💖',
@@ -2004,7 +2296,7 @@ const firebaseConfig = {
       document.querySelector('.hero h1').innerHTML = t['hero-h1'];
       document.querySelector('.hero-sub').textContent = t['hero-sub'];
       const tabs = document.querySelectorAll('.tab-btn');
-      const tabKeys = ['tab-letter','tab-features','tab-reasons','tab-jokes','tab-bucket','tab-song','tab-gallery','tab-dates','tab-countdown'];
+      const tabKeys = ['tab-letter','tab-features','tab-reasons','tab-jokes','tab-bucket','tab-song','tab-gallery','tab-dates','tab-countdown','tab-photobooth'];
       tabs.forEach((tab,i) => { if(tabKeys[i]) tab.innerHTML = t[tabKeys[i]]; });
       document.querySelector('#sec-letter .section-title').innerHTML = t['letter-title'];
       const letterBody = document.querySelector('.hw-text') || document.querySelector('.letter-text');
@@ -2172,6 +2464,236 @@ const firebaseConfig = {
     }
 
     renderPlaylist();
+
+    // ── PHOTOBOOTH ───────────────────────────────────
+    let pbStream        = null;
+    let pbPhotos        = [];
+    let pbShooting      = false;
+    let pbCurrentFilter = 'none';
+    let pbIdentity      = null; // 'umar' or 'mochi'
+
+    const pbFilters = {
+      none:   { css: 'none',                                               rgba: null },
+      warm:   { css: 'sepia(0.3) saturate(1.4) brightness(1.05)',         rgba: 'rgba(255,200,150,0.08)' },
+      rosy:   { css: 'saturate(1.3) hue-rotate(330deg) brightness(1.05)', rgba: 'rgba(255,150,180,0.10)' },
+      dreamy: { css: 'saturate(0.9) brightness(1.1) contrast(0.95)',      rgba: 'rgba(200,180,255,0.12)' },
+      noir:   { css: 'grayscale(1) contrast(1.1)',                        rgba: null },
+    };
+
+    function setPbIdentity(who) {
+      pbIdentity = who;
+      document.getElementById('pbIdUmar').classList.toggle('selected',  who === 'umar');
+      document.getElementById('pbIdMochi').classList.toggle('selected', who === 'mochi');
+      document.getElementById('pbStartBtn').disabled = false;
+      const name = who === 'umar' ? 'Umar 👨' : 'Mochi 🌸';
+      document.getElementById('pbStripHeader').textContent = name + ' — Photobooth';
+    }
+
+    function setFilter(name, btn) {
+      pbCurrentFilter = name;
+      document.querySelectorAll('.pb-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const video = document.getElementById('pbVideo');
+      if (video.srcObject) video.style.filter = pbFilters[name].css;
+      document.getElementById('pbOverlayFilter').style.background = pbFilters[name].rgba || 'transparent';
+    }
+
+    async function startCamera() {
+      if (!pbIdentity) return;
+      const btn = document.getElementById('pbStartBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<span>⏳</span> Starting...';
+      try {
+        pbStream = await navigator.mediaDevices.getUserMedia({
+          video: { facingMode: 'user', width: 640, height: 854 }, audio: false
+        });
+        const video = document.getElementById('pbVideo');
+        video.srcObject = pbStream;
+        video.style.filter = pbFilters[pbCurrentFilter].css;
+        document.getElementById('pbNoCamera').style.display = 'none';
+        btn.innerHTML = '<span>📷</span> Camera On ✅';
+        document.getElementById('pbSnapBtn').disabled = false;
+      } catch(err) {
+        btn.disabled = false;
+        btn.innerHTML = '<span>❌</span> Permission denied — allow camera access';
+        console.error(err);
+      }
+    }
+
+    function stopCamera() {
+      if (pbStream) { pbStream.getTracks().forEach(t => t.stop()); pbStream = null; }
+    }
+
+    function captureFrame() {
+      const video  = document.getElementById('pbVideo');
+      const canvas = document.getElementById('pbCanvas');
+      const W = 480, H = 640;
+      canvas.width = W; canvas.height = H;
+      const ctx = canvas.getContext('2d');
+      ctx.save();
+      ctx.translate(W, 0); ctx.scale(-1, 1);
+      ctx.filter = pbFilters[pbCurrentFilter].css;
+      ctx.drawImage(video, 0, 0, W, H);
+      ctx.restore();
+      const rgba = pbFilters[pbCurrentFilter].rgba;
+      if (rgba) { ctx.fillStyle = rgba; ctx.fillRect(0, 0, W, H); }
+      return canvas.toDataURL('image/jpeg', 0.75); // 0.75 quality to keep Firebase size manageable
+    }
+
+    function flashEffect() {
+      const flash = document.getElementById('pbFlash');
+      flash.classList.add('flash');
+      setTimeout(() => flash.classList.remove('flash'), 120);
+    }
+
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    async function startPhotoStrip() {
+      if (!pbStream || pbShooting || !pbIdentity) return;
+      pbShooting = true; pbPhotos = [];
+      document.getElementById('pbSnapBtn').disabled = true;
+      document.getElementById('pbStripWrap').classList.remove('show');
+      const counter   = document.getElementById('pbShotCounter');
+      const countdown = document.getElementById('pbCountdown');
+      counter.style.display = 'block';
+
+      for (let shot = 1; shot <= 4; shot++) {
+        counter.textContent = `Shot ${shot} / 4`;
+        for (let n = 3; n >= 1; n--) {
+          countdown.textContent = n;
+          countdown.classList.add('show');
+          await sleep(800);
+          countdown.classList.remove('show');
+          await sleep(100);
+        }
+        countdown.textContent = '📸';
+        countdown.classList.add('show');
+        flashEffect();
+        pbPhotos.push(captureFrame());
+        await sleep(400);
+        countdown.classList.remove('show');
+        if (shot < 4) await sleep(700);
+      }
+
+      counter.style.display = 'none';
+      pbShooting = false;
+      document.getElementById('pbSnapBtn').disabled = false;
+      buildStrip();
+      saveStripToFirebase();
+    }
+
+    function buildStrip() {
+      const now = new Date();
+      document.getElementById('pbStripDate').textContent =
+        now.toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
+      const strip  = document.getElementById('pbStrip');
+      strip.querySelectorAll('.pb-strip-photo').forEach(el => el.remove());
+      const footer = strip.querySelector('.pb-strip-footer');
+      pbPhotos.forEach(src => {
+        const img = document.createElement('img');
+        img.className = 'pb-strip-photo';
+        img.src = src;
+        strip.insertBefore(img, footer);
+      });
+      document.getElementById('pbStripWrap').classList.add('show');
+    }
+
+    function saveStripToFirebase() {
+      if (!window._fbDb || !pbIdentity) return;
+      const db  = window._fbDb;
+      const ref = window._fbRef;
+      const set = window._fbSet;
+      const data = {
+        photos: pbPhotos,
+        date: new Date().toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' }),
+        timestamp: new Date().toISOString()
+      };
+      set(ref(db, 'photobooth/' + pbIdentity), data)
+        .then(() => console.log('Strip saved to Firebase'))
+        .catch(err => console.error('Strip save failed:', err));
+    }
+
+    function listenForStrips() {
+      if (!window._fbDb) return;
+      const db      = window._fbDb;
+      const ref     = window._fbRef;
+      const onValue = window._fbOnValue;
+
+      // show shared section
+      document.getElementById('pbSharedWrap').classList.add('show');
+
+      ['umar', 'mochi'].forEach(who => {
+        onValue(ref(db, 'photobooth/' + who), snap => {
+          const data = snap.val();
+          renderSharedStrip(who, data);
+        });
+      });
+    }
+
+    function renderSharedStrip(who, data) {
+      const stripEl = document.getElementById('pbStrip' + (who === 'umar' ? 'Umar' : 'Mochi'));
+      const dateEl  = document.getElementById('pbDate'  + (who === 'umar' ? 'Umar' : 'Mochi'));
+
+      // clear old photos
+      stripEl.querySelectorAll('.pb-strip-photo').forEach(el => el.remove());
+      stripEl.querySelector('.pb-strip-empty') &&
+        (stripEl.querySelector('.pb-strip-empty').style.display = 'none');
+
+      if (!data || !data.photos) {
+        stripEl.querySelector('.pb-strip-empty') &&
+          (stripEl.querySelector('.pb-strip-empty').style.display = 'block');
+        return;
+      }
+
+      dateEl.textContent = data.date || '';
+      const footer = stripEl.querySelector('.pb-strip-footer');
+      data.photos.forEach(src => {
+        const img = document.createElement('img');
+        img.className = 'pb-strip-photo';
+        img.src = src;
+        stripEl.insertBefore(img, footer);
+      });
+    }
+
+    async function downloadStrip() {
+      if (typeof html2canvas === 'undefined') {
+        const s = document.createElement('script');
+        s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+        document.head.appendChild(s);
+        await new Promise(r => s.onload = r);
+      }
+      const canvas = await html2canvas(document.getElementById('pbStrip'), { scale: 2, backgroundColor: '#ffffff' });
+      const link = document.createElement('a');
+      link.download = 'our-photobooth-' + Date.now() + '.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    function retakeStrip() {
+      pbPhotos = [];
+      document.getElementById('pbStripWrap').classList.remove('show');
+    }
+
+    // start listening for both strips as soon as Firebase is ready
+    if (window._fbDb) {
+      listenForStrips();
+    } else {
+      window.addEventListener('firebase-ready', listenForStrips);
+    }
+
+    // stop camera when leaving photobooth tab
+    const _origShowSection = showSection;
+    showSection = function(id, btn) {
+      _origShowSection(id, btn);
+      if (id !== 'photobooth' && pbStream) stopCamera();
+    };
+
+    window.setPbIdentity   = setPbIdentity;
+    window.startCamera     = startCamera;
+    window.startPhotoStrip = startPhotoStrip;
+    window.downloadStrip   = downloadStrip;
+    window.retakeStrip     = retakeStrip;
+    window.setFilter       = setFilter;
   </script>
 </body>
 </html>
