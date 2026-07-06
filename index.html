@@ -1153,7 +1153,79 @@
     .pb-retake-btn:hover { background: #fce4ec; }
     .pb-strip-btns { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
 
-    /* photobooth identity */
+    .pb-shared-actions { display: flex; justify-content: center; margin-top: 0.6rem; }
+    .pb-save-both-btn {
+      background: linear-gradient(135deg, #c2185b, #9c27b0);
+      color: white; border: none; border-radius: 50px;
+      padding: 12px 28px; font-size: 14px; font-weight: 700;
+      cursor: pointer; font-family: 'Lato', sans-serif;
+      box-shadow: 0 4px 16px rgba(194,24,91,0.25);
+      transition: all 0.2s;
+    }
+    .pb-save-both-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(194,24,91,0.35); }
+    .pb-save-both-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* history gallery */
+    .pb-history-wrap {
+      width: 100%; display: none;
+      flex-direction: column; align-items: center; gap: 0.8rem;
+    }
+    .pb-history-wrap.show { display: flex; }
+    .pb-history-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px; width: 100%;
+    }
+    .pb-history-item {
+      background: white; border: 1.5px solid #fce4ec;
+      border-radius: 20px; overflow: hidden;
+      box-shadow: 0 3px 14px rgba(194,24,91,0.08);
+      transition: all 0.2s;
+    }
+    .pb-history-item:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(194,24,91,0.14); }
+    .pb-history-header {
+      background: linear-gradient(135deg, #fce4ec, #f3e5f5);
+      padding: 0.7rem 1rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .pb-history-date {
+      font-size: 12px; font-weight: 700; color: #880e4f;
+      font-family: 'Lato', sans-serif;
+    }
+    .pb-history-save {
+      background: #c2185b; color: white; border: none;
+      border-radius: 50px; padding: 4px 14px;
+      font-size: 11px; font-weight: 700;
+      cursor: pointer; font-family: 'Lato', sans-serif;
+      transition: all 0.2s;
+    }
+    .pb-history-save:hover { background: #880e4f; }
+    .pb-history-strips {
+      display: flex; padding: 0.8rem; gap: 8px; justify-content: center;
+    }
+    .pb-history-strip {
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+    }
+    .pb-history-strip-label {
+      font-size: 11px; font-weight: 700; color: #ad6e8a;
+      font-family: 'Lato', sans-serif;
+    }
+    .pb-history-strip-imgs {
+      display: flex; flex-direction: column; gap: 3px;
+      background: white; border: 1px solid #fce4ec;
+      border-radius: 6px; padding: 5px 5px 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .pb-history-strip-imgs img {
+      width: 90px; height: auto; display: block;
+      border-radius: 2px;
+    }
+    .pb-history-empty {
+      text-align: center; color: #ad6e8a; font-size: 14px;
+      font-style: italic; font-family: 'Playfair Display', serif;
+      padding: 1rem 0;
+    }
+  </style>
     .pb-identity { text-align: center; }
     .pb-identity-label {
       font-family: 'Playfair Display', serif; font-style: italic;
@@ -1572,7 +1644,18 @@
             </div>
           </div>
         </div>
+        <div class="pb-shared-actions">
+        <button class="pb-save-both-btn" id="pbSaveBothBtn" onclick="saveBothStrips()" disabled>💾 Save Both Strips Together</button>
+        </div>
         <p class="pb-shared-note">Updates live when the other person takes their strip 🌍</p>
+      </div>
+
+      <!-- strip history gallery -->
+      <div class="pb-history-wrap" id="pbHistoryWrap">
+        <h3 class="pb-shared-title">Our Strip History 🎞️</h3>
+        <p class="pb-shared-note" style="margin-bottom:0.8rem;">Every session we've taken together 💕</p>
+        <div class="pb-history-grid" id="pbHistoryGrid"></div>
+        <p class="pb-history-empty" id="pbHistoryEmpty">No previous strips yet — take your first one! 🌸</p>
       </div>
 
     </div>
@@ -2598,19 +2681,32 @@ const firebaseConfig = {
       document.getElementById('pbStripWrap').classList.add('show');
     }
 
+    // in-memory store of latest data per person for "save both"
+    const pbLatestData = { umar: null, mochi: null };
+
     function saveStripToFirebase() {
       if (!window._fbDb || !pbIdentity) return;
       const db  = window._fbDb;
       const ref = window._fbRef;
       const set = window._fbSet;
+
+      const sessionId = Date.now().toString();
+      const dateStr   = new Date().toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' });
       const data = {
-        photos: pbPhotos,
-        date: new Date().toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' }),
-        timestamp: new Date().toISOString()
+        photos:    pbPhotos,
+        date:      dateStr,
+        timestamp: new Date().toISOString(),
+        who:       pbIdentity
       };
-      set(ref(db, 'photobooth/' + pbIdentity), data)
-        .then(() => console.log('Strip saved to Firebase'))
-        .catch(err => console.error('Strip save failed:', err));
+
+      // save as latest (for the live "Our Strips Together" view)
+      set(ref(db, 'photobooth/latest/' + pbIdentity), data)
+        .catch(err => console.error('Latest save failed:', err));
+
+      // also push into history under a timestamp key
+      set(ref(db, 'photobooth/history/' + sessionId + '/' + pbIdentity), data)
+        .then(() => console.log('Strip saved to history'))
+        .catch(err => console.error('History save failed:', err));
     }
 
     function listenForStrips() {
@@ -2619,32 +2715,38 @@ const firebaseConfig = {
       const ref     = window._fbRef;
       const onValue = window._fbOnValue;
 
-      // show shared section
       document.getElementById('pbSharedWrap').classList.add('show');
+      document.getElementById('pbHistoryWrap').classList.add('show');
 
+      // listen to latest strips for the live side-by-side view
       ['umar', 'mochi'].forEach(who => {
-        onValue(ref(db, 'photobooth/' + who), snap => {
+        onValue(ref(db, 'photobooth/latest/' + who), snap => {
           const data = snap.val();
+          pbLatestData[who] = data;
           renderSharedStrip(who, data);
+          // show/hide save-both button based on whether both have strips
+          const bothReady = pbLatestData.umar?.photos && pbLatestData.mochi?.photos;
+          document.getElementById('pbSaveBothBtn').disabled = !bothReady;
         });
+      });
+
+      // listen to full history
+      onValue(ref(db, 'photobooth/history'), snap => {
+        const data = snap.val();
+        renderHistory(data);
       });
     }
 
     function renderSharedStrip(who, data) {
       const stripEl = document.getElementById('pbStrip' + (who === 'umar' ? 'Umar' : 'Mochi'));
       const dateEl  = document.getElementById('pbDate'  + (who === 'umar' ? 'Umar' : 'Mochi'));
-
-      // clear old photos
       stripEl.querySelectorAll('.pb-strip-photo').forEach(el => el.remove());
-      stripEl.querySelector('.pb-strip-empty') &&
-        (stripEl.querySelector('.pb-strip-empty').style.display = 'none');
-
+      const emptyEl = stripEl.querySelector('.pb-strip-empty');
       if (!data || !data.photos) {
-        stripEl.querySelector('.pb-strip-empty') &&
-          (stripEl.querySelector('.pb-strip-empty').style.display = 'block');
+        if (emptyEl) emptyEl.style.display = 'block';
         return;
       }
-
+      if (emptyEl) emptyEl.style.display = 'none';
       dateEl.textContent = data.date || '';
       const footer = stripEl.querySelector('.pb-strip-footer');
       data.photos.forEach(src => {
@@ -2653,6 +2755,163 @@ const firebaseConfig = {
         img.src = src;
         stripEl.insertBefore(img, footer);
       });
+    }
+
+    function renderHistory(historyData) {
+      const grid     = document.getElementById('pbHistoryGrid');
+      const emptyEl  = document.getElementById('pbHistoryEmpty');
+      grid.innerHTML = '';
+
+      if (!historyData) {
+        emptyEl.style.display = 'block';
+        return;
+      }
+
+      // sort sessions newest first
+      const sessions = Object.entries(historyData).sort((a, b) => b[0] - a[0]);
+
+      if (sessions.length === 0) {
+        emptyEl.style.display = 'block';
+        return;
+      }
+      emptyEl.style.display = 'none';
+
+      sessions.forEach(([sessionId, session]) => {
+        const umarData  = session.umar;
+        const mochiData = session.mochi;
+        if (!umarData && !mochiData) return;
+
+        // use whichever date is available
+        const date = (umarData || mochiData)?.date || '';
+
+        const item = document.createElement('div');
+        item.className = 'pb-history-item';
+
+        // header with date and save button
+        const header = document.createElement('div');
+        header.className = 'pb-history-header';
+        header.innerHTML = `
+          <span class="pb-history-date">📅 ${date}</span>
+          <button class="pb-history-save" onclick="saveHistorySession('${sessionId}')">⬇️ Save</button>
+        `;
+
+        // strips side by side
+        const stripsRow = document.createElement('div');
+        stripsRow.className = 'pb-history-strips';
+        stripsRow.id = 'pbHistSession_' + sessionId;
+
+        ['umar', 'mochi'].forEach(who => {
+          const d = session[who];
+          const col = document.createElement('div');
+          col.className = 'pb-history-strip';
+
+          const label = document.createElement('div');
+          label.className = 'pb-history-strip-label';
+          label.textContent = who === 'umar' ? '👨 Umar' : '🌸 Mochi';
+
+          const imgWrap = document.createElement('div');
+          imgWrap.className = 'pb-history-strip-imgs';
+          imgWrap.id = 'pbHistImgs_' + sessionId + '_' + who;
+
+          if (d?.photos) {
+            d.photos.forEach(src => {
+              const img = document.createElement('img');
+              img.src = src;
+              imgWrap.appendChild(img);
+            });
+          } else {
+            imgWrap.innerHTML = '<div style="width:90px;height:60px;display:flex;align-items:center;justify-content:center;color:#ce93d8;font-size:11px;font-style:italic;">No strip</div>';
+          }
+
+          col.appendChild(label);
+          col.appendChild(imgWrap);
+          stripsRow.appendChild(col);
+        });
+
+        item.appendChild(header);
+        item.appendChild(stripsRow);
+        grid.appendChild(item);
+      });
+    }
+
+    async function saveBothStrips() {
+      const u = pbLatestData.umar;
+      const m = pbLatestData.mochi;
+      if (!u?.photos || !m?.photos) return;
+
+      const btn = document.getElementById('pbSaveBothBtn');
+      btn.disabled = true;
+      btn.textContent = '⏳ Generating...';
+
+      // load html2canvas if needed
+      if (typeof html2canvas === 'undefined') {
+        const s = document.createElement('script');
+        s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+        document.head.appendChild(s);
+        await new Promise(r => s.onload = r);
+      }
+
+      // render both strip divs
+      const umarEl  = document.getElementById('pbStripUmar');
+      const mochiEl = document.getElementById('pbStripMochi');
+      const [canvasU, canvasM] = await Promise.all([
+        html2canvas(umarEl,  { scale: 2, backgroundColor: '#ffffff' }),
+        html2canvas(mochiEl, { scale: 2, backgroundColor: '#ffffff' }),
+      ]);
+
+      // composite side by side with a pink background
+      const GAP = 30, PADDING = 40;
+      const totalW = canvasU.width + canvasM.width + GAP + PADDING * 2;
+      const totalH = Math.max(canvasU.height, canvasM.height) + PADDING * 2 + 60;
+
+      const final = document.createElement('canvas');
+      final.width  = totalW;
+      final.height = totalH;
+      const ctx = final.getContext('2d');
+
+      // background
+      ctx.fillStyle = '#fff5f8';
+      ctx.fillRect(0, 0, totalW, totalH);
+
+      // header text
+      ctx.fillStyle = '#c2185b';
+      ctx.font = 'bold 28px serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('💕 Sayang & Umar 💕', totalW / 2, 38);
+
+      // date
+      ctx.fillStyle = '#ad6e8a';
+      ctx.font = '16px serif';
+      ctx.fillText(new Date().toLocaleDateString('en-GB', { day:'numeric', month:'long', year:'numeric' }), totalW / 2, 60);
+
+      // strips
+      ctx.drawImage(canvasU, PADDING, 70);
+      ctx.drawImage(canvasM, PADDING + canvasU.width + GAP, 70);
+
+      // download
+      const link = document.createElement('a');
+      link.download = 'our-strips-together-' + Date.now() + '.png';
+      link.href = final.toDataURL('image/png');
+      link.click();
+
+      btn.disabled = false;
+      btn.textContent = '💾 Save Both Strips Together';
+    }
+
+    async function saveHistorySession(sessionId) {
+      if (typeof html2canvas === 'undefined') {
+        const s = document.createElement('script');
+        s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+        document.head.appendChild(s);
+        await new Promise(r => s.onload = r);
+      }
+      const stripsRow = document.getElementById('pbHistSession_' + sessionId);
+      if (!stripsRow) return;
+      const canvas = await html2canvas(stripsRow, { scale: 2, backgroundColor: '#ffffff' });
+      const link = document.createElement('a');
+      link.download = 'our-strips-' + sessionId + '.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
     }
 
     async function downloadStrip() {
@@ -2688,12 +2947,14 @@ const firebaseConfig = {
       if (id !== 'photobooth' && pbStream) stopCamera();
     };
 
-    window.setPbIdentity   = setPbIdentity;
-    window.startCamera     = startCamera;
-    window.startPhotoStrip = startPhotoStrip;
-    window.downloadStrip   = downloadStrip;
-    window.retakeStrip     = retakeStrip;
-    window.setFilter       = setFilter;
+    window.setPbIdentity       = setPbIdentity;
+    window.startCamera         = startCamera;
+    window.startPhotoStrip     = startPhotoStrip;
+    window.downloadStrip       = downloadStrip;
+    window.retakeStrip         = retakeStrip;
+    window.setFilter           = setFilter;
+    window.saveBothStrips      = saveBothStrips;
+    window.saveHistorySession  = saveHistorySession;
   </script>
 </body>
 </html>
