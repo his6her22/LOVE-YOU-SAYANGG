@@ -1040,7 +1040,7 @@
     .pb-video {
       width: 100%; height: 100%;
       object-fit: cover;
-      display: block;
+      display: none; /* shown only when camera is active */
       transform: scaleX(-1); /* mirror effect */
     }
     .pb-overlay-filter {
@@ -2636,6 +2636,7 @@ const firebaseConfig = {
         });
         const video = document.getElementById('pbVideo');
         video.srcObject = pbStream;
+        video.style.display = 'block';
         video.style.filter = pbFilters[pbCurrentFilter].css;
         document.getElementById('pbNoCamera').style.display = 'none';
         btn.innerHTML = '<span>📷</span> Camera On ✅';
@@ -2648,7 +2649,17 @@ const firebaseConfig = {
     }
 
     function stopCamera() {
-      if (pbStream) { pbStream.getTracks().forEach(t => t.stop()); pbStream = null; }
+      if (pbStream) {
+        pbStream.getTracks().forEach(t => t.stop());
+        pbStream = null;
+      }
+      const video = document.getElementById('pbVideo');
+      video.srcObject = null;
+      video.style.display = 'none';
+      document.getElementById('pbNoCamera').style.display = 'flex';
+      document.getElementById('pbStartBtn').disabled = false;
+      document.getElementById('pbStartBtn').innerHTML = '<span>📷</span> Start Camera';
+      document.getElementById('pbSnapBtn').disabled = true;
     }
 
     function captureFrame() {
