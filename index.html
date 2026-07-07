@@ -1271,6 +1271,45 @@
       font-family: 'Playfair Display', serif; text-align: center;
     }
     .pb-shared-date { font-size: 10px; color: #ce93d8; }
+    /* border picker */
+    .pb-border-section {
+      width: 100%; max-width: 560px;
+      text-align: center;
+    }
+    .pb-border-label {
+      font-family: 'Playfair Display', serif; font-style: italic;
+      color: #ad6e8a; font-size: 14px; margin-bottom: 10px;
+    }
+    .pb-border-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+      gap: 10px;
+    }
+    .pb-border-opt {
+      cursor: pointer; border-radius: 12px;
+      padding: 6px; transition: all 0.2s;
+      background: white; border: 2px solid #fce4ec;
+      display: flex; flex-direction: column;
+      align-items: center; gap: 5px;
+    }
+    .pb-border-opt:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(194,24,91,0.15); }
+    .pb-border-opt.selected { border-color: #c2185b; box-shadow: 0 0 0 3px rgba(194,24,91,0.2); }
+    .pb-border-preview {
+      width: 60px; height: 80px;
+      display: flex; flex-direction: column; gap: 2px;
+      align-items: center; justify-content: center;
+      border-radius: 4px; overflow: hidden;
+      position: relative;
+    }
+    .pb-border-preview-inner {
+      width: 44px; background: #e8e8e8;
+      flex: 1; border-radius: 2px;
+    }
+    .pb-border-name {
+      font-size: 10px; font-weight: 700;
+      font-family: 'Lato', sans-serif;
+      color: #880e4f; text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -1581,6 +1620,12 @@
         <button class="pb-filter-btn" onclick="setFilter('rosy',this)">💕 Rosy</button>
         <button class="pb-filter-btn" onclick="setFilter('dreamy',this)">✨ Dreamy</button>
         <button class="pb-filter-btn" onclick="setFilter('noir',this)">🖤 Noir</button>
+      </div>
+
+      <!-- border picker -->
+      <div class="pb-border-section">
+        <p class="pb-border-label">Choose a border for your strip 🖼️</p>
+        <div class="pb-border-grid" id="pbBorderGrid"></div>
       </div>
 
       <!-- camera -->
@@ -2664,6 +2709,234 @@ const firebaseConfig = {
       saveStripToFirebase();
     }
 
+    // ── BORDERS ─────────────────────────────────────
+    let pbCurrentBorder = 'none';
+
+    const pbBorders = [
+      {
+        id: 'none', name: 'None',
+        preview: { bg: '#fff', frame: 'none', inner: '#e8e8e8' },
+        applyToStrip: (el) => {
+          el.style.background = 'white';
+          el.style.border = 'none';
+          el.style.outline = 'none';
+          el.style.padding = '14px 14px 24px';
+          el.style.borderRadius = '8px';
+        }
+      },
+      {
+        id: 'pink-hearts', name: '💕 Hearts',
+        preview: { bg: '#fce4ec', frame: '3px solid #f48fb1', inner: '#fff' },
+        applyToStrip: (el) => {
+          el.style.background = '#fce4ec';
+          el.style.border = '3px solid #f48fb1';
+          el.style.outline = 'none';
+          el.style.padding = '16px 16px 26px';
+          el.style.borderRadius = '12px';
+        }
+      },
+      {
+        id: 'floral', name: '🌸 Floral',
+        preview: { bg: '#fff9f5', frame: '4px solid #f8bbd0', inner: '#fff' },
+        applyToStrip: (el) => {
+          el.style.background = `
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Ctext x='10' y='28' font-size='20'%3E🌸%3C/text%3E%3C/svg%3E") repeat,
+            #fff9f5
+          `;
+          el.style.border = '4px solid #f8bbd0';
+          el.style.outline = '2px solid #fce4ec';
+          el.style.padding = '18px 18px 28px';
+          el.style.borderRadius = '12px';
+        }
+      },
+      {
+        id: 'gold', name: '✨ Gold',
+        preview: { bg: '#fffde7', frame: '3px solid #f9a825', inner: '#fff' },
+        applyToStrip: (el) => {
+          el.style.background = '#fffde7';
+          el.style.border = '3px solid #f9a825';
+          el.style.outline = '1px solid #ffe082';
+          el.style.padding = '16px 16px 26px';
+          el.style.borderRadius = '6px';
+          el.style.boxShadow = '0 0 0 4px #fff8e1, 0 6px 24px rgba(249,168,37,0.2)';
+        }
+      },
+      {
+        id: 'purple', name: '💜 Purple',
+        preview: { bg: '#f3e5f5', frame: '3px solid #ce93d8', inner: '#fff' },
+        applyToStrip: (el) => {
+          el.style.background = '#f3e5f5';
+          el.style.border = '3px solid #ce93d8';
+          el.style.outline = 'none';
+          el.style.padding = '16px 16px 26px';
+          el.style.borderRadius = '12px';
+          el.style.boxShadow = '0 0 0 4px #f3e5f5, 0 6px 24px rgba(156,39,176,0.15)';
+        }
+      },
+      {
+        id: 'vintage', name: '📜 Vintage',
+        preview: { bg: '#fdf6e3', frame: '4px double #c8a96e', inner: '#fff' },
+        applyToStrip: (el) => {
+          el.style.background = '#fdf6e3';
+          el.style.border = '4px double #c8a96e';
+          el.style.outline = '2px solid #e8d5a3';
+          el.style.padding = '18px 18px 28px';
+          el.style.borderRadius = '4px';
+          el.style.boxShadow = 'inset 0 0 12px rgba(200,169,110,0.2), 0 6px 24px rgba(0,0,0,0.1)';
+        }
+      },
+      {
+        id: 'polaroid', name: '📷 Polaroid',
+        preview: { bg: '#fff', frame: '2px solid #ddd', inner: '#e8e8e8' },
+        applyToStrip: (el) => {
+          el.style.background = 'white';
+          el.style.border = '2px solid #e0e0e0';
+          el.style.outline = 'none';
+          el.style.padding = '12px 12px 40px';
+          el.style.borderRadius = '2px';
+          el.style.boxShadow = '0 4px 14px rgba(0,0,0,0.18), 3px 3px 0 #f5f5f5';
+        }
+      },
+      {
+        id: 'rose-gold', name: '🌹 Rose Gold',
+        preview: { bg: '#fff5f5', frame: '3px solid #e8a0a0', inner: '#fff' },
+        applyToStrip: (el) => {
+          el.style.background = 'linear-gradient(160deg, #fff5f5, #fce4ec)';
+          el.style.border = '3px solid #e8a0a0';
+          el.style.outline = '1px solid #f8bbd0';
+          el.style.padding = '16px 16px 26px';
+          el.style.borderRadius = '10px';
+          el.style.boxShadow = '0 0 0 4px #fff0f0, 0 6px 24px rgba(232,160,160,0.25)';
+        }
+      },
+      {
+        id: 'midnight', name: '🌙 Midnight',
+        preview: { bg: '#1a1a2e', frame: '2px solid #7c4dff', inner: '#444' },
+        applyToStrip: (el) => {
+          el.style.background = 'linear-gradient(160deg, #1a1a2e, #16213e)';
+          el.style.border = '2px solid #7c4dff';
+          el.style.outline = '1px solid #3d1a78';
+          el.style.padding = '16px 16px 26px';
+          el.style.borderRadius = '12px';
+          el.style.boxShadow = '0 0 20px rgba(124,77,255,0.3), 0 6px 24px rgba(0,0,0,0.4)';
+        }
+      },
+      {
+        id: 'spring', name: '🌿 Spring',
+        preview: { bg: '#f1f8e9', frame: '3px solid #aed581', inner: '#fff' },
+        applyToStrip: (el) => {
+          el.style.background = '#f1f8e9';
+          el.style.border = '3px solid #aed581';
+          el.style.outline = 'none';
+          el.style.padding = '16px 16px 26px';
+          el.style.borderRadius = '12px';
+          el.style.boxShadow = '0 0 0 4px #f9fbe7, 0 6px 24px rgba(174,213,129,0.2)';
+        }
+      },
+      {
+        id: 'rainbow', name: '🌈 Rainbow',
+        preview: { bg: '#fff', frame: '4px solid transparent', inner: '#fff' },
+        applyToStrip: (el) => {
+          el.style.background = 'white';
+          el.style.border = '4px solid transparent';
+          el.style.outline = 'none';
+          el.style.padding = '16px 16px 26px';
+          el.style.borderRadius = '12px';
+          el.style.backgroundClip = 'padding-box';
+          el.style.boxShadow = '0 0 0 4px transparent, 0 6px 24px rgba(0,0,0,0.1)';
+          el.style.backgroundImage = 'none';
+          // apply gradient border via outline trick
+          el.style.border = 'none';
+          el.style.outline = '4px solid';
+          el.style.outlineColor = 'transparent';
+          el.setAttribute('data-rainbow', '1');
+          // use box-shadow rainbow layers
+          el.style.boxShadow = [
+            '0 0 0 4px #ff6b6b',
+            '0 0 0 7px #ffa94d',
+            '0 0 0 10px #ffe066',
+            '0 0 0 13px #69db7c',
+            '0 0 0 16px #74c0fc',
+            '0 0 0 19px #cc5de8',
+            '0 6px 28px rgba(0,0,0,0.1)'
+          ].join(', ');
+          el.style.margin = '20px';
+          el.style.border = 'none';
+        }
+      },
+      {
+        id: 'lace', name: '🤍 Lace',
+        preview: { bg: '#fff', frame: '3px dashed #f8bbd0', inner: '#fce4ec' },
+        applyToStrip: (el) => {
+          el.style.background = 'white';
+          el.style.border = '3px dashed #f8bbd0';
+          el.style.outline = '1px solid #fce4ec';
+          el.style.padding = '16px 16px 26px';
+          el.style.borderRadius = '12px';
+          el.style.boxShadow = 'inset 0 0 8px rgba(244,143,177,0.1), 0 6px 24px rgba(194,24,91,0.08)';
+        }
+      },
+    ];
+
+    function renderBorderPicker() {
+      const grid = document.getElementById('pbBorderGrid');
+      grid.innerHTML = '';
+      pbBorders.forEach(b => {
+        const opt = document.createElement('div');
+        opt.className = 'pb-border-opt' + (b.id === pbCurrentBorder ? ' selected' : '');
+        opt.onclick = () => selectBorder(b.id);
+
+        // mini preview
+        const preview = document.createElement('div');
+        preview.className = 'pb-border-preview';
+        preview.style.background = b.preview.bg;
+        preview.style.border     = b.preview.frame;
+
+        // 4 tiny photo placeholders
+        for (let i = 0; i < 4; i++) {
+          const bar = document.createElement('div');
+          bar.className = 'pb-border-preview-inner';
+          bar.style.background = b.preview.inner;
+          bar.style.height = '14px';
+          preview.appendChild(bar);
+        }
+
+        const name = document.createElement('div');
+        name.className = 'pb-border-name';
+        name.textContent = b.name;
+
+        opt.appendChild(preview);
+        opt.appendChild(name);
+        grid.appendChild(opt);
+      });
+    }
+
+    function selectBorder(id) {
+      pbCurrentBorder = id;
+      renderBorderPicker();
+      // live-update the strip if it's already showing
+      const strip = document.getElementById('pbStrip');
+      if (document.getElementById('pbStripWrap').classList.contains('show')) {
+        applyBorderToStrip(strip);
+      }
+    }
+
+    function applyBorderToStrip(el) {
+      // reset first
+      el.style.cssText = '';
+      el.style.display = 'flex';
+      el.style.flexDirection = 'column';
+      el.style.gap = '8px';
+      el.style.position = 'relative';
+      el.style.width = '220px';
+      el.style.boxSizing = 'border-box';
+
+      const border = pbBorders.find(b => b.id === pbCurrentBorder);
+      if (border) border.applyToStrip(el);
+    }
+
+    renderBorderPicker();
+
     function buildStrip() {
       const now = new Date();
       document.getElementById('pbStripDate').textContent =
@@ -2677,6 +2950,7 @@ const firebaseConfig = {
         img.src = src;
         strip.insertBefore(img, footer);
       });
+      applyBorderToStrip(strip);
       document.getElementById('pbStripWrap').classList.add('show');
     }
 
@@ -2954,6 +3228,7 @@ const firebaseConfig = {
     window.setFilter           = setFilter;
     window.saveBothStrips      = saveBothStrips;
     window.saveHistorySession  = saveHistorySession;
+    window.selectBorder        = selectBorder;
   </script>
 </body>
 </html>
