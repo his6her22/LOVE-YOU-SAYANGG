@@ -1035,13 +1035,15 @@
       box-shadow: 0 6px 28px rgba(194,24,91,0.15);
       border: 3px solid #f48fb1;
       background: #1a0a10;
-      aspect-ratio: 3/4;
+      aspect-ratio: unset;
+      min-height: 300px;
     }
     .pb-video {
       width: 100%; height: 100%;
-      object-fit: cover;
+      object-fit: contain;
       display: none; /* shown only when camera is active */
       transform: scaleX(-1); /* mirror effect */
+      background: #1a0a10;
     }
     .pb-overlay-filter {
       position: absolute; inset: 0; pointer-events: none;
@@ -1125,8 +1127,10 @@
       color: #c2185b; margin-bottom: 2px;
     }
     .pb-strip-photo {
-      width: 100%; aspect-ratio: 3/4;
-      object-fit: cover; border-radius: 4px;
+      width: 100%; height: auto;
+      object-fit: contain; border-radius: 4px;
+      display: block;
+    }
       display: block;
     }
     .pb-strip-footer {
@@ -1218,7 +1222,7 @@
     }
     .pb-history-strip-imgs img {
       width: 90px; height: auto; display: block;
-      border-radius: 2px;
+      border-radius: 2px; object-fit: contain;
     }
     .pb-history-empty {
       text-align: center; color: #ad6e8a; font-size: 14px;
@@ -1622,12 +1626,6 @@
         <button class="pb-filter-btn" onclick="setFilter('noir',this)">🖤 Noir</button>
       </div>
 
-      <!-- border picker -->
-      <div class="pb-border-section">
-        <p class="pb-border-label">Choose a border for your strip 🖼️</p>
-        <div class="pb-border-grid" id="pbBorderGrid"></div>
-      </div>
-
       <!-- camera -->
       <div class="pb-camera-wrap" id="pbCameraWrap">
         <video class="pb-video" id="pbVideo" autoplay playsinline muted></video>
@@ -1660,6 +1658,12 @@
             <span id="pbStripDate"></span>
           </div>
         </div>
+        <!-- border picker — shown after strip is taken -->
+        <div class="pb-border-section">
+          <p class="pb-border-label">Choose a border 🖼️</p>
+          <div class="pb-border-grid" id="pbBorderGrid"></div>
+        </div>
+
         <div class="pb-strip-btns">
           <button class="pb-download-btn" onclick="downloadStrip()">⬇️ Save My Strip</button>
           <button class="pb-retake-btn" onclick="retakeStrip()">🔄 Retake</button>
@@ -2665,7 +2669,9 @@ const firebaseConfig = {
     function captureFrame() {
       const video  = document.getElementById('pbVideo');
       const canvas = document.getElementById('pbCanvas');
-      const W = 480, H = 640;
+      // use the video's actual rendered dimensions to preserve natural aspect ratio
+      const W = video.videoWidth  || video.offsetWidth  || 480;
+      const H = video.videoHeight || video.offsetHeight || 640;
       canvas.width = W; canvas.height = H;
       const ctx = canvas.getContext('2d');
       ctx.save();
@@ -2946,8 +2952,6 @@ const firebaseConfig = {
       if (border) border.applyToStrip(el);
     }
 
-    renderBorderPicker();
-
     function buildStrip() {
       const now = new Date();
       document.getElementById('pbStripDate').textContent =
@@ -2961,6 +2965,9 @@ const firebaseConfig = {
         img.src = src;
         strip.insertBefore(img, footer);
       });
+      // reset border to none and render picker fresh each time
+      pbCurrentBorder = 'none';
+      renderBorderPicker();
       applyBorderToStrip(strip);
       document.getElementById('pbStripWrap').classList.add('show');
     }
