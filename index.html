@@ -1314,6 +1314,145 @@
       font-family: 'Lato', sans-serif;
       color: #880e4f; text-align: center;
     }
+    /* ── OPENING SPLASH ──────────────────────────────── */
+    .splash {
+      position: fixed; inset: 0; z-index: 99999;
+      background: linear-gradient(160deg, #fff5f8, #f5f0ff);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 2rem;
+      cursor: pointer;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+    .splash.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+    .splash-envelope {
+      position: relative; width: 260px; height: 180px;
+      animation: envFloat 3s ease-in-out infinite;
+    }
+    .splash-envelope.opening { animation: none; }
+    @keyframes envFloat {
+      0%,100% { transform: translateY(0) rotate(-1deg); }
+      50%      { transform: translateY(-14px) rotate(1deg); }
+    }
+    .splash-env-back {
+      position: absolute; inset: 0;
+      background: linear-gradient(160deg, #fce4ec, #f8bbd0);
+      border-radius: 4px 4px 12px 12px;
+      box-shadow: 0 12px 40px rgba(194,24,91,0.2);
+    }
+    .splash-env-letter {
+      position: absolute; left: 14px; right: 14px; bottom: 14px;
+      background: white; border-radius: 4px; padding: 1rem;
+      text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      transform: translateY(0); z-index: 2;
+      transition: transform 0.7s cubic-bezier(0.34,1.56,0.64,1), opacity 0.5s ease;
+    }
+    .splash-envelope.opening .splash-env-letter { transform: translateY(-170px); opacity: 0; }
+    .splash-hearts { font-size: 2rem; margin-bottom: 4px; }
+    .splash-name { font-family:'Playfair Display',serif; color:#ad6e8a; font-size:1rem; }
+    .splash-name-big { font-family:'Playfair Display',serif; color:#c2185b; font-size:1.5rem; font-weight:600; }
+    .splash-env-front {
+      position: absolute; bottom:0; left:0; right:0; height:50%;
+      background: linear-gradient(to top, #f48fb1, #f8bbd0);
+      clip-path: polygon(0 100%, 100% 100%, 100% 0, 50% 60%, 0 0);
+      border-radius: 0 0 12px 12px; z-index: 3;
+    }
+    .splash-env-flap {
+      position: absolute; top:0; left:0; right:0; height:50%;
+      background: linear-gradient(to bottom, #f06292, #f8bbd0);
+      clip-path: polygon(0 0, 100% 0, 50% 80%);
+      border-radius: 4px 4px 0 0; z-index: 4;
+      transform-origin: top center;
+      transition: transform 0.6s ease;
+    }
+    .splash-envelope.opening .splash-env-flap { transform: rotateX(180deg); }
+    .splash-skip {
+      font-family:'Playfair Display',serif; font-style:italic;
+      color:#ad6e8a; font-size:1rem;
+      animation: splashPulse 2s ease-in-out infinite;
+    }
+    @keyframes splashPulse {
+      0%,100% { opacity:1; transform:scale(1); }
+      50%      { opacity:0.5; transform:scale(0.96); }
+    }
+
+    /* ── SECTION ENTRANCE ANIMATIONS ─────────────────── */
+    .section.active {
+      animation: sectionIn 0.45s cubic-bezier(0.25,0.46,0.45,0.94) both;
+    }
+    @keyframes sectionIn {
+      from { opacity:0; transform:translateY(24px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    .section.active .feature-card { animation: childIn 0.4s cubic-bezier(0.25,0.46,0.45,0.94) both; }
+    .section.active .feature-card:nth-child(1) { animation-delay:0.05s; }
+    .section.active .feature-card:nth-child(2) { animation-delay:0.10s; }
+    .section.active .feature-card:nth-child(3) { animation-delay:0.15s; }
+    .section.active .feature-card:nth-child(4) { animation-delay:0.20s; }
+    .section.active .feature-card:nth-child(5) { animation-delay:0.25s; }
+    .section.active .feature-card:nth-child(6) { animation-delay:0.30s; }
+    .section.active .joke-card { animation: childIn 0.4s cubic-bezier(0.25,0.46,0.45,0.94) both; }
+    .section.active .joke-card:nth-child(1) { animation-delay:0.05s; }
+    .section.active .joke-card:nth-child(2) { animation-delay:0.10s; }
+    .section.active .joke-card:nth-child(3) { animation-delay:0.15s; }
+    .section.active .joke-card:nth-child(4) { animation-delay:0.20s; }
+    .section.active .joke-card:nth-child(5) { animation-delay:0.25s; }
+    .section.active .joke-card:nth-child(6) { animation-delay:0.30s; }
+    .section.active .tl-item:nth-child(odd)  .tl-card { animation: revealLeft  0.5s ease 0.1s both; }
+    .section.active .tl-item:nth-child(even) .tl-card { animation: revealRight 0.5s ease 0.1s both; }
+    @keyframes childIn {
+      from { opacity:0; transform:translateY(18px) scale(0.96); }
+      to   { opacity:1; transform:translateY(0) scale(1); }
+    }
+    @keyframes revealLeft  { from { opacity:0; transform:translateX(-24px); } to { opacity:1; transform:translateX(0); } }
+    @keyframes revealRight { from { opacity:0; transform:translateX(24px);  } to { opacity:1; transform:translateX(0); } }
+
+    /* ── MICRO-INTERACTIONS ───────────────────────────── */
+    .tab-btn     { transition: all 0.2s cubic-bezier(0.34,1.56,0.64,1) !important; }
+    .tab-btn:active { transform: scale(0.90) !important; }
+    .feature-card { transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease !important; }
+    .feature-card:hover { transform: translateY(-7px) scale(1.04) !important; }
+    .reason-btn  { transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1) !important; }
+    .reason-btn:hover  { transform: translateY(-5px) scale(1.05) !important; }
+    .reason-btn:active { transform: scale(0.93) !important; }
+    .reason-btn.popped { animation: reasonPop 0.5s cubic-bezier(0.34,1.56,0.64,1) !important; }
+    @keyframes reasonPop {
+      0%   { transform:scale(1); }
+      40%  { transform:scale(1.18) rotate(2deg); }
+      70%  { transform:scale(0.94) rotate(-1deg); }
+      100% { transform:scale(1) rotate(0); }
+    }
+    .joke-card   { transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s ease !important; }
+    .joke-card:hover  { transform: translateY(-5px) scale(1.02) !important; }
+    .joke-card:active { transform: scale(0.97) !important; }
+    .heart-btn   { transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease !important; }
+    .heart-btn:hover  { transform: translateY(-5px) scale(1.08) !important; }
+    .heart-btn:active { transform: scale(0.92) !important; }
+    .envelope    { transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s ease !important; }
+    .envelope:hover   { transform: translateY(-7px) scale(1.06) rotate(1deg) !important; }
+    .envelope:active  { transform: scale(0.94) !important; }
+    .cd-box      { transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1) !important; }
+    .cd-box:hover     { transform: translateY(-5px) scale(1.08) !important; }
+    .bucket-item { transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1) !important; }
+    .bucket-item:hover { transform: translateX(8px) !important; }
+    .playlist-track { transition: all 0.25s cubic-bezier(0.34,1.56,0.64,1) !important; }
+    .playlist-track:hover { transform: translateX(6px) scale(1.01) !important; }
+
+    /* hero entrance */
+    .hero-badge { animation: heroIn 0.6s ease 0.1s both; }
+    .hero h1    { animation: heroIn 0.7s ease 0.25s both; }
+    .hero-sub   { animation: heroIn 0.6s ease 0.45s both; }
+    .nick-pill:nth-child(1) { animation: pillBounce 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.3s both; }
+    .nick-pill:nth-child(2) { animation: pillBounce 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.45s both; }
+    .nick-pill:nth-child(3) { animation: pillBounce 0.5s cubic-bezier(0.34,1.56,0.64,1) 0.6s both; }
+    @keyframes heroIn     { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes pillBounce { from { opacity:0; transform:translateY(16px) scale(0.8); } to { opacity:1; transform:translateY(0) scale(1); } }
+
+    /* ── SCROLL REVEAL ─────────────────────────────────── */
+    .scroll-reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    .scroll-reveal.revealed { opacity:1; transform:translateY(0); }
   </style>
 </head>
 <body>
@@ -1324,6 +1463,21 @@
     <span id="langLabel">Bahasa</span>
     <span class="lang-arrows">⇄</span>
   </button>
+
+  <!-- OPENING SPLASH -->
+  <div class="splash" id="splash" onclick="skipSplash()">
+    <div class="splash-envelope" id="splashEnvelope">
+      <div class="splash-env-back"></div>
+      <div class="splash-env-letter" id="splashLetter">
+        <div class="splash-hearts">💖</div>
+        <div class="splash-name">For My</div>
+        <div class="splash-name-big">Sayang 🌸</div>
+      </div>
+      <div class="splash-env-front"></div>
+      <div class="splash-env-flap" id="splashFlap"></div>
+    </div>
+    <div class="splash-skip">Tap to open 💌</div>
+  </div>
 
   <div id="petals"></div>
 
@@ -3247,6 +3401,60 @@ const firebaseConfig = {
     window.saveBothStrips      = saveBothStrips;
     window.saveHistorySession  = saveHistorySession;
     window.selectBorder        = selectBorder;
+
+    // ── SPLASH SCREEN ────────────────────────────────
+    function skipSplash() {
+      const env = document.getElementById('splashEnvelope');
+      const splash = document.getElementById('splash');
+      env.classList.add('opening');
+      setTimeout(() => {
+        splash.classList.add('hide');
+        // force reflow so section entrance animations play
+        document.querySelector('.section.active').style.animation = 'none';
+        void document.querySelector('.section.active').offsetWidth;
+        document.querySelector('.section.active').style.animation = '';
+      }, 800);
+    }
+    // auto-open after 3.5s if not tapped
+    setTimeout(skipSplash, 3500);
+
+    // ── SCROLL REVEAL ────────────────────────────────
+    function initScrollReveal() {
+      // tag elements for scroll reveal
+      const targets = [
+        '.hw-letter-card', '.yt-wrap', '.dist-ui',
+        '.pb-shared-wrap', '.pb-history-wrap',
+        '.bucket-add', '.pb-border-section',
+        '.voice-card', '.envelopes-grid',
+      ];
+      targets.forEach(sel => {
+        document.querySelectorAll(sel).forEach(el => {
+          el.classList.add('scroll-reveal');
+        });
+      });
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              entry.target.classList.add('revealed');
+            }, i * 80);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+    }
+
+    initScrollReveal();
+
+    // re-run scroll reveal when switching tabs (new elements come into view)
+    const _origShowSectionAnim = showSection;
+    showSection = function(id, btn) {
+      _origShowSectionAnim(id, btn);
+      setTimeout(initScrollReveal, 100);
+    };
   </script>
 </body>
 </html>
