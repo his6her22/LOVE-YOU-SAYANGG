@@ -292,6 +292,105 @@
       transition: opacity 0.2s;
     }
     .pause-indicator.show { opacity: 1; }
+    /* ── APPRECIATION SLIDE ───────────────────────── */
+    .appreciation-slide {
+      position: absolute; inset: 0; z-index: 10;
+      background: linear-gradient(160deg, #2d0018, #1a0035, #0d0820);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 2.5rem 2rem;
+      opacity: 0; pointer-events: none;
+      transition: opacity 1.2s ease;
+      text-align: center; gap: 0;
+    }
+    .appreciation-slide.show { opacity: 1; pointer-events: all; }
+
+    .appr-rose {
+      font-size: 3rem; margin-bottom: 1.2rem;
+      animation: roseGlow 2s ease-in-out infinite;
+    }
+    @keyframes roseGlow {
+      0%,100% { transform: scale(1) rotate(-3deg); filter: drop-shadow(0 0 8px rgba(244,143,177,0.6)); }
+      50%      { transform: scale(1.12) rotate(3deg); filter: drop-shadow(0 0 18px rgba(244,143,177,1)); }
+    }
+
+    .appr-thanks {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(1rem, 3.5vw, 1.25rem);
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 1.4rem;
+    }
+
+    .appr-lines {
+      display: flex; flex-direction: column; gap: 0.9rem;
+      margin-bottom: 1.6rem;
+    }
+    .appr-line {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1rem, 3.8vw, 1.3rem);
+      color: white;
+      line-height: 1.5;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+      text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+    }
+    .appr-line.in { opacity: 1; transform: translateY(0); }
+    .appr-line span {
+      color: #f48fb1;
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    .appr-divider {
+      width: 60px; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(244,143,177,0.6), transparent);
+      margin: 0.4rem auto 1.2rem;
+    }
+
+    .appr-big {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(1.6rem, 6vw, 2.2rem);
+      font-weight: 700;
+      color: #f48fb1;
+      line-height: 1.3;
+      opacity: 0;
+      transform: scale(0.9);
+      transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .appr-big.in { opacity: 1; transform: scale(1); }
+
+    .appr-sub {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(0.9rem, 3.2vw, 1.1rem);
+      color: rgba(255,255,255,0.5);
+      margin-top: 0.5rem;
+      opacity: 0;
+      transition: opacity 0.6s ease 0.3s;
+    }
+    .appr-sub.in { opacity: 1; }
+
+    .appr-hearts {
+      font-size: 1.4rem; letter-spacing: 8px;
+      margin-top: 1.2rem;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+      animation: none;
+    }
+    .appr-hearts.in {
+      opacity: 1;
+      animation: heartBeat 1.5s ease-in-out infinite;
+    }
+    @keyframes heartBeat {
+      0%,100% { transform: scale(1); }
+      14%      { transform: scale(1.15); }
+      28%      { transform: scale(1); }
+      42%      { transform: scale(1.1); }
+    }
   </style>
 </head>
 <body>
@@ -326,6 +425,22 @@
 
   <!-- PAUSE INDICATOR -->
   <div class="pause-indicator" id="pauseIndicator">⏸</div>
+
+  <!-- APPRECIATION SLIDE -->
+  <div class="appreciation-slide" id="apprSlide">
+    <div class="appr-rose">🌹</div>
+    <div class="appr-thanks">A message for you</div>
+    <div class="appr-lines">
+      <div class="appr-line" id="appr1">Thank you for being part of my life<br>and <span>letting me grow</span> 🌱</div>
+      <div class="appr-line" id="appr2">Thank you for always being <span>kind to me</span> 🤍</div>
+      <div class="appr-line" id="appr3">Thank you for <span>loving me</span> the way you do 💕</div>
+      <div class="appr-line" id="appr4">Thank you for being the <span>best girlfriend ever</span> 👑</div>
+    </div>
+    <div class="appr-divider"></div>
+    <div class="appr-big" id="apprBig">LOVEE YOU SOO MUCHH SAYANGG 💖</div>
+    <div class="appr-sub" id="apprSub">(The best girlfriend ever)</div>
+    <div class="appr-hearts" id="apprHearts">💖 💕 💗</div>
+  </div>
 
   <!-- CLOSING SLIDE -->
   <div class="end-slide" id="endSlide">
@@ -513,6 +628,11 @@
   function startShow() {
     started = true;
     current = 0;
+    // reset appreciation slide
+    document.getElementById('apprSlide').classList.remove('show');
+    ['appr1','appr2','appr3','appr4','apprBig','apprSub','apprHearts'].forEach(id => {
+      document.getElementById(id).classList.remove('in');
+    });
     document.getElementById('titleSlide').classList.add('hide');
     document.getElementById('endSlide').classList.remove('show');
     document.getElementById('tapZones').style.display = 'flex';
@@ -529,8 +649,37 @@
     const fill = document.getElementById('fill_' + (slides.length - 1));
     fill.style.transition = 'none';
     fill.style.width = '100%';
+
+    // show appreciation slide after short delay
     setTimeout(() => {
-      document.getElementById('endSlide').classList.add('show');
+      document.getElementById('apprSlide').classList.add('show');
+
+      // stagger each thank-you line in
+      const lines = ['appr1','appr2','appr3','appr4'];
+      lines.forEach((id, i) => {
+        setTimeout(() => {
+          document.getElementById(id).classList.add('in');
+        }, 600 + i * 700);
+      });
+
+      // then animate the big love message
+      setTimeout(() => {
+        document.getElementById('apprBig').classList.add('in');
+      }, 600 + 4 * 700);
+
+      setTimeout(() => {
+        document.getElementById('apprSub').classList.add('in');
+        document.getElementById('apprHearts').classList.add('in');
+      }, 600 + 4 * 700 + 400);
+
+      // after appreciation slide plays, show end card
+      setTimeout(() => {
+        document.getElementById('apprSlide').classList.remove('show');
+        setTimeout(() => {
+          document.getElementById('endSlide').classList.add('show');
+        }, 800);
+      }, 600 + 4 * 700 + 400 + 3500);
+
     }, 500);
   }
 
