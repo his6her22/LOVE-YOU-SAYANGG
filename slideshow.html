@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sayang & Umar 💕</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&family=Caveat:wght@500;700&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+
+    body {
+      background: #0d0008;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Lato', sans-serif;
+      overflow: hidden;
+    }
+
+    /* ── STORY FRAME (9:16) ── */
+    .story {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      max-width: calc(100vh * 9 / 16);
+      overflow: hidden;
+      background: #1a0010;
+    }
+
+    /* ── BACKGROUND PHOTO LAYER ── */
+    .slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+      z-index: 1;
+    }
+    .slide.active  { opacity: 1; }
+    .slide.leaving { opacity: 0; }
+
+    .slide-bg {
+      position: absolute;
+      inset: -6%;
+      background-size: cover;
+      background-position: center;
+      filter: blur(18px) brightness(0.35);
+      transform: scale(1.05);
+    }
+
+    .slide-photo {
+      position: absolute;
+      inset: 0;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      animation: kenBurns 5.5s ease-in-out forwards;
+    }
+    @keyframes kenBurns {
+      0%   { transform: scale(1) translate(0,0); }
+      100% { transform: scale(1.08) translate(-1%, -1%); }
+    }
+    .slide:nth-child(even) .slide-photo {
+      animation-name: kenBurns2;
+    }
+    @keyframes kenBurns2 {
+      0%   { transform: scale(1.05) translate(1%,0); }
+      100% { transform: scale(1) translate(-1%, 1%); }
+    }
+
+    /* ── OVERLAYS ── */
+    .slide-vignette {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.55) 100%);
+      z-index: 2;
+    }
+    .slide-gradient {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.15) 0%,
+        transparent 35%,
+        transparent 50%,
+        rgba(0,0,0,0.5) 80%,
+        rgba(10,0,8,0.8) 100%
+      );
+      z-index: 3;
+    }
+
+    /* ── FLOATING PETALS ── */
+    .petals-layer {
+      position: absolute; inset: 0; z-index: 4; pointer-events: none; overflow: hidden;
+    }
+    .petal {
+      position: absolute;
+      font-size: 14px;
+      opacity: 0;
+      animation: petalFall linear infinite;
+      top: -30px;
+    }
+    @keyframes petalFall {
+      0%   { transform: translateY(0) rotate(0deg) translateX(0);   opacity: 0; }
+      5%   { opacity: 0.7; }
+      90%  { opacity: 0.5; }
+      100% { transform: translateY(110vh) rotate(540deg) translateX(40px); opacity: 0; }
+    }
+
+    /* ── TEXT CONTENT ── */
+    .slide-content {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 2rem 1.8rem 3rem;
+      z-index: 5;
+      text-align: center;
+    }
+
+    .slide-names {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(1.1rem, 4vw, 1.4rem);
+      color: rgba(255,255,255,0.7);
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.8s ease 0.4s, transform 0.8s ease 0.4s;
+    }
+    .slide.active .slide-names { opacity: 1; transform: translateY(0); }
+
+    .slide-quote {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1.2rem, 4.5vw, 1.6rem);
+      color: white;
+      line-height: 1.5;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+      margin-bottom: 0.8rem;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.9s ease 0.6s, transform 0.9s ease 0.6s;
+    }
+    .slide.active .slide-quote { opacity: 1; transform: translateY(0); }
+
+    .slide-hearts {
+      font-size: clamp(1rem, 3.5vw, 1.3rem);
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.7s ease 0.9s, transform 0.7s ease 0.9s;
+      letter-spacing: 6px;
+    }
+    .slide.active .slide-hearts { opacity: 1; transform: translateY(0); }
+
+    /* ── TOP BAR ── */
+    .top-bar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      padding: 1.4rem 1.6rem 0.8rem;
+      z-index: 6;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    /* progress bars */
+    .progress-bars {
+      display: flex;
+      gap: 3px;
+      width: 100%;
+    }
+    .prog-bar {
+      flex: 1; height: 2px; border-radius: 2px;
+      background: rgba(255,255,255,0.25);
+      overflow: hidden;
+    }
+    .prog-fill {
+      height: 100%;
+      background: white;
+      width: 0%;
+      transition: none;
+      border-radius: 2px;
+    }
+    .prog-bar.done .prog-fill  { width: 100%; }
+    .prog-bar.active .prog-fill { transition: width linear; }
+
+    .top-names {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(1rem, 3.5vw, 1.2rem);
+      color: white;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      letter-spacing: 1px;
+    }
+
+    /* ── SPECIAL SLIDES ── */
+    /* Opening title slide */
+    .title-slide {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, #3d0020, #1a0035, #0d001a);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      gap: 0.6rem;
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+    .title-slide.show { opacity: 1; }
+    .title-slide.hide { opacity: 0; pointer-events: none; }
+    .title-rose { font-size: 4rem; animation: titleRose 2s ease-in-out infinite; }
+    @keyframes titleRose { 0%,100%{transform:scale(1) rotate(-5deg);} 50%{transform:scale(1.1) rotate(5deg);} }
+    .title-main {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 7vw, 2.8rem);
+      color: white; font-weight: 600;
+      text-align: center; line-height: 1.2;
+    }
+    .title-main em { color: #f48fb1; font-style: italic; }
+    .title-sub {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(1.1rem, 4vw, 1.4rem);
+      color: rgba(255,255,255,0.7);
+      letter-spacing: 2px;
+    }
+    .title-date {
+      font-family: 'Lato', sans-serif;
+      font-size: clamp(0.8rem, 3vw, 1rem);
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-top: 0.4rem;
+    }
+    .title-hearts {
+      font-size: 1.4rem;
+      letter-spacing: 10px;
+      animation: titleHearts 1.5s ease-in-out infinite;
+    }
+    @keyframes titleHearts { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
+
+    /* Closing slide */
+    .end-slide {
+      position: absolute; inset: 0;
+      background: linear-gradient(160deg, #3d0020, #1a0035);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      z-index: 10; gap: 0.8rem;
+      opacity: 0; pointer-events: none;
+      transition: opacity 1.2s ease;
+    }
+    .end-slide.show { opacity: 1; pointer-events: all; }
+    .end-big { font-size: 3.5rem; }
+    .end-text {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 6vw, 2.2rem);
+      color: white; font-style: italic;
+      text-align: center; line-height: 1.4; padding: 0 1.5rem;
+    }
+    .end-names {
+      font-family: 'Caveat', cursive;
+      font-size: clamp(1.2rem, 4.5vw, 1.6rem);
+      color: #f48fb1; letter-spacing: 2px;
+    }
+    .end-date {
+      font-family: 'Lato', sans-serif;
+      font-size: 0.85rem; color: rgba(255,255,255,0.4);
+      letter-spacing: 3px; text-transform: uppercase;
+    }
+    .end-replay {
+      margin-top: 1.2rem;
+      background: rgba(255,255,255,0.12);
+      border: 1.5px solid rgba(255,255,255,0.3);
+      color: white; border-radius: 50px;
+      padding: 10px 28px; font-size: 14px; font-weight: 700;
+      cursor: pointer; font-family: 'Lato', sans-serif;
+      transition: all 0.2s; letter-spacing: 1px;
+    }
+    .end-replay:hover { background: rgba(255,255,255,0.22); }
+
+    /* ── CONTROLS ── */
+    .tap-zones {
+      position: absolute; inset: 0; z-index: 8;
+      display: flex;
+    }
+    .tap-prev { flex: 1; cursor: pointer; }
+    .tap-next { flex: 1; cursor: pointer; }
+
+    .pause-indicator {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3rem; opacity: 0;
+      z-index: 9; pointer-events: none;
+      transition: opacity 0.2s;
+    }
+    .pause-indicator.show { opacity: 1; }
+  </style>
+</head>
+<body>
+<div class="story" id="story">
+
+  <!-- OPENING TITLE -->
+  <div class="title-slide show" id="titleSlide">
+    <div class="title-rose">🌹</div>
+    <div class="title-main">Sayang &amp; <em>Umar</em></div>
+    <div class="title-sub">A Love Story 💕</div>
+    <div class="title-hearts">💖 💕 💗</div>
+    <div class="title-date">International Girlfriend Day</div>
+  </div>
+
+  <!-- SLIDES CONTAINER -->
+  <div id="slidesContainer"></div>
+
+  <!-- FLOATING PETALS -->
+  <div class="petals-layer" id="petalsLayer"></div>
+
+  <!-- PROGRESS BARS + TOP NAME -->
+  <div class="top-bar" id="topBar" style="opacity:0; transition: opacity 0.5s ease;">
+    <div class="progress-bars" id="progressBars"></div>
+    <div class="top-names">Sayang &amp; Umar 💕</div>
+  </div>
+
+  <!-- TAP ZONES -->
+  <div class="tap-zones" id="tapZones" style="display:none;">
+    <div class="tap-prev" onclick="prevSlide()"></div>
+    <div class="tap-next" onclick="nextSlide()"></div>
+  </div>
+
+  <!-- PAUSE INDICATOR -->
+  <div class="pause-indicator" id="pauseIndicator">⏸</div>
+
+  <!-- CLOSING SLIDE -->
+  <div class="end-slide" id="endSlide">
+    <div class="end-big">💖</div>
+    <div class="end-text">"Finding you was my biggest achievement — loving you is my greatest dream."</div>
+    <div class="end-names">Sayang &amp; Umar</div>
+    <div class="end-date">Forever &amp; Always 🌸</div>
+    <button class="end-replay" onclick="startShow()">↺ Watch Again</button>
+  </div>
+
+</div>
+
+<script>
+  // ── SLIDE DATA ──────────────────────────────────────
+  const slides = [
+    { img: 'Images/1.jpg',  quote: "Every love story is beautiful, but ours is my favourite.",        hearts: '💖' },
+    { img: 'Images/2.jpg',  quote: "You are my today and all of my tomorrows.",                      hearts: '🌸' },
+    { img: 'Images/3.jpg',  quote: "In your eyes I found my home.",                                   hearts: '💕' },
+    { img: 'Images/4.jpg',  quote: "You are the sun to my moon — without you I just glow less.",     hearts: '💗' },
+    { img: 'Images/5.jpg',  quote: "I fell in love with your soul before I knew your name.",         hearts: '✨' },
+    { img: 'Images/6.jpg',  quote: "Loving you is the best thing I have ever done.",                  hearts: '💖' },
+    { img: 'Images/7.jpg',  quote: "My biggest dream? Just to see you happy.",                        hearts: '🌹' },
+    { img: 'Images/8.jpg',  quote: "Your smile makes the whole world brighter.",                      hearts: '💕' },
+    { img: 'Images/9.jpg',  quote: "I make dua to Allah to always keep you by my side.",              hearts: '🤲' },
+    { img: 'Images/10.jpg', quote: "Those gorgeous eyes — I get lost in them every single time.",    hearts: '👁️' },
+    { img: 'Images/11.jpg', quote: "You are entirely, wonderfully one of a kind.",                    hearts: '💗' },
+    { img: 'Images/12.jpg', quote: "Sayang, Habibti, Mochi — every name for you is love.",          hearts: '🌸' },
+    { img: 'Images/13.jpg', quote: "The day we first texted was the day everything changed.",         hearts: '💌' },
+    { img: 'Images/14.jpg', quote: "May Allah grant us each other in this dunya and the akhira.",    hearts: '🤲' },
+    { img: 'Images/15.jpg', quote: "I admire your strength more than you will ever know.",            hearts: '💪' },
+    { img: 'Images/16.jpg', quote: "There is no one else I would choose to spend this life with.",  hearts: '💖' },
+    { img: 'Images/17.jpg', quote: "Your laugh is the most beautiful sound in the world.",           hearts: '😊' },
+    { img: 'Images/18.jpg', quote: "The distance means nothing when someone means everything.",       hearts: '✈️' },
+    { img: 'Images/19.jpg', quote: "18 October 2026 — the day I finally get to hold you.",          hearts: '🗓️' },
+    { img: 'Images/20.jpg', quote: "I love you Sayang — with all my heart and all my soul.",        hearts: '💖' },
+    { img: 'Images/21.jpg', quote: "Finding you was my biggest achievement.",                         hearts: '🌹' },
+  ];
+
+  const SLIDE_DURATION = 5500; // ms per slide
+  let current  = 0;
+  let timer    = null;
+  let paused   = false;
+  let started  = false;
+  let progStart = null;
+  let progEl   = null;
+
+  // ── BUILD SLIDES ────────────────────────────────────
+  function buildSlides() {
+    const container = document.getElementById('slidesContainer');
+    const bars      = document.getElementById('progressBars');
+    container.innerHTML = '';
+    bars.innerHTML = '';
+
+    slides.forEach((s, i) => {
+      // slide
+      const div = document.createElement('div');
+      div.className = 'slide';
+      div.id = 'slide_' + i;
+      div.innerHTML = `
+        <div class="slide-bg"     style="background-image:url('${s.img}')"></div>
+        <div class="slide-photo"  style="background-image:url('${s.img}')"></div>
+        <div class="slide-vignette"></div>
+        <div class="slide-gradient"></div>
+        <div class="slide-content">
+          <div class="slide-names">Sayang &amp; Umar 💕</div>
+          <div class="slide-quote">${s.quote}</div>
+          <div class="slide-hearts">${s.hearts}</div>
+        </div>
+      `;
+      container.appendChild(div);
+
+      // progress bar
+      const bar = document.createElement('div');
+      bar.className = 'prog-bar';
+      bar.id = 'bar_' + i;
+      bar.innerHTML = '<div class="prog-fill" id="fill_' + i + '"></div>';
+      bars.appendChild(bar);
+    });
+  }
+
+  // ── PETALS ──────────────────────────────────────────
+  function buildPetals() {
+    const layer = document.getElementById('petalsLayer');
+    const emojis = ['🌸','🌷','💗','🌹','💕'];
+    for (let i = 0; i < 14; i++) {
+      const p = document.createElement('div');
+      p.className = 'petal';
+      p.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+      p.style.left             = Math.random() * 100 + '%';
+      p.style.fontSize         = (10 + Math.random() * 10) + 'px';
+      p.style.animationDuration= (8 + Math.random() * 10) + 's';
+      p.style.animationDelay   = (Math.random() * 10) + 's';
+      layer.appendChild(p);
+    }
+  }
+
+  // ── SHOW SLIDE ──────────────────────────────────────
+  function showSlide(index) {
+    // deactivate all
+    slides.forEach((_, i) => {
+      const el = document.getElementById('slide_' + i);
+      el.classList.remove('active', 'leaving');
+      const bar  = document.getElementById('bar_' + i);
+      const fill = document.getElementById('fill_' + i);
+      if (i < index) {
+        bar.classList.add('done');
+        bar.classList.remove('active');
+        fill.style.transition = 'none';
+        fill.style.width = '100%';
+      } else if (i === index) {
+        bar.classList.remove('done');
+        bar.classList.add('active');
+      } else {
+        bar.classList.remove('done', 'active');
+        fill.style.transition = 'none';
+        fill.style.width = '0%';
+      }
+    });
+
+    // activate current
+    const slideEl = document.getElementById('slide_' + index);
+    slideEl.classList.add('active');
+
+    // animate progress bar
+    const fill = document.getElementById('fill_' + index);
+    fill.style.transition = 'none';
+    fill.style.width = '0%';
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        fill.style.transition = `width ${SLIDE_DURATION}ms linear`;
+        fill.style.width = '100%';
+      });
+    });
+  }
+
+  // ── TIMER ───────────────────────────────────────────
+  function startTimer() {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      if (!paused) nextSlide();
+    }, SLIDE_DURATION);
+  }
+
+  function nextSlide() {
+    if (current >= slides.length - 1) {
+      endShow(); return;
+    }
+    current++;
+    showSlide(current);
+    startTimer();
+  }
+
+  function prevSlide() {
+    if (current <= 0) return;
+    current--;
+    showSlide(current);
+    startTimer();
+  }
+
+  // ── PAUSE / RESUME ──────────────────────────────────
+  let holdTimer = null;
+  const story = document.getElementById('story');
+  story.addEventListener('touchstart', () => {
+    holdTimer = setTimeout(() => {
+      paused = true;
+      document.getElementById('pauseIndicator').classList.add('show');
+      clearTimeout(timer);
+      // pause progress bar
+      const fill = document.getElementById('fill_' + current);
+      fill.style.transition = 'none';
+    }, 200);
+  });
+  story.addEventListener('touchend', () => {
+    clearTimeout(holdTimer);
+    if (paused) {
+      paused = false;
+      document.getElementById('pauseIndicator').classList.remove('show');
+      // resume progress bar — restart the slide
+      showSlide(current);
+      startTimer();
+    }
+  });
+
+  // ── START / END ─────────────────────────────────────
+  function startShow() {
+    started = true;
+    current = 0;
+    document.getElementById('titleSlide').classList.add('hide');
+    document.getElementById('endSlide').classList.remove('show');
+    document.getElementById('tapZones').style.display = 'flex';
+    document.getElementById('topBar').style.opacity = '1';
+    setTimeout(() => {
+      showSlide(0);
+      startTimer();
+    }, 800);
+  }
+
+  function endShow() {
+    clearTimeout(timer);
+    // fill last bar
+    const fill = document.getElementById('fill_' + (slides.length - 1));
+    fill.style.transition = 'none';
+    fill.style.width = '100%';
+    setTimeout(() => {
+      document.getElementById('endSlide').classList.add('show');
+    }, 500);
+  }
+
+  // ── INIT ─────────────────────────────────────────────
+  buildSlides();
+  buildPetals();
+
+  // auto-start after title
+  setTimeout(startShow, 3000);
+</script>
+</body>
+</html>
