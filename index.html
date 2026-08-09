@@ -1469,6 +1469,189 @@
       transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.25,0.46,0.45,0.94);
     }
     .scroll-reveal.revealed { opacity:1; transform:translateY(0); }
+    /* ── CHIMI MEMORIAL ─────────────────────────────── */
+    .memorial-hero {
+      text-align: center;
+      padding: 1rem 0 1.8rem;
+    }
+    .memorial-paw {
+      font-size: 3.5rem;
+      display: block;
+      margin-bottom: 0.6rem;
+      animation: pawFloat 3s ease-in-out infinite;
+    }
+    @keyframes pawFloat {
+      0%,100% { transform: translateY(0) rotate(-5deg); }
+      50%      { transform: translateY(-8px) rotate(5deg); }
+    }
+    .memorial-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      font-style: italic;
+      color: #880e4f;
+      margin-bottom: 0.3rem;
+    }
+    .memorial-dates {
+      font-size: 13px;
+      color: #ad6e8a;
+      font-family: 'Lato', sans-serif;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .memorial-tagline {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: #6d3b5b;
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    /* message card */
+    .memorial-message {
+      background: linear-gradient(160deg, #fffef9, #fff9f5);
+      border: 1px solid #f8d7e3;
+      border-radius: 20px;
+      padding: 2rem 2.2rem;
+      box-shadow: 0 4px 24px rgba(194,24,91,0.08);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 1.4rem;
+    }
+    .memorial-message::before {
+      content: '🐾';
+      position: absolute;
+      top: 12px; right: 16px;
+      font-size: 2.5rem;
+      opacity: 0.12;
+    }
+    .memorial-message-text {
+      font-family: 'Caveat', cursive;
+      font-size: 1.35rem;
+      color: #4a2030;
+      line-height: 2;
+    }
+    .memorial-message-sign {
+      font-family: 'Caveat', cursive;
+      font-size: 1.2rem;
+      color: #c2185b;
+      text-align: right;
+      margin-top: 1rem;
+    }
+
+    /* photo upload area */
+    .memorial-photos-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem;
+      color: #880e4f;
+      text-align: center;
+      margin-bottom: 1rem;
+      font-style: italic;
+    }
+    .memorial-upload-area {
+      border: 2px dashed #f48fb1;
+      border-radius: 20px;
+      padding: 1.8rem;
+      text-align: center;
+      background: white;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 1.2rem;
+    }
+    .memorial-upload-area:hover {
+      background: #fff5f8;
+      border-color: #c2185b;
+    }
+    .memorial-upload-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .memorial-upload-text {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: #ad6e8a;
+      font-size: 0.95rem;
+    }
+    #chimiPhotoInput { display: none; }
+
+    /* photo grid */
+    .memorial-grid {
+      columns: 2;
+      column-gap: 10px;
+      margin-bottom: 1.4rem;
+    }
+    .memorial-grid-item {
+      break-inside: avoid;
+      margin-bottom: 10px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 3px 12px rgba(194,24,91,0.10);
+      position: relative;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .memorial-grid-item:hover { transform: translateY(-3px); box-shadow: 0 8px 22px rgba(194,24,91,0.18); }
+    .memorial-grid-item img {
+      width: 100%; height: auto; display: block;
+    }
+    .memorial-grid-item .memorial-delete {
+      position: absolute; top: 6px; right: 6px;
+      background: rgba(0,0,0,0.45); color: white;
+      border: none; border-radius: 50%;
+      width: 26px; height: 26px;
+      font-size: 12px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity 0.2s;
+    }
+    .memorial-grid-item:hover .memorial-delete { opacity: 1; }
+
+    /* candle animation */
+    .memorial-candle {
+      text-align: center;
+      margin: 1.4rem 0 0.6rem;
+    }
+    .memorial-candle-icon {
+      font-size: 2.5rem;
+      display: inline-block;
+      animation: candleFlicker 1.8s ease-in-out infinite alternate;
+    }
+    @keyframes candleFlicker {
+      0%   { transform: scale(1) rotate(-1deg);   filter: drop-shadow(0 0 6px rgba(255,180,50,0.8)); }
+      33%  { transform: scale(1.04) rotate(1deg);  filter: drop-shadow(0 0 12px rgba(255,180,50,1)); }
+      66%  { transform: scale(0.97) rotate(-0.5deg); filter: drop-shadow(0 0 4px rgba(255,180,50,0.6)); }
+      100% { transform: scale(1.02) rotate(0.5deg); filter: drop-shadow(0 0 9px rgba(255,180,50,0.9)); }
+    }
+    .memorial-candle-text {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      color: #ad6e8a;
+      font-size: 0.9rem;
+      margin-top: 0.4rem;
+    }
+
+    /* lightbox for memorial photos */
+    .memorial-lightbox {
+      position: fixed; inset: 0; z-index: 10002;
+      background: rgba(20,5,10,0.92);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s ease;
+      backdrop-filter: blur(6px);
+    }
+    .memorial-lightbox.open { opacity: 1; pointer-events: all; }
+    .memorial-lightbox img {
+      max-width: 92vw; max-height: 88vh;
+      border-radius: 16px; object-fit: contain;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      transform: scale(0.88);
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .memorial-lightbox.open img { transform: scale(1); }
+    .memorial-lb-close {
+      position: absolute; top: 18px; right: 20px;
+      background: rgba(255,255,255,0.15); border: none; color: white;
+      font-size: 1.6rem; width: 42px; height: 42px; border-radius: 50%;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .memorial-lb-close:hover { background: rgba(255,255,255,0.28); }
   </style>
 </head>
 <body>
@@ -1524,6 +1707,7 @@
     <button class="tab-btn" onclick="showSection('dates',this)">📅 Our Story</button>
     <button class="tab-btn" onclick="showSection('countdown',this)">✈️ Counting Down</button>
     <button class="tab-btn" onclick="showSection('photobooth',this)">📸 Photobooth</button>
+    <button class="tab-btn" onclick="showSection('chimi',this)">🐾 Chimi</button>
   </div>
 
   <!-- LOVE LETTER -->
@@ -1879,6 +2063,54 @@
   <!-- hidden canvas for capturing frames -->
   <canvas id="pbCanvas"></canvas>
   <canvas id="pbStripCanvas"></canvas>
+
+  <!-- CHIMI MEMORIAL -->
+  <div class="section" id="sec-chimi">
+    <div class="memorial-hero">
+      <span class="memorial-paw">🐾</span>
+      <h2 class="memorial-name">Chimi</h2>
+      <div class="memorial-dates">Forever in our hearts</div>
+      <p class="memorial-tagline">
+        The softest paws leave the deepest pawprints on our hearts.<br>
+        Rest easy, little one. 🌸
+      </p>
+    </div>
+
+    <!-- message from Umar -->
+    <div class="memorial-message">
+      <p class="memorial-message-text">
+        Sayang,<br><br>
+        I know how much Chimi meant to you, and I know that right now nothing I say can take away the pain you're feeling. That kind of love — the love you give a pet — is one of the purest things in the world, and losing them is real grief.<br><br>
+        Chimi was so lucky to have you. To have been loved by someone with a heart as big as yours. Every moment of warmth, every cuddle, every time you looked after her — she felt all of it.<br><br>
+        She lives in every memory you carry of her. And she will always be part of us.<br><br>
+        I'm here for you, Habibti. Cry when you need to, talk about her when you want to. I want to hear everything about her. 💕
+      </p>
+      <p class="memorial-message-sign">— forever yours, Umar 🌹</p>
+    </div>
+
+    <!-- photo upload -->
+    <p class="memorial-photos-title">Add your favourite photos of Chimi 🐾</p>
+    <div class="memorial-upload-area" onclick="document.getElementById('chimiPhotoInput').click()">
+      <div class="memorial-upload-icon">📷</div>
+      <div class="memorial-upload-text">Tap to add photos of Chimi</div>
+    </div>
+    <input type="file" id="chimiPhotoInput" accept="image/*" multiple onchange="addChimiPhotos(event)">
+
+    <div class="memorial-grid" id="chimiGrid"></div>
+
+    <!-- candle -->
+    <div class="memorial-candle">
+      <div class="memorial-candle-icon">🕯️</div>
+      <div class="memorial-candle-text">A candle burns for you, sweet Chimi</div>
+    </div>
+
+  </div>
+
+  <!-- CHIMI PHOTO LIGHTBOX -->
+  <div class="memorial-lightbox" id="chimiLightbox" onclick="closeChimiLightbox()">
+    <button class="memorial-lb-close" onclick="closeChimiLightbox()">✕</button>
+    <img id="chimiLightboxImg" src="" alt="Chimi">
+  </div>
 
   <!-- LIGHTBOX -->
   <div class="lightbox" id="lightbox" onclick="closeLightboxOnBg(event)">
@@ -2594,7 +2826,7 @@ const firebaseConfig = {
       document.querySelector('.hero h1').innerHTML = t['hero-h1'];
       document.querySelector('.hero-sub').textContent = t['hero-sub'];
       const tabs = document.querySelectorAll('.tab-btn');
-      const tabKeys = ['tab-letter','tab-features','tab-reasons','tab-jokes','tab-bucket','tab-song','tab-gallery','tab-dates','tab-countdown','tab-photobooth'];
+      const tabKeys = ['tab-letter','tab-features','tab-reasons','tab-jokes','tab-bucket','tab-song','tab-gallery','tab-dates','tab-countdown','tab-photobooth','tab-chimi'];
       tabs.forEach((tab,i) => { if(tabKeys[i]) tab.innerHTML = t[tabKeys[i]]; });
       document.querySelector('#sec-letter .section-title').innerHTML = t['letter-title'];
       const letterBody = document.querySelector('.hw-text') || document.querySelector('.letter-text');
@@ -3468,6 +3700,73 @@ const firebaseConfig = {
       _origShowSectionAnim(id, btn);
       setTimeout(initScrollReveal, 100);
     };
+
+    // ── CHIMI MEMORIAL ───────────────────────────────
+    let chimiPhotos = [];
+
+    // load from localStorage on start
+    try {
+      const saved = localStorage.getItem('chimiPhotos');
+      if (saved) chimiPhotos = JSON.parse(saved);
+      renderChimiGrid();
+    } catch(e) {}
+
+    function addChimiPhotos(event) {
+      const files = Array.from(event.target.files);
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          chimiPhotos.push(e.target.result);
+          saveChimiPhotos();
+          renderChimiGrid();
+        };
+        reader.readAsDataURL(file);
+      });
+      event.target.value = '';
+    }
+
+    function saveChimiPhotos() {
+      try { localStorage.setItem('chimiPhotos', JSON.stringify(chimiPhotos)); } catch(e) {}
+    }
+
+    function renderChimiGrid() {
+      const grid = document.getElementById('chimiGrid');
+      if (!grid) return;
+      grid.innerHTML = '';
+      chimiPhotos.forEach((src, i) => {
+        const item = document.createElement('div');
+        item.className = 'memorial-grid-item';
+        item.onclick = () => openChimiLightbox(src);
+        item.innerHTML = `
+          <img src="${src}" alt="Chimi">
+          <button class="memorial-delete" onclick="event.stopPropagation(); deleteChimiPhoto(${i})">✕</button>
+        `;
+        grid.appendChild(item);
+      });
+    }
+
+    function deleteChimiPhoto(i) {
+      chimiPhotos.splice(i, 1);
+      saveChimiPhotos();
+      renderChimiGrid();
+    }
+
+    function openChimiLightbox(src) {
+      const lb = document.getElementById('chimiLightbox');
+      document.getElementById('chimiLightboxImg').src = src;
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeChimiLightbox() {
+      document.getElementById('chimiLightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    window.addChimiPhotos     = addChimiPhotos;
+    window.deleteChimiPhoto   = deleteChimiPhoto;
+    window.openChimiLightbox  = openChimiLightbox;
+    window.closeChimiLightbox = closeChimiLightbox;
   </script>
 </body>
 </html>
